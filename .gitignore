@@ -1,0 +1,17 @@
+# Godot 4 cache / imported files (regenerated on open)
+.godot/
+
+# Godot-specific
+*.translation
+/android/
+
+# Exported builds (web, desktop) — share via itch.io, not git
+builds/
+export/
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+*.tmp
