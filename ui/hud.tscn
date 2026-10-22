@@ -1,0 +1,108 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/hud.gd" id="1_hud"]
+[ext_resource type="Script" path="res://scripts/placeholder_art.gd" id="2_art"]
+
+[node name="Hud" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_hud")
+
+[node name="Buttons" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 254.0
+offset_bottom = 200.0
+theme_override_constants/separation = 14
+
+[node name="NotebookButton" type="Button" parent="Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(230, 76)
+layout_mode = 2
+text = "Notebook"
+
+[node name="MapButton" type="Button" parent="Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(230, 76)
+layout_mode = 2
+text = "Map"
+
+[node name="Objective" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -520.0
+offset_top = 24.0
+offset_right = 520.0
+offset_bottom = 104.0
+grow_horizontal = 2
+mouse_filter = 2
+
+[node name="ObjectiveLabel" type="Label" parent="Objective"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Objective"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Toast" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -560.0
+offset_top = 124.0
+offset_right = -24.0
+offset_bottom = 204.0
+grow_horizontal = 0
+mouse_filter = 2
+
+[node name="ToastLabel" type="Label" parent="Toast"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.15, 0.15, 1)
+text = "New clue in your notebook!"
+horizontal_alignment = 1
+
+[node name="HeldPhoto" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -420.0
+offset_top = -260.0
+offset_right = -24.0
+offset_bottom = 200.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Column" type="VBoxContainer" parent="HeldPhoto"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="HeldPhotoLabel" type="Label" parent="HeldPhoto/Column"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.15, 0.15, 1)
+text = "Find this!"
+horizontal_alignment = 1
+
+[node name="HeldPhotoArt" type="Control" parent="HeldPhoto/Column"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(340, 340)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("2_art")

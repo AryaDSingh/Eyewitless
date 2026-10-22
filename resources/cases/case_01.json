@@ -1,0 +1,20 @@
+{
+  "id": "case_01",
+  "title": "The Scarf Incident",
+  "client": "arya",
+  "summary": "A pigeon pooped on Arya's favourite scarf. Find that pigeon!",
+  "clues": {
+    "blurry_photo": {
+      "text": "Debbie's blurry photo from the moment it happened.",
+      "image": "clue_blurry_photo"
+    },
+    "felix_in_photo": {
+      "text": "Debbie says Felix is in the blurry photo. Look closely!",
+      "image": "clue_blurry_photo_felix"
+    },
+    "pigeon_photo": {
+      "text": "Felix's photo of the pigeon. Find this pigeon at the plaza!",
+      "image": "clue_pigeon_photo"
+    }
+  }
+}

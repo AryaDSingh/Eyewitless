@@ -1,0 +1,88 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/location.gd" id="1_location"]
+[ext_resource type="Script" path="res://scripts/placeholder_art.gd" id="2_art"]
+[ext_resource type="Script" path="res://scripts/hotspot.gd" id="3_hotspot"]
+
+[node name="Park" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_location")
+location_id = "park"
+display_name = "Park"
+
+[node name="Background" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("2_art")
+art_id = "bg_park"
+placeholder_color = Color(0.7, 0.85, 0.65, 1)
+cover = true
+
+[node name="Walker1" type="Control" parent="."]
+layout_mode = 0
+offset_left = 180.0
+offset_top = 380.0
+offset_right = 400.0
+offset_bottom = 900.0
+script = ExtResource("3_hotspot")
+art_id = "townie_dog_walker_1"
+placeholder_color = Color(0.75, 0.7, 0.85, 1)
+ask = "Are you Debbie?"
+bubble = "NO!"
+
+[node name="Walker2" type="Control" parent="."]
+layout_mode = 0
+offset_left = 560.0
+offset_top = 400.0
+offset_right = 780.0
+offset_bottom = 920.0
+script = ExtResource("3_hotspot")
+art_id = "townie_dog_walker_2"
+placeholder_color = Color(0.75, 0.7, 0.85, 1)
+ask = "Are you Debbie?"
+bubble = "NO!"
+
+[node name="Walker3" type="Control" parent="."]
+layout_mode = 0
+offset_left = 1560.0
+offset_top = 390.0
+offset_right = 1780.0
+offset_bottom = 910.0
+script = ExtResource("3_hotspot")
+art_id = "townie_dog_walker_3"
+placeholder_color = Color(0.75, 0.7, 0.85, 1)
+ask = "Are you Debbie?"
+bubble = "Nope!"
+
+[node name="Debbie" type="Control" parent="."]
+layout_mode = 0
+offset_left = 1040.0
+offset_top = 340.0
+offset_right = 1300.0
+offset_bottom = 900.0
+script = ExtResource("3_hotspot")
+art_id = "townie_debbie"
+placeholder_color = Color(0.86, 0.68, 0.72, 1)
+knot = "debbie_talk"
+
+[node name="Dogs" type="Control" parent="."]
+layout_mode = 0
+offset_left = 980.0
+offset_top = 860.0
+offset_right = 1440.0
+offset_bottom = 1020.0
+script = ExtResource("3_hotspot")
+art_id = "prop_debbie_dogs"
+placeholder_color = Color(0.8, 0.65, 0.5, 1)
+bubble = "Woof!"

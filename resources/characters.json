@@ -1,0 +1,32 @@
+{
+  "detective": {
+    "name": "Detective",
+    "role": "You",
+    "portrait": "portrait_detective",
+    "in_notebook": false
+  },
+  "arya": {
+    "name": "Arya",
+    "role": "Florist · Client",
+    "description": "Runs the flower shop. Loves her scarf more than most people.",
+    "portrait": "portrait_arya"
+  },
+  "debbie": {
+    "name": "Debbie",
+    "role": "Dog walker",
+    "description": "Always walking her dogs. Always. Took the blurry photo.",
+    "portrait": "portrait_debbie"
+  },
+  "felix": {
+    "name": "Felix",
+    "role": "Aquarium seller",
+    "description": "Spends his mornings at the bar. Not reliable when he's been drinking.",
+    "portrait": "portrait_felix"
+  },
+  "pigeon": {
+    "name": "The Pigeon",
+    "role": "Culprit · Your new partner?",
+    "description": "Pooped on Arya's scarf. Very sorry about it. Mostly.",
+    "portrait": "portrait_pigeon"
+  }
+}

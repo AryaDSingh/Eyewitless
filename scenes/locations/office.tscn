@@ -1,0 +1,29 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/location.gd" id="1_location"]
+[ext_resource type="Script" path="res://scripts/placeholder_art.gd" id="2_art"]
+
+[node name="Office" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_location")
+location_id = "office"
+display_name = "Detective Office"
+
+[node name="Background" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("2_art")
+art_id = "bg_office"
+placeholder_color = Color(0.72, 0.66, 0.58, 1)
+cover = true

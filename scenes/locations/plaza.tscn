@@ -1,0 +1,133 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/location.gd" id="1_location"]
+[ext_resource type="Script" path="res://scripts/placeholder_art.gd" id="2_art"]
+[ext_resource type="Script" path="res://scripts/hotspot.gd" id="3_hotspot"]
+
+[node name="Plaza" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_location")
+location_id = "plaza"
+display_name = "Plaza"
+on_enter_knot = "plaza_enter"
+
+[node name="Background" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("2_art")
+art_id = "bg_plaza"
+placeholder_color = Color(0.85, 0.82, 0.74, 1)
+cover = true
+
+[node name="Townie1" type="Control" parent="."]
+layout_mode = 0
+offset_left = 140.0
+offset_top = 280.0
+offset_right = 340.0
+offset_bottom = 760.0
+script = ExtResource("3_hotspot")
+art_id = "townie_plaza_1"
+placeholder_color = Color(0.75, 0.7, 0.85, 1)
+ask = "Seen a pigeon?"
+bubble = "Which one?!"
+
+[node name="Townie2" type="Control" parent="."]
+layout_mode = 0
+offset_left = 1180.0
+offset_top = 260.0
+offset_right = 1380.0
+offset_bottom = 740.0
+script = ExtResource("3_hotspot")
+art_id = "townie_plaza_2"
+placeholder_color = Color(0.75, 0.7, 0.85, 1)
+ask = "Seen a pigeon?"
+bubble = "Ugh, pigeons."
+
+[node name="Pigeon1" type="Control" parent="."]
+layout_mode = 0
+offset_left = 380.0
+offset_top = 760.0
+offset_right = 530.0
+offset_bottom = 950.0
+script = ExtResource("3_hotspot")
+art_id = "townie_pigeon_1"
+placeholder_color = Color(0.62, 0.68, 0.78, 1)
+bubble = "Not me!"
+
+[node name="Pigeon2" type="Control" parent="."]
+layout_mode = 0
+offset_left = 560.0
+offset_top = 700.0
+offset_right = 710.0
+offset_bottom = 890.0
+script = ExtResource("3_hotspot")
+art_id = "townie_pigeon_2"
+placeholder_color = Color(0.62, 0.68, 0.78, 1)
+bubble = "Not me!"
+
+[node name="Pigeon3" type="Control" parent="."]
+layout_mode = 0
+offset_left = 740.0
+offset_top = 780.0
+offset_right = 890.0
+offset_bottom = 970.0
+script = ExtResource("3_hotspot")
+art_id = "townie_pigeon_3"
+placeholder_color = Color(0.62, 0.68, 0.78, 1)
+bubble = "Coo?"
+
+[node name="Pigeon4" type="Control" parent="."]
+layout_mode = 0
+offset_left = 920.0
+offset_top = 710.0
+offset_right = 1070.0
+offset_bottom = 900.0
+script = ExtResource("3_hotspot")
+art_id = "townie_pigeon_4"
+placeholder_color = Color(0.62, 0.68, 0.78, 1)
+bubble = "Not me!"
+
+[node name="ScarfPigeon" type="Control" parent="."]
+layout_mode = 0
+offset_left = 1100.0
+offset_top = 770.0
+offset_right = 1250.0
+offset_bottom = 960.0
+script = ExtResource("3_hotspot")
+art_id = "townie_pigeon_7"
+placeholder_color = Color(0.62, 0.68, 0.78, 1)
+knot = "pigeon_found"
+hide_if_flag = "pigeon_caught"
+
+[node name="Pigeon5" type="Control" parent="."]
+layout_mode = 0
+offset_left = 1280.0
+offset_top = 700.0
+offset_right = 1430.0
+offset_bottom = 890.0
+script = ExtResource("3_hotspot")
+art_id = "townie_pigeon_5"
+placeholder_color = Color(0.62, 0.68, 0.78, 1)
+bubble = "Not me!"
+
+[node name="Pigeon6" type="Control" parent="."]
+layout_mode = 0
+offset_left = 1460.0
+offset_top = 780.0
+offset_right = 1610.0
+offset_bottom = 970.0
+script = ExtResource("3_hotspot")
+art_id = "townie_pigeon_6"
+placeholder_color = Color(0.62, 0.68, 0.78, 1)
+bubble = "NOT ME!"
