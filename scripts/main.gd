@@ -24,6 +24,8 @@ var location: Location
 @onready var notebook: Notebook = %Notebook
 @onready var map_screen: MapScreen = %MapScreen
 @onready var card_screen: CardScreen = %CardScreen
+@onready var title_screen: TitleScreen = %TitleScreen
+@onready var mute_button: Button = %MuteButton
 
 
 func _ready() -> void:
@@ -35,8 +37,17 @@ func _ready() -> void:
 	GameState.location_unlocked.connect(_on_location_unlocked)
 	hud.notebook_pressed.connect(_on_notebook_pressed)
 	hud.map_pressed.connect(_on_map_pressed)
+	hud.camera_pressed.connect(_on_camera_pressed)
 	map_screen.travel_requested.connect(travel_to)
+	notebook.hold_requested.connect(func(clue_id: String): hold_photo(clue_id))
+	# Muting lasts until the game is closed, even through "Play again".
+	mute_button.set_pressed_no_signal(Audio.is_muted())
+	mute_button.text = "Unmute" if Audio.is_muted() else "Mute"
+	mute_button.toggled.connect(func(muted: bool):
+		Audio.set_muted(muted)
+		mute_button.text = "Unmute" if muted else "Mute")
 	if autostart:
+		await title_screen.open()
 		go_to(START_LOCATION)
 		Story.run(START_KNOT)
 
@@ -51,6 +62,7 @@ func _on_hotspot_clicked(hotspot: Hotspot) -> void:
 		return
 	EventLog.log_event("hotspot_clicked", {"location": GameState.current_location, "hotspot": String(hotspot.name)})
 	if hotspot.knot != "":
+		Audio.play_sfx(hotspot.sfx)
 		Story.run(hotspot.knot)
 	else:
 		hotspot.play_exchange()
@@ -66,6 +78,12 @@ func _on_map_pressed() -> void:
 		map_screen.open()
 
 
+func _on_camera_pressed() -> void:
+	# shortcut: the camera does nothing yet; it gets its own system in Case 2.
+	EventLog.log_event("camera_pressed")
+	hud.wiggle("camera")
+
+
 func _on_story_started() -> void:
 	hud.set_buttons_enabled(false)
 
@@ -75,20 +93,18 @@ func _on_story_finished() -> void:
 	hud.set_buttons_enabled(true)
 
 
-func _on_clue_added(clue_id: String) -> void:
-	hud.show_toast("New clue in your notebook!")
-	hud.blink("notebook")
+# New things show on the HUD icon (glow and a count), not as text pop-ups.
+func _on_clue_added(_clue_id: String) -> void:
+	hud.notify("notebook")
 
 
-func _on_note_added(character_id: String, _text: String) -> void:
-	var character := GameState.get_character(character_id)
-	hud.show_toast("Notebook updated: %s" % character.get("name", character_id))
+func _on_note_added(_character_id: String, _text: String) -> void:
+	hud.notify("notebook")
 
 
 func _on_location_unlocked(location_id: String) -> void:
 	if location_id in LOCATIONS:
-		hud.show_toast("New place on your map!")
-		hud.blink("map")
+		hud.notify("map")
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
@@ -106,9 +122,13 @@ func show_line(speaker: String, text: String, choices: Array[String]) -> int:
 	return await dialogue_box.show_line(speaker, text, choices)
 
 
-func show_card(art_id: String, text: String, button_text: String) -> void:
+func show_card(art_id: String, text: String, button_text: String, options := "") -> void:
 	dialogue_box.hide()
-	await card_screen.show_card(art_id, text, button_text)
+	await card_screen.show_card(art_id, text, button_text, options)
+
+
+func show_tool(tool_name: String) -> void:
+	hud.show_tool(tool_name)
 
 
 ## Moves to a location. Its on-enter knot plays after the current one.
@@ -122,12 +142,16 @@ func go_to(location_id: String) -> void:
 	location = load(path).instantiate()
 	location_layer.add_child(location)
 	location.hotspot_clicked.connect(_on_hotspot_clicked)
+	Audio.play_music(location.music)
+	Audio.play_ambience(location.ambience)
+	Audio.set_muffled(location.muffle_music)
 	GameState.enter_location(location_id)
 	if location.on_enter_knot != "":
 		Story.run(location.on_enter_knot)
 
 
 func open_map() -> void:
+	hud.stop_blink("map")
 	map_screen.open()
 
 
@@ -163,10 +187,13 @@ func open_notebook(page: String, close_label: String) -> void:
 
 func end_game() -> void:
 	EventLog.log_event("game_end", {"seconds": snappedf(EventLog.elapsed_seconds(), 0.1)})
-	var on_web := OS.has_feature("web")
-	await card_screen.show_card("none", "Thanks for playing!\nPlease tell the team what you thought.",
-		"Download playtest log" if on_web else "Save playtest log")
-	EventLog.download()
+	if await EventLog.upload():
+		await card_screen.show_card("none", "Thanks for playing!\nYour playtest log was sent to the team.", "Next")
+	else:
+		var on_web := OS.has_feature("web")
+		await card_screen.show_card("none", "Thanks for playing!\nPlease tell the team what you thought.",
+			"Download playtest log" if on_web else "Save playtest log")
+		EventLog.download()
 	await card_screen.show_card("none", "THE END", "Play again")
 	Story.stop()
 	GameState.reset()

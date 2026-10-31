@@ -11,6 +11,12 @@ signal hotspot_clicked(hotspot: Hotspot)
 @export var display_name := ""
 ## Story knot that plays every time the player arrives here (optional).
 @export var on_enter_knot := ""
+## Music track here (audio/<id>). Empty keeps whatever is already playing.
+@export var music := ""
+## Background loop here, e.g. birds or a crowd. Empty means silence.
+@export var ambience := ""
+## Play the music as if through a wall.
+@export var muffle_music := false
 
 
 func _ready() -> void:

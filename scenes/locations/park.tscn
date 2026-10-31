@@ -31,27 +31,26 @@ cover = true
 
 [node name="Walker1" type="Control" parent="."]
 layout_mode = 0
-offset_left = 180.0
-offset_top = 380.0
-offset_right = 400.0
-offset_bottom = 900.0
+offset_left = 30.0
+offset_top = 560.0
+offset_right = 520.0
+offset_bottom = 950.0
 script = ExtResource("3_hotspot")
 art_id = "townie_dog_walker_1"
 placeholder_color = Color(0.75, 0.7, 0.85, 1)
-ask = "Are you Debbie?"
+ask = "Are you Alex?"
 bubble = "NO!"
 
-[node name="Walker2" type="Control" parent="."]
+[node name="Marwan" type="Control" parent="."]
 layout_mode = 0
 offset_left = 560.0
-offset_top = 400.0
-offset_right = 780.0
-offset_bottom = 920.0
+offset_top = 380.0
+offset_right = 900.0
+offset_bottom = 930.0
 script = ExtResource("3_hotspot")
-art_id = "townie_dog_walker_2"
+art_id = "townie_marwan"
 placeholder_color = Color(0.75, 0.7, 0.85, 1)
-ask = "Are you Debbie?"
-bubble = "NO!"
+knot = "marwan_talk"
 
 [node name="Walker3" type="Control" parent="."]
 layout_mode = 0
@@ -62,19 +61,20 @@ offset_bottom = 910.0
 script = ExtResource("3_hotspot")
 art_id = "townie_dog_walker_3"
 placeholder_color = Color(0.75, 0.7, 0.85, 1)
-ask = "Are you Debbie?"
-bubble = "Nope!"
+ask = "Are you Alex?"
+bubble = "WOOF! WOOF!"
+sfx = "sfx_dog_bark"
 
-[node name="Debbie" type="Control" parent="."]
+[node name="Alex" type="Control" parent="."]
 layout_mode = 0
 offset_left = 1040.0
 offset_top = 340.0
 offset_right = 1300.0
 offset_bottom = 900.0
 script = ExtResource("3_hotspot")
-art_id = "townie_debbie"
+art_id = "townie_alex"
 placeholder_color = Color(0.86, 0.68, 0.72, 1)
-knot = "debbie_talk"
+knot = "alex_talk"
 
 [node name="Dogs" type="Control" parent="."]
 layout_mode = 0
@@ -83,6 +83,7 @@ offset_top = 860.0
 offset_right = 1440.0
 offset_bottom = 1020.0
 script = ExtResource("3_hotspot")
-art_id = "prop_debbie_dogs"
+art_id = "prop_alex_dogs"
 placeholder_color = Color(0.8, 0.65, 0.5, 1)
 bubble = "Woof!"
+sfx = "sfx_dog_bark"

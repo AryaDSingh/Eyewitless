@@ -12,7 +12,7 @@ const STORY_FILES: Array[String] = ["res://resources/cases/case_01.story"]
 const COMMANDS: Array[String] = [
 	"card", "goto", "set", "unset", "if", "unlock", "map", "case_open", "case_solve",
 	"clue", "meet", "note", "hint", "blink", "hold_photo", "bubble", "notebook",
-	"log", "wait", "end_game",
+	"log", "wait", "end_game", "sfx", "tool",
 ]
 const SPEAKER_PATTERN := "^([A-Za-z][A-Za-z0-9_ ]{0,30}):\\s+(.+)$"
 
@@ -162,8 +162,8 @@ func _run_knot(knot: String) -> String:
 func _run_command(command: String, args: String) -> String:
 	match command:
 		"card":
-			var parts := _split_args(args, 3)
-			await ui.show_card(parts[0], _unescape(parts[1]), parts[2])
+			var parts := _split_args(args, 4)
+			await ui.show_card(parts[0], _unescape(parts[1]), parts[2], parts[3])
 		"goto":
 			ui.go_to(args)
 		"set":
@@ -205,6 +205,10 @@ func _run_command(command: String, args: String) -> String:
 			await ui.open_notebook(parts[0], parts[1])
 		"log":
 			EventLog.log_event(args)
+		"sfx":
+			Audio.play_sfx(args)
+		"tool":
+			ui.show_tool(args)
 		"wait":
 			await get_tree().create_timer(args.to_float()).timeout
 		"end_game":

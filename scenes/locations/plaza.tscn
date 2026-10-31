@@ -16,6 +16,7 @@ script = ExtResource("1_location")
 location_id = "plaza"
 display_name = "Plaza"
 on_enter_knot = "plaza_enter"
+ambience = "amb_plaza"
 
 [node name="Background" type="Control" parent="."]
 layout_mode = 1
@@ -33,9 +34,9 @@ cover = true
 [node name="Townie1" type="Control" parent="."]
 layout_mode = 0
 offset_left = 140.0
-offset_top = 280.0
+offset_top = 230.0
 offset_right = 340.0
-offset_bottom = 760.0
+offset_bottom = 710.0
 script = ExtResource("3_hotspot")
 art_id = "townie_plaza_1"
 placeholder_color = Color(0.75, 0.7, 0.85, 1)
@@ -45,89 +46,144 @@ bubble = "Which one?!"
 [node name="Townie2" type="Control" parent="."]
 layout_mode = 0
 offset_left = 1180.0
-offset_top = 260.0
+offset_top = 200.0
 offset_right = 1380.0
-offset_bottom = 740.0
+offset_bottom = 680.0
 script = ExtResource("3_hotspot")
 art_id = "townie_plaza_2"
 placeholder_color = Color(0.75, 0.7, 0.85, 1)
 ask = "Seen a pigeon?"
 bubble = "Ugh, pigeons."
 
+[node name="Crowd" type="Control" parent="."]
+layout_mode = 0
+offset_left = 36.0
+offset_top = 430.0
+offset_right = 1883.0
+offset_bottom = 1031.0
+mouse_filter = 2
+script = ExtResource("2_art")
+art_id = "plaza_pigeons"
+placeholder_color = Color(0.62, 0.68, 0.78, 1)
+
 [node name="Pigeon1" type="Control" parent="."]
 layout_mode = 0
-offset_left = 380.0
-offset_top = 760.0
-offset_right = 530.0
+offset_left = 49.0
+offset_top = 620.0
+offset_right = 299.0
 offset_bottom = 950.0
 script = ExtResource("3_hotspot")
-art_id = "townie_pigeon_1"
-placeholder_color = Color(0.62, 0.68, 0.78, 1)
-bubble = "Not me!"
+show_placeholder = false
+bubble = "Who? Me!"
+sfx = "sfx_pigeon_coo"
 
 [node name="Pigeon2" type="Control" parent="."]
 layout_mode = 0
-offset_left = 560.0
-offset_top = 700.0
-offset_right = 710.0
-offset_bottom = 890.0
+offset_left = 319.0
+offset_top = 520.0
+offset_right = 539.0
+offset_bottom = 830.0
 script = ExtResource("3_hotspot")
-art_id = "townie_pigeon_2"
-placeholder_color = Color(0.62, 0.68, 0.78, 1)
-bubble = "Not me!"
+show_placeholder = false
+bubble = "Marwan"
+sfx = "sfx_pigeon_coo"
 
 [node name="Pigeon3" type="Control" parent="."]
 layout_mode = 0
-offset_left = 740.0
-offset_top = 780.0
-offset_right = 890.0
-offset_bottom = 970.0
+offset_left = 309.0
+offset_top = 670.0
+offset_right = 619.0
+offset_bottom = 980.0
 script = ExtResource("3_hotspot")
-art_id = "townie_pigeon_3"
-placeholder_color = Color(0.62, 0.68, 0.78, 1)
-bubble = "Coo?"
+show_placeholder = false
+bubble = "Not me!"
+sfx = "sfx_pigeon_coo"
 
 [node name="Pigeon4" type="Control" parent="."]
 layout_mode = 0
-offset_left = 920.0
-offset_top = 710.0
-offset_right = 1070.0
-offset_bottom = 900.0
+offset_left = 599.0
+offset_top = 455.0
+offset_right = 809.0
+offset_bottom = 790.0
 script = ExtResource("3_hotspot")
-art_id = "townie_pigeon_4"
-placeholder_color = Color(0.62, 0.68, 0.78, 1)
-bubble = "Not me!"
-
-[node name="ScarfPigeon" type="Control" parent="."]
-layout_mode = 0
-offset_left = 1100.0
-offset_top = 770.0
-offset_right = 1250.0
-offset_bottom = 960.0
-script = ExtResource("3_hotspot")
-art_id = "townie_pigeon_7"
-placeholder_color = Color(0.62, 0.68, 0.78, 1)
-knot = "pigeon_found"
-hide_if_flag = "pigeon_caught"
+show_placeholder = false
+bubble = "Coo."
+sfx = "sfx_pigeon_coo"
 
 [node name="Pigeon5" type="Control" parent="."]
 layout_mode = 0
-offset_left = 1280.0
-offset_top = 700.0
-offset_right = 1430.0
-offset_bottom = 890.0
+offset_left = 659.0
+offset_top = 620.0
+offset_right = 919.0
+offset_bottom = 935.0
 script = ExtResource("3_hotspot")
-art_id = "townie_pigeon_5"
-placeholder_color = Color(0.62, 0.68, 0.78, 1)
-bubble = "Not me!"
+show_placeholder = false
+bubble = "Brrr-roo?"
+sfx = "sfx_pigeon_coo"
 
 [node name="Pigeon6" type="Control" parent="."]
 layout_mode = 0
-offset_left = 1460.0
-offset_top = 780.0
-offset_right = 1610.0
-offset_bottom = 970.0
+offset_left = 869.0
+offset_top = 545.0
+offset_right = 1059.0
+offset_bottom = 860.0
 script = ExtResource("3_hotspot")
-art_id = "townie_pigeon_6"
-placeholder_color = Color(0.62, 0.68, 0.78, 1)
-bubble = "NOT ME!"
+show_placeholder = false
+bubble = "Coo coo."
+sfx = "sfx_pigeon_coo"
+
+[node name="Pigeon7" type="Control" parent="."]
+layout_mode = 0
+offset_left = 1059.0
+offset_top = 690.0
+offset_right = 1299.0
+offset_bottom = 1025.0
+script = ExtResource("3_hotspot")
+show_placeholder = false
+bubble = "*flap flap*"
+sfx = "sfx_pigeon_coo"
+
+[node name="Pigeon8" type="Control" parent="."]
+layout_mode = 0
+offset_left = 1174.0
+offset_top = 500.0
+offset_right = 1404.0
+offset_bottom = 900.0
+script = ExtResource("3_hotspot")
+show_placeholder = false
+bubble = "Coo?"
+sfx = "sfx_pigeon_coo"
+
+[node name="Pigeon10" type="Control" parent="."]
+layout_mode = 0
+offset_left = 1479.0
+offset_top = 430.0
+offset_right = 1649.0
+offset_bottom = 850.0
+script = ExtResource("3_hotspot")
+show_placeholder = false
+bubble = "Brrr."
+sfx = "sfx_pigeon_coo"
+
+[node name="Pigeon11" type="Control" parent="."]
+layout_mode = 0
+offset_left = 1609.0
+offset_top = 580.0
+offset_right = 1884.0
+offset_bottom = 915.0
+script = ExtResource("3_hotspot")
+show_placeholder = false
+bubble = "*pecks the ground*"
+sfx = "sfx_pigeon_coo"
+
+[node name="ScarfPigeon" type="Control" parent="."]
+layout_mode = 0
+offset_left = 1394.0
+offset_top = 650.0
+offset_right = 1659.0
+offset_bottom = 1005.0
+script = ExtResource("3_hotspot")
+show_placeholder = false
+knot = "pigeon_found"
+hide_if_flag = "pigeon_caught"
+sfx = "sfx_pigeon_wings"

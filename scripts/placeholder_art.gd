@@ -22,6 +22,12 @@ const EXTENSIONS: Array[String] = ["png", "jpg", "jpeg", "webp"]
 	set(value):
 		cover = value
 		queue_redraw()
+## Off = draw nothing when there's no picture (e.g. a clickable spot on top of
+## a bigger picture, like one pigeon in the plaza crowd).
+@export var show_placeholder := true:
+	set(value):
+		show_placeholder = value
+		queue_redraw()
 
 var _texture: Texture2D
 
@@ -34,6 +40,17 @@ static func find_texture(id: String) -> Texture2D:
 		if ResourceLoader.exists(path):
 			return load(path)
 	return null
+
+
+## Where the picture is actually drawn inside this box (it's fitted, so it may
+## not fill the whole box). The whole box if there's no picture or `cover` is on.
+func get_drawn_rect() -> Rect2:
+	if _texture == null or cover:
+		return Rect2(Vector2.ZERO, size)
+	var texture_size := _texture.get_size()
+	var scale := minf(size.x / texture_size.x, size.y / texture_size.y)
+	var drawn := texture_size * scale
+	return Rect2((size - drawn) / 2, drawn)
 
 
 func has_texture() -> bool:
@@ -49,6 +66,8 @@ func _draw() -> void:
 	var rect := Rect2(Vector2.ZERO, size)
 	if _texture:
 		_draw_texture(rect)
+		return
+	if not show_placeholder:
 		return
 	draw_rect(rect, placeholder_color)
 	draw_rect(rect, placeholder_color.darkened(0.45), false, 3.0)

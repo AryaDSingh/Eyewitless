@@ -5,11 +5,11 @@
   "summary": "A pigeon pooped on Arya's favourite scarf. Find that pigeon!",
   "clues": {
     "blurry_photo": {
-      "text": "Debbie's blurry photo from the moment it happened.",
+      "text": "Arya's blurry photo of the incident.",
       "image": "clue_blurry_photo"
     },
     "felix_in_photo": {
-      "text": "Debbie says Felix is in the blurry photo. Look closely!",
+      "text": "Alex spotted Felix in the photo, right behind Arya.",
       "image": "clue_blurry_photo_felix"
     },
     "pigeon_photo": {

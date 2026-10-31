@@ -8,6 +8,11 @@ extends PlaceholderArt
 signal clicked(hotspot: Hotspot)
 
 const BUBBLE_SECONDS := 1.4
+const BUBBLE_LEFT := preload("res://art/ui/bubble_speech_left.png")
+const BUBBLE_RIGHT := preload("res://art/ui/bubble_speech_right.png")
+const BUBBLE_SHOUT := preload("res://art/ui/bubble_shout.png")
+## How far the bubble's tail is from its side, in pixels.
+const TAIL_INSET := 100.0
 
 ## Story knot to play when clicked (see resources/cases/*.story).
 @export var knot := ""
@@ -19,6 +24,8 @@ const BUBBLE_SECONDS := 1.4
 @export var show_if_flag := ""
 ## Hide this hotspot once this flag is set.
 @export var hide_if_flag := ""
+## Sound played with the reply bubble, or on click for a knot (audio/<id>.ogg).
+@export var sfx := ""
 
 var _busy := false
 
@@ -34,7 +41,8 @@ func _ready() -> void:
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		accept_event()
-		clicked.emit(self)
+		if Audio.try_click():
+			clicked.emit(self)
 
 
 func refresh_visibility() -> void:
@@ -52,29 +60,55 @@ func play_exchange() -> void:
 	if ask != "":
 		await say(ask, true)
 	if bubble != "":
+		Audio.play_sfx(sfx)
 		await say(bubble)
 	_busy = false
 
 
-## Shows a speech bubble above this hotspot for a moment.
+## Shows a speech bubble above this hotspot for a moment. The Detective's
+## bubble sits to the left with its tail on the right; the hotspot's own
+## reply has its tail on the left. All-caps lines ("NO!") get the shout bubble.
 func say(text: String, from_detective := false) -> void:
 	var panel := PanelContainer.new()
 	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(1, 0.95, 0.7) if from_detective else Color.WHITE
-	style.border_color = Color(0.15, 0.13, 0.12)
-	style.set_border_width_all(3)
-	style.set_corner_radius_all(16)
-	style.set_content_margin_all(14)
-	panel.add_theme_stylebox_override("panel", style)
+	var shout := text == text.to_upper() and text.ends_with("!") and text.to_lower() != text
+	panel.add_theme_stylebox_override("panel", _bubble_style(
+			"shout" if shout else ("right" if from_detective else "left")))
 	var label := Label.new()
 	label.text = text
-	label.add_theme_font_size_override("font_size", 34)
-	label.add_theme_color_override("font_color", Color(0.15, 0.13, 0.12) if from_detective else Color(0.8, 0.1, 0.1))
+	label.add_theme_font_size_override("font_size", 36)
 	panel.add_child(label)
 	add_child(panel)
 	var bubble_size := panel.get_combined_minimum_size()
-	var x_offset := -bubble_size.x * 0.6 if from_detective else 0.0
-	panel.position = Vector2((size.x - bubble_size.x) / 2 + x_offset, -bubble_size.y - 12)
+	# Line the tail up with the middle of the hotspot.
+	var x := size.x / 2 - (bubble_size.x - TAIL_INSET if from_detective else TAIL_INSET)
+	panel.position = Vector2(x, -bubble_size.y - 4)
+	# Speech goes in front of everything (HUD icons, other people), and stays on screen.
+	panel.z_index = 50
+	var screen := get_viewport_rect().size
+	var top_left := global_position + panel.position
+	top_left = top_left.clamp(Vector2(8, 8), screen - bubble_size - Vector2(8, 8))
+	panel.position = top_left - global_position
 	await get_tree().create_timer(BUBBLE_SECONDS).timeout
 	panel.queue_free()
+
+
+static func _bubble_style(kind: String) -> StyleBoxTexture:
+	var style := StyleBoxTexture.new()
+	match kind:
+		"shout":
+			# Spiky outline: stretch the whole picture rather than slicing it.
+			style.texture = BUBBLE_SHOUT
+			style.set_content_margin_all(64)
+		"left", "right":
+			style.texture = BUBBLE_LEFT if kind == "left" else BUBBLE_RIGHT
+			# Keep the tail corner unstretched.
+			style.texture_margin_left = 150.0 if kind == "left" else 40.0
+			style.texture_margin_right = 40.0 if kind == "left" else 150.0
+			style.texture_margin_top = 50.0
+			style.texture_margin_bottom = 80.0
+			style.content_margin_left = 44.0
+			style.content_margin_right = 44.0
+			style.content_margin_top = 40.0
+			style.content_margin_bottom = 84.0
+	return style

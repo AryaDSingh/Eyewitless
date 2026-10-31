@@ -39,3 +39,16 @@ script = ExtResource("3_hotspot")
 art_id = "townie_arya"
 placeholder_color = Color(0.86, 0.68, 0.72, 1)
 knot = "arya_talk"
+
+[node name="Pigeon" type="Control" parent="."]
+layout_mode = 0
+offset_left = 1150.0
+offset_top = 650.0
+offset_right = 1390.0
+offset_bottom = 930.0
+script = ExtResource("3_hotspot")
+art_id = "companion_pigeon"
+placeholder_color = Color(0.62, 0.68, 0.78, 1)
+show_if_flag = "pigeon_caught"
+bubble = "Coo, guv."
+sfx = "sfx_pigeon_coo"

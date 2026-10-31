@@ -143,8 +143,9 @@ func add_note(character_id: String, text: String) -> void:
 		notes[character_id] = []
 	if text in notes[character_id]:
 		return
+	# Hearing about someone doesn't mean meeting them: the notebook shows a
+	# silhouette until `~ meet`.
 	notes[character_id].append(text)
-	meet(character_id)
 	EventLog.log_event("note_added", {"character": character_id, "text": text})
 	note_added.emit(character_id, text)
 	changed.emit()

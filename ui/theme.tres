@@ -1,65 +1,192 @@
-[gd_resource type="Theme" load_steps=4 format=3]
+[gd_resource type="Theme" load_steps=24 format=3]
+
+[ext_resource type="FontFile" path="res://ui/fonts/PatrickHand-Regular.ttf" id="font_text"]
+[ext_resource type="FontFile" path="res://ui/fonts/CaveatBrush-Regular.ttf" id="font_button"]
+[ext_resource type="Texture2D" path="res://art/ui/btn_primary.png" id="btn_primary"]
+[ext_resource type="Texture2D" path="res://art/ui/btn_primary_hover.png" id="btn_primary_hover"]
+[ext_resource type="Texture2D" path="res://art/ui/btn_primary_pressed.png" id="btn_primary_pressed"]
+[ext_resource type="Texture2D" path="res://art/ui/btn_primary_disabled.png" id="btn_primary_disabled"]
+[ext_resource type="Texture2D" path="res://art/ui/btn_tag.png" id="btn_tag"]
+[ext_resource type="Texture2D" path="res://art/ui/btn_tag_hover.png" id="btn_tag_hover"]
+[ext_resource type="Texture2D" path="res://art/ui/btn_tag_pressed.png" id="btn_tag_pressed"]
+[ext_resource type="Texture2D" path="res://art/ui/btn_close.png" id="btn_close"]
 
 [sub_resource type="StyleBoxFlat" id="panel"]
 content_margin_left = 24.0
 content_margin_top = 16.0
 content_margin_right = 24.0
 content_margin_bottom = 16.0
-bg_color = Color(0.98, 0.96, 0.9, 1)
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color(0.15, 0.13, 0.12, 1)
-corner_radius_top_left = 12
-corner_radius_top_right = 12
-corner_radius_bottom_right = 12
-corner_radius_bottom_left = 12
-
-[sub_resource type="StyleBoxFlat" id="button"]
-content_margin_left = 20.0
-content_margin_top = 8.0
-content_margin_right = 20.0
-content_margin_bottom = 8.0
-bg_color = Color(0.98, 0.96, 0.9, 1)
+bg_color = Color(0.96, 0.96, 0.96, 1)
 border_width_left = 3
 border_width_top = 3
 border_width_right = 3
 border_width_bottom = 3
-border_color = Color(0.8, 0.15, 0.15, 1)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
+border_color = Color(0.17, 0.17, 0.17, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0, 0, 0, 0.25)
+shadow_size = 1
+shadow_offset = Vector2(0, 4)
 
-[sub_resource type="StyleBoxFlat" id="button_hover"]
-content_margin_left = 20.0
+[sub_resource type="StyleBoxTexture" id="primary"]
+content_margin_left = 28.0
+content_margin_top = 10.0
+content_margin_right = 28.0
+content_margin_bottom = 14.0
+texture = ExtResource("btn_primary")
+texture_margin_left = 14.0
+texture_margin_top = 14.0
+texture_margin_right = 14.0
+texture_margin_bottom = 18.0
+
+[sub_resource type="StyleBoxTexture" id="primary_hover"]
+content_margin_left = 28.0
+content_margin_top = 10.0
+content_margin_right = 28.0
+content_margin_bottom = 14.0
+texture = ExtResource("btn_primary_hover")
+texture_margin_left = 14.0
+texture_margin_top = 16.0
+texture_margin_right = 14.0
+texture_margin_bottom = 20.0
+
+[sub_resource type="StyleBoxTexture" id="primary_pressed"]
+content_margin_left = 28.0
+content_margin_top = 12.0
+content_margin_right = 28.0
+content_margin_bottom = 12.0
+texture = ExtResource("btn_primary_pressed")
+texture_margin_left = 14.0
+texture_margin_top = 14.0
+texture_margin_right = 14.0
+texture_margin_bottom = 14.0
+
+[sub_resource type="StyleBoxTexture" id="primary_disabled"]
+content_margin_left = 28.0
+content_margin_top = 10.0
+content_margin_right = 28.0
+content_margin_bottom = 14.0
+texture = ExtResource("btn_primary_disabled")
+texture_margin_left = 14.0
+texture_margin_top = 14.0
+texture_margin_right = 14.0
+texture_margin_bottom = 14.0
+
+[sub_resource type="StyleBoxTexture" id="tag"]
+content_margin_left = 24.0
 content_margin_top = 8.0
-content_margin_right = 20.0
-content_margin_bottom = 8.0
-bg_color = Color(1, 0.88, 0.85, 1)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0.8, 0.15, 0.15, 1)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
+content_margin_right = 24.0
+content_margin_bottom = 12.0
+texture = ExtResource("btn_tag")
+texture_margin_left = 14.0
+texture_margin_top = 12.0
+texture_margin_right = 14.0
+texture_margin_bottom = 16.0
+
+[sub_resource type="StyleBoxTexture" id="tag_hover"]
+content_margin_left = 24.0
+content_margin_top = 8.0
+content_margin_right = 24.0
+content_margin_bottom = 12.0
+texture = ExtResource("btn_tag_hover")
+texture_margin_left = 14.0
+texture_margin_top = 14.0
+texture_margin_right = 14.0
+texture_margin_bottom = 18.0
+
+[sub_resource type="StyleBoxTexture" id="tag_pressed"]
+content_margin_left = 24.0
+content_margin_top = 10.0
+content_margin_right = 24.0
+content_margin_bottom = 10.0
+texture = ExtResource("btn_tag_pressed")
+texture_margin_left = 14.0
+texture_margin_top = 12.0
+texture_margin_right = 14.0
+texture_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxTexture" id="close"]
+texture = ExtResource("btn_close")
+
+[sub_resource type="StyleBoxTexture" id="tag_small"]
+content_margin_left = 10.0
+content_margin_top = 2.0
+content_margin_right = 10.0
+content_margin_bottom = 6.0
+texture = ExtResource("btn_tag")
+texture_margin_left = 8.0
+texture_margin_top = 6.0
+texture_margin_right = 8.0
+texture_margin_bottom = 9.0
+
+[sub_resource type="StyleBoxTexture" id="tag_small_pressed"]
+content_margin_left = 10.0
+content_margin_top = 4.0
+content_margin_right = 10.0
+content_margin_bottom = 4.0
+texture = ExtResource("btn_tag_pressed")
+texture_margin_left = 8.0
+texture_margin_top = 6.0
+texture_margin_right = 8.0
+texture_margin_bottom = 6.0
+
+[sub_resource type="StyleBoxEmpty" id="none"]
+
+[sub_resource type="FontVariation" id="bold"]
+base_font = ExtResource("font_text")
+variation_embolden = 0.9
+
+[sub_resource type="FontVariation" id="italic"]
+base_font = ExtResource("font_text")
+variation_transform = Transform2D(1, 0, 0.22, 1, 0, 0)
 
 [resource]
-default_font_size = 32
-Button/colors/font_color = Color(0.8, 0.15, 0.15, 1)
-Button/colors/font_hover_color = Color(0.6, 0.05, 0.05, 1)
-Button/colors/font_pressed_color = Color(0.6, 0.05, 0.05, 1)
-Button/colors/font_focus_color = Color(0.8, 0.15, 0.15, 1)
-Button/colors/font_disabled_color = Color(0.5, 0.5, 0.5, 1)
-Button/styles/normal = SubResource("button")
-Button/styles/hover = SubResource("button_hover")
-Button/styles/pressed = SubResource("button_hover")
-Button/styles/focus = SubResource("button")
-Button/styles/disabled = SubResource("button")
-Label/colors/font_color = Color(0.15, 0.13, 0.12, 1)
+default_font = ExtResource("font_text")
+default_font_size = 36
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/colors/font_disabled_color = Color(0.4, 0.4, 0.4, 1)
+Button/colors/font_focus_color = Color(1, 1, 1, 1)
+Button/colors/font_hover_color = Color(1, 1, 1, 1)
+Button/colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+Button/colors/font_pressed_color = Color(1, 1, 1, 1)
+Button/font_sizes/font_size = 34
+Button/fonts/font = ExtResource("font_button")
+Button/styles/disabled = SubResource("primary_disabled")
+Button/styles/focus = SubResource("none")
+Button/styles/hover = SubResource("primary_hover")
+Button/styles/hover_pressed = SubResource("primary_pressed")
+Button/styles/normal = SubResource("primary")
+Button/styles/pressed = SubResource("primary_pressed")
+CloseButton/base_type = &"Button"
+CloseButton/styles/disabled = SubResource("close")
+CloseButton/styles/hover = SubResource("close")
+CloseButton/styles/hover_pressed = SubResource("close")
+CloseButton/styles/normal = SubResource("close")
+CloseButton/styles/pressed = SubResource("close")
+Label/colors/font_color = Color(0.17, 0.17, 0.17, 1)
 PanelContainer/styles/panel = SubResource("panel")
-RichTextLabel/colors/default_color = Color(0.15, 0.13, 0.12, 1)
+RichTextLabel/colors/default_color = Color(0.17, 0.17, 0.17, 1)
+RichTextLabel/font_sizes/normal_font_size = 36
+RichTextLabel/fonts/bold_font = SubResource("bold")
+RichTextLabel/fonts/italics_font = SubResource("italic")
+RichTextLabel/fonts/normal_font = ExtResource("font_text")
+SmallTagButton/base_type = &"TagButton"
+SmallTagButton/font_sizes/font_size = 20
+SmallTagButton/styles/hover = SubResource("tag_small")
+SmallTagButton/styles/hover_pressed = SubResource("tag_small_pressed")
+SmallTagButton/styles/normal = SubResource("tag_small")
+SmallTagButton/styles/pressed = SubResource("tag_small_pressed")
+TagButton/base_type = &"Button"
+TagButton/colors/font_color = Color(0.17, 0.17, 0.17, 1)
+TagButton/colors/font_disabled_color = Color(0.55, 0.55, 0.55, 1)
+TagButton/colors/font_focus_color = Color(0.17, 0.17, 0.17, 1)
+TagButton/colors/font_hover_color = Color(0.17, 0.17, 0.17, 1)
+TagButton/colors/font_hover_pressed_color = Color(0.17, 0.17, 0.17, 1)
+TagButton/colors/font_pressed_color = Color(0.17, 0.17, 0.17, 1)
+TagButton/styles/disabled = SubResource("tag")
+TagButton/styles/hover = SubResource("tag_hover")
+TagButton/styles/hover_pressed = SubResource("tag_pressed")
+TagButton/styles/normal = SubResource("tag")
+TagButton/styles/pressed = SubResource("tag_pressed")

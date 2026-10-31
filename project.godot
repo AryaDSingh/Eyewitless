@@ -20,6 +20,7 @@ config/features=PackedStringArray("4.7", "GL Compatibility")
 GameState="*res://scripts/game_state.gd"
 EventLog="*res://scripts/event_log.gd"
 Story="*res://scripts/story.gd"
+Audio="*res://scripts/audio.gd"
 
 [display]
 
@@ -28,7 +29,6 @@ window/size/viewport_height=1080
 window/size/window_width_override=1280
 window/size/window_height_override=720
 window/stretch/mode="canvas_items"
-window/stretch/aspect="keep"
 
 [gui]
 

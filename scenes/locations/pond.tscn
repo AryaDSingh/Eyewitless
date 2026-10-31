@@ -37,9 +37,10 @@ offset_top = 620.0
 offset_right = 720.0
 offset_bottom = 800.0
 script = ExtResource("3_hotspot")
-art_id = "townie_duck"
+art_id = "townie_duck_1"
 placeholder_color = Color(0.95, 0.85, 0.4, 1)
 bubble = "Quack!"
+sfx = "sfx_duck_quack"
 
 [node name="Duck2" type="Control" parent="."]
 layout_mode = 0
@@ -48,9 +49,10 @@ offset_top = 560.0
 offset_right = 1100.0
 offset_bottom = 740.0
 script = ExtResource("3_hotspot")
-art_id = "townie_duck"
+art_id = "townie_duck_2"
 placeholder_color = Color(0.95, 0.85, 0.4, 1)
 bubble = "QUACK!"
+sfx = "sfx_duck_quack"
 
 [node name="Duck3" type="Control" parent="."]
 layout_mode = 0
@@ -59,6 +61,19 @@ offset_top = 650.0
 offset_right = 1480.0
 offset_bottom = 830.0
 script = ExtResource("3_hotspot")
-art_id = "townie_duck"
+art_id = "townie_duck_3"
 placeholder_color = Color(0.95, 0.85, 0.4, 1)
 bubble = "Quack?"
+sfx = "sfx_duck_quack"
+
+[node name="Duck4" type="Control" parent="."]
+layout_mode = 0
+offset_left = 1560.0
+offset_top = 700.0
+offset_right = 1800.0
+offset_bottom = 860.0
+script = ExtResource("3_hotspot")
+art_id = "townie_duck_4"
+placeholder_color = Color(0.9, 0.85, 0.5, 1)
+bubble = "Quack."
+sfx = "sfx_duck_quack"

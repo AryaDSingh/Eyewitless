@@ -15,6 +15,7 @@ mouse_filter = 2
 script = ExtResource("1_location")
 location_id = "bar"
 display_name = "Bar"
+ambience = "amb_bar"
 
 [node name="Background" type="Control" parent="."]
 layout_mode = 1
@@ -43,10 +44,10 @@ bubble = "Only in my soup."
 
 [node name="Felix" type="Control" parent="."]
 layout_mode = 0
-offset_left = 960.0
-offset_top = 340.0
-offset_right = 1220.0
-offset_bottom = 900.0
+offset_left = 900.0
+offset_top = 300.0
+offset_right = 1280.0
+offset_bottom = 920.0
 script = ExtResource("3_hotspot")
 art_id = "townie_felix"
 placeholder_color = Color(0.86, 0.68, 0.72, 1)
