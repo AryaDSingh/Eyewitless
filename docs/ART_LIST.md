@@ -61,7 +61,6 @@ wording can change without redrawing.
 | `prop_alex_dogs` | 460×160 | Alex's 5 dogs |
 | `townie_dog_walker_1` | 220×520 | Walker with 1 dog ("NO!") |
 | `townie_marwan` | 220×520 | Marwan with his 2 "capybaras" (Patagonian maras) |
-| `townie_dog_walker_3` | 220×520 | Walker with a big pack of dogs (they bark) |
 | `townie_felix` | 260×560 | Bar |
 | `townie_bartender` | 240×560 | Bar |
 | `townie_duck` | 200×180 | Pond (used 3 times) |
@@ -70,7 +69,7 @@ wording can change without redrawing.
 | `townie_pigeon_7` | 150×190 | **The culprit.** Must match `clue_pigeon_photo`, but look close enough to the others that it's a puzzle |
 
 ## Portraits in the dialogue box and notebook — 300×300
-`portrait_detective`, `portrait_arya`, `portrait_alex`, `portrait_marwan`, `portrait_felix`, `portrait_pigeon`
+`portrait_arya`, `portrait_alex`, `portrait_marwan`, `portrait_felix`, `portrait_pigeon`
 
 ## Clue photos (notebook) — 4:3, e.g. 1100×825
 | Name | What it shows |
@@ -89,6 +88,7 @@ These are already in the game. To change one, save over the file with the same n
 | `btn_tag`, `_hover`, `_pressed` | Light buttons (Settings, Mute, notebook tabs) |
 | `btn_close` | Close on the map and notebook ("Close ✕" is drawn in) |
 | `dialogue_box`, `_thought`, `_no_portrait` | Dialogue panel. The game puts the portrait, the name (on the tape) and the text on fixed spots, so **keep new versions the same size and layout**. Spots are listed in `BOXES` in `scripts/dialogue_box.gd` |
+| `dialogue_arrow` | The "→" in the bottom right, cut out of the box art so it can nudge when a line is done. Leave it off new box pictures |
 | `bubble_speech_left`, `_right`, `bubble_shout` | Bubbles over people. Left = their reply, right = the Detective asking, shout = all-caps lines like "NO!" |
 | `icon_notebook`, `icon_map`, `icon_camera` + `icon_bg`, `_new`, `_highlight` | HUD icons. `_new` until first clicked, `_highlight` when something new is inside |
 | `pin_*` + `pin_box_*` (goto, unlocked, visited, locked) | Map pins. The game split each pin from its label box so the box can stretch to the place name |
@@ -108,6 +108,6 @@ pigeon is an invisible click spot on top, see `scenes/locations/plaza.tscn`), TH
 `pigeon_closeup`, `pigeon_cries`, plus `envelope`, `pigeon_prison`, `notebook_book` (notebook background,
 pages filled in white) and `clue_blurry_photo` / `_felix` (the incident drawing, blurred, Felix circled).
 
-Still grey boxes: Alex and her 5 dogs, the Detective's portrait, walker 3 (big pack), the bartender,
+Still grey boxes: Alex and her 5 dogs, the bartender,
 the plaza people, all backgrounds and the map, the letters' paper, and the cards `pigeon_hat`,
 `camera_intro`.

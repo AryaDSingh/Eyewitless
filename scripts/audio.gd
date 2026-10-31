@@ -25,6 +25,8 @@ var _fades: Dictionary = {}  # player -> Tween
 var _music: AudioStreamPlayer
 var _ambience: AudioStreamPlayer
 var _sfx: AudioStreamPlayer
+var _voice: AudioStreamPlayer
+var _tick: AudioStreamPlayer
 
 
 func _ready() -> void:
@@ -34,6 +36,9 @@ func _ready() -> void:
 	_music = _add_player("Music")
 	_ambience = _add_player("Sounds")
 	_sfx = _add_player("Sounds")
+	_voice = _add_player("Sounds")
+	_tick = _add_player("Sounds")
+	_tick.volume_db = -14.0
 
 
 ## True if enough time has passed since the last click that counted.
@@ -52,6 +57,32 @@ func play_sfx(id: String) -> void:
 	# Swapping the stream stops the effect that was playing.
 	_sfx.stream = stream
 	_sfx.play()
+
+
+## Plays a recorded line (`~ voice` in a story, before the line it goes with).
+## Its own player, so a sound effect doesn't cut the voice off.
+func play_voice(id: String) -> void:
+	_voice.stream = find_stream(id)
+	if _voice.stream:
+		_voice.play()
+
+
+func is_voice_playing() -> bool:
+	return _voice.playing
+
+
+## The quiet tick while dialogue types out. Its own player, so it never cuts
+## off a sound effect; the pitch wobbles a little so it doesn't drone.
+func play_tick() -> void:
+	if _tick.stream == null:
+		_tick.stream = find_stream("sfx_text_tick")
+	_tick.pitch_scale = randf_range(0.9, 1.15)
+	_tick.play()
+
+
+## Called when the player moves on, so a line's voice never talks over the next.
+func stop_voice() -> void:
+	_voice.stop()
 
 
 ## Fades to a new music track. An empty id keeps the current music.

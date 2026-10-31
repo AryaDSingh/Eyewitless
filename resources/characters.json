@@ -17,13 +17,17 @@
     "role": "Dog walker",
     "description": "Walks five dogs at the park. Took another photo of the scarf incident and gave it to Felix.",
     "portrait": "portrait_alex",
+    "silhouette_art": "alex_silhouette",
     "location": "park"
   },
   "marwan": {
     "name": "Marwan",
     "role": "Walker with \"capybaras\"",
+    "description": "Walks his pets at the park. Insists they're capybaras.",
     "portrait": "portrait_marwan",
-    "in_notebook": false
+    "silhouette": true,
+    "silhouette_art": "marwan_silhouette",
+    "location": "park"
   },
   "felix": {
     "name": "Felix",

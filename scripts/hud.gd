@@ -115,10 +115,13 @@ func blink(target: String) -> void:
 
 ## Something new arrived (a clue, a note, a place): glow the icon and count it.
 ## Both clear when the player opens it.
+## Only one icon glows at a time (the map, for new places); new notebook
+## entries just add to the notebook's count, so players aren't torn between two.
 func notify(target: String) -> void:
 	var badge: Label = _badges[target]
 	var count := int(badge.text) + 1 if badge.visible else 1
-	blink(target)  # (this clears the badge, so set it after)
+	if target == "map":
+		blink(target)  # (this clears the badge, so set it after)
 	badge.text = str(count)
 	badge.show()
 

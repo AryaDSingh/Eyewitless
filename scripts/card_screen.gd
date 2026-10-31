@@ -10,8 +10,10 @@ extends Control
 ## - unroll / pop / stamp / grow: how the picture appears. grow = a small photo
 ##   that grows to full size. (zoom / zoom=0.7,0.4 still work: zooms into a spot.)
 ## - click: no button; the player clicks the picture itself.
-## - glow=x,y,w,h: with click, only that part of the picture (fractions of it)
-##   is clickable, and it glows. E.g. the letter sticking out of the envelope.
+## - pull=<letter_art>,<front_art>: the picture is the back of an envelope; the
+##   letter sits in it with the front flaps on top. Hovering the letter slides it
+##   up out of the envelope; clicking it continues. All three pictures are the
+##   same size (art/envelope_back, _letter, _front).
 
 signal closed
 
@@ -24,9 +26,12 @@ const PINNED_GAP := 40.0
 
 var _click_art := false
 var _intro: Tween
-var _glow := ColorRect.new()
-var _glow_pulse: Tween
-var _glow_area := Rect2()  # fractions of the drawn picture
+var _pull_letter := TextureRect.new()
+var _pull_front := TextureRect.new()
+var _pull_tween: Tween
+var _letter_out := false
+var _letter_image: Image  # to tell if the mouse is on the letter or a see-through part
+const PULL_LIFT := 0.06  # how far the letter slides up on hover (fraction of its height)
 
 @onready var _art_clip: Control = %ArtClip
 @onready var _art: PlaceholderArt = %Art
@@ -40,15 +45,19 @@ var _glow_area := Rect2()  # fractions of the drawn picture
 func _ready() -> void:
 	hide()
 	_button.pressed.connect(_on_button_pressed)
-	_glow.color = Color(1, 0.92, 0.55, 0)
-	_glow.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
-	_glow.gui_input.connect(_on_glow_input)
-	_glow.mouse_entered.connect(func(): _glow.self_modulate = Color(1, 1, 1, 1.6))
-	_glow.mouse_exited.connect(func(): _glow.self_modulate = Color.WHITE)
-	_art.add_child(_glow)
+	for layer: TextureRect in [_pull_letter, _pull_front]:
+		layer.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		layer.stretch_mode = TextureRect.STRETCH_SCALE
+		layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_art.add_child(layer)
+	_pull_letter.mouse_filter = Control.MOUSE_FILTER_STOP
+	_pull_letter.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	_pull_letter.gui_input.connect(_on_pull_input)
+	_pull_letter.mouse_exited.connect(_set_letter_out.bind(false))
 	_art.gui_input.connect(_on_art_input)
-	_art.mouse_entered.connect(func(): _art.modulate = Color(1.15, 1.15, 1.15) if _click_art else Color.WHITE)
-	_art.mouse_exited.connect(func(): _art.modulate = Color.WHITE)
+	# Clickable pictures lift and tilt a little under the mouse (no tint).
+	_art.mouse_entered.connect(_lift_art.bind(true))
+	_art.mouse_exited.connect(_lift_art.bind(false))
 
 
 ## Shows a card and waits until its button (or picture) is clicked.
@@ -58,17 +67,17 @@ func show_card(art_id: String, text: String, button_text: String, options := "")
 	var letter := "letter" in words
 	var framed := "framed" in words
 	var photo := _option(words, "photo")
-	var glow := _option(words, "glow").split(",")
-	_click_art = "click" in words and glow.size() != 4
-	_glow.visible = glow.size() == 4
-	if _glow.visible:
-		_glow_area = Rect2(glow[0].to_float(), glow[1].to_float(), glow[2].to_float(), glow[3].to_float())
-		_glow.size = Vector2.ZERO  # placed once the picture has its size (_animate_in)
-		if _glow_pulse:
-			_glow_pulse.kill()
-		_glow_pulse = create_tween().set_loops()
-		_glow_pulse.tween_property(_glow, "color:a", 0.35, 0.7).set_trans(Tween.TRANS_SINE)
-		_glow_pulse.tween_property(_glow, "color:a", 0.08, 0.7).set_trans(Tween.TRANS_SINE)
+	var pull := _option(words, "pull").split(",")
+	_click_art = "click" in words and pull.size() != 2
+	_pull_letter.visible = pull.size() == 2
+	_pull_front.visible = _pull_letter.visible
+	if _pull_letter.visible:
+		_pull_letter.texture = PlaceholderArt.find_texture(pull[0])
+		_letter_image = _pull_letter.texture.get_image() if _pull_letter.texture else null
+		_letter_out = false
+		_pull_front.texture = PlaceholderArt.find_texture(pull[1])
+		_pull_letter.size = Vector2.ZERO  # placed once the picture has its size (_animate_in)
+		_pull_front.size = Vector2.ZERO
 	_art_clip.visible = art_id != "" and art_id != "none"
 	_art.art_id = art_id
 	# The picture is clipped to this box, so zooming in never covers the text.
@@ -88,7 +97,7 @@ func show_card(art_id: String, text: String, button_text: String, options := "")
 	_pinned.setup(photo)
 	_text.text = "" if letter else text
 	_text.visible = _text.text != ""
-	_button.visible = not _click_art and not _glow.visible
+	_button.visible = not _click_art and not _pull_letter.visible
 	_button.text = button_text if button_text != "" else "Next"
 	show()
 	if _button.visible:
@@ -103,10 +112,12 @@ func show_card(art_id: String, text: String, button_text: String, options := "")
 func press() -> void:
 	if _intro:
 		_intro.kill()
-	if _glow_pulse:
-		_glow_pulse.kill()
+	if _pull_tween:
+		_pull_tween.kill()
 	_art.scale = Vector2.ONE
+	_art.rotation = 0.0
 	_art_clip.scale = Vector2.ONE
+	_art_clip.rotation = 0.0
 	hide()
 	closed.emit()
 
@@ -116,8 +127,45 @@ func _on_button_pressed() -> void:
 		press()
 
 
-func _on_glow_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.pressed 			and event.button_index == MOUSE_BUTTON_LEFT and Audio.try_click():
+func _lift_art(up: bool) -> void:
+	if not _click_art:
+		return
+	if _pull_tween:
+		_pull_tween.kill()
+	# Lift the clip box, not the picture inside it, so the edges aren't cut off.
+	_art_clip.pivot_offset = _art_clip.size / 2
+	_pull_tween = create_tween().set_parallel()
+	_pull_tween.tween_property(_art_clip, "scale", Vector2(1.04, 1.04) if up else Vector2.ONE, 0.2).set_trans(Tween.TRANS_SINE)
+	_pull_tween.tween_property(_art_clip, "rotation_degrees", -1.5 if up else 0.0, 0.2).set_trans(Tween.TRANS_SINE)
+
+
+func _set_letter_out(out: bool) -> void:
+	if out == _letter_out:
+		return
+	_letter_out = out
+	if _pull_tween:
+		_pull_tween.kill()
+	var drawn := _art.get_drawn_rect()
+	_pull_tween = create_tween()
+	_pull_tween.tween_property(_pull_letter, "position:y", drawn.position.y - (drawn.size.y * PULL_LIFT if out else 0.0), 0.25) 			.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+
+
+## True if this point (in the letter's own coordinates) is on the letter itself.
+func _on_letter(point: Vector2) -> bool:
+	if _letter_image == null or _pull_letter.size.x <= 0:
+		return true
+	var pixel := Vector2i(point / _pull_letter.size * Vector2(_letter_image.get_size()))
+	if not Rect2i(Vector2i.ZERO, _letter_image.get_size()).has_point(pixel):
+		return false
+	return _letter_image.get_pixelv(pixel).a > 0.5
+
+
+func _on_pull_input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion:
+		var over := _on_letter(event.position)
+		_set_letter_out(over)
+		_pull_letter.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND if over else Control.CURSOR_ARROW
+	elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT 			and _on_letter(event.position) and Audio.try_click():
 		accept_event()
 		press()
 
@@ -141,10 +189,11 @@ func _animate_in(words: PackedStringArray, letter: bool) -> void:
 		return
 	if letter:
 		_fit_letter_text()
-	if _glow.visible:
+	if _pull_letter.visible:
 		var drawn := _art.get_drawn_rect()
-		_glow.position = drawn.position + _glow_area.position * drawn.size
-		_glow.size = _glow_area.size * drawn.size
+		for layer: TextureRect in [_pull_letter, _pull_front]:
+			layer.position = drawn.position
+			layer.size = drawn.size
 	_intro = create_tween()
 	var art_size := _art.size
 	if "unroll" in words:

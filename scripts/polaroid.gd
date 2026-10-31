@@ -44,6 +44,8 @@ func setup(art_id: String, caption := "", known := true, silhouette := false) ->
 	_clip.visible = known
 	_photo.art_id = art_id
 	_photo.modulate = Color.BLACK if silhouette else Color.WHITE
+	# No drawing yet: a black box looks broken, and the grey box's label would give the name away.
+	_photo.show_placeholder = not silhouette
 	_caption.text = ("???" if silhouette else caption) if known else ""
 	_layout()
 	return self

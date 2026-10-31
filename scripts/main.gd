@@ -15,6 +15,12 @@ const START_KNOT := "start"
 
 ## Turn off to load the scene without starting the story (used by tests).
 @export var autostart := true
+## Seconds with nothing new happening (while the player is free to act) before
+## the Detective mutters a nudge (the `nudge` knot). 0 = never.
+@export var nudge_after := 25.0
+
+var _idle := 0.0
+var _arrive_fade := ColorRect.new()
 
 var location: Location
 
@@ -39,6 +45,12 @@ func _ready() -> void:
 	hud.map_pressed.connect(_on_map_pressed)
 	hud.camera_pressed.connect(_on_camera_pressed)
 	map_screen.travel_requested.connect(travel_to)
+	GameState.changed.connect(func(): _idle = 0.0)
+	# A quick fade from paper colour when arriving somewhere (under the HUD).
+	_arrive_fade.color = Color(0.96, 0.94, 0.88, 0)
+	_arrive_fade.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_arrive_fade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	location_layer.add_sibling(_arrive_fade)
 	notebook.hold_requested.connect(func(clue_id: String): hold_photo(clue_id))
 	# Muting lasts until the game is closed, even through "Play again".
 	mute_button.set_pressed_no_signal(Audio.is_muted())
@@ -50,6 +62,17 @@ func _ready() -> void:
 		await title_screen.open()
 		go_to(START_LOCATION)
 		Story.run(START_KNOT)
+
+
+func _process(delta: float) -> void:
+	var free := not Story.is_running and not notebook.visible and not map_screen.visible 			and not card_screen.visible and not title_screen.visible and location != null
+	if nudge_after <= 0 or not free:
+		return
+	_idle += delta
+	if _idle >= nudge_after:
+		_idle = 0.0
+		EventLog.log_event("nudge", {"location": GameState.current_location})
+		Story.run("nudge")
 
 
 func travel_to(location_id: String) -> void:
@@ -65,7 +88,14 @@ func _on_hotspot_clicked(hotspot: Hotspot) -> void:
 		Audio.play_sfx(hotspot.sfx)
 		Story.run(hotspot.knot)
 	else:
-		hotspot.play_exchange()
+		hotspot.play_exchange(_detective_says)
+
+
+## The Detective's side of a quick hotspot exchange: the dialogue box, like
+## any other Detective line, so it's clear who's talking.
+func _detective_says(text: String) -> void:
+	await dialogue_box.show_line("Detective", text, [])
+	dialogue_box.hide()
 
 
 func _on_notebook_pressed() -> void:
@@ -141,6 +171,8 @@ func go_to(location_id: String) -> void:
 		location.queue_free()
 	location = load(path).instantiate()
 	location_layer.add_child(location)
+	_arrive_fade.color.a = 1.0
+	create_tween().tween_property(_arrive_fade, "color:a", 0.0, 0.35).set_trans(Tween.TRANS_SINE)
 	location.hotspot_clicked.connect(_on_hotspot_clicked)
 	Audio.play_music(location.music)
 	Audio.play_ambience(location.ambience)

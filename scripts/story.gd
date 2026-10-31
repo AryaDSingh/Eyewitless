@@ -12,7 +12,7 @@ const STORY_FILES: Array[String] = ["res://resources/cases/case_01.story"]
 const COMMANDS: Array[String] = [
 	"card", "goto", "set", "unset", "if", "unlock", "map", "case_open", "case_solve",
 	"clue", "meet", "note", "hint", "blink", "hold_photo", "bubble", "notebook",
-	"log", "wait", "end_game", "sfx", "tool",
+	"log", "wait", "end_game", "sfx", "voice", "tool",
 ]
 const SPEAKER_PATTERN := "^([A-Za-z][A-Za-z0-9_ ]{0,30}):\\s+(.+)$"
 
@@ -207,6 +207,8 @@ func _run_command(command: String, args: String) -> String:
 			EventLog.log_event(args)
 		"sfx":
 			Audio.play_sfx(args)
+		"voice":
+			Audio.play_voice(args)
 		"tool":
 			ui.show_tool(args)
 		"wait":

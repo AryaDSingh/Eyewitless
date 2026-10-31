@@ -28,6 +28,7 @@ func _ready() -> void:
 	for problem in Story.validate():
 		_fail("story: " + problem)
 	main = MAIN_SCENE.instantiate()
+	main.nudge_after = 0.0  # nudges are tested separately below
 	add_child(main)
 	await _play()
 	if failures.is_empty():
@@ -78,11 +79,19 @@ func _play() -> void:
 	await _travel("bar")
 	await _click("Felix")
 	_expect("felix" in GameState.met_characters, "meeting Felix reveals him")
+	await _click("Bartender")
+	await _click("Bartender", true)
+	_expect(main.location.get_hotspot("Bartender")._exchanges == 2, "the bartender has a second joke")
 	_expect(EventLog.has_event("felix_nonsense_branch"), "the 75 kg detour leads back to the pigeon")
 	_expect(GameState.is_location_unlocked("pond"), "Felix unlocks the pond")
 
 	await _travel("pond")
 	_expect(GameState.has_flag("saw_ducks"), "the pond shows the ducks")
+	main.nudge_after = 0.5
+	await get_tree().create_timer(1.0).timeout
+	await _settle()
+	main.nudge_after = 0.0
+	_expect(GameState.has_flag("nudged_ducks"), "standing still at the pond makes the Detective mutter about Felix")
 	await _travel("bar")
 	await _click("Felix")
 	_expect("pigeon_photo" in GameState.found_clues, "Felix gives the pigeon photo")
@@ -146,6 +155,9 @@ func _settle() -> void:
 			await _shot("dialogue_" + main.dialogue_box.get_choice_texts()[0].left(12).validate_filename())
 			main.dialogue_box.choose(_pick_choice(main.dialogue_box.get_choice_texts()))
 		elif main.dialogue_box.visible:
+			if main.dialogue_box._ready_to_advance:
+				_expect(main.dialogue_box._arrow.visible, "the continue arrow shows once a line is typed")
+				await _shot("dialogue_arrow")
 			main.dialogue_box.advance()
 			await _check_layout("dialogue at " + GameState.current_location)
 		elif not Story.is_running:
@@ -270,9 +282,12 @@ func _click(hotspot_name: String, screenshot_bubble := false) -> void:
 		_fail("can't click %s in %s" % [hotspot_name, GameState.current_location])
 		return
 	hotspot.clicked.emit(hotspot)
+	if screenshot_bubble and main.dialogue_box.visible:
+		await get_tree().create_timer(0.5).timeout
+		await _shot("ask_" + hotspot_name)
+	await _settle()  # clicks through the Detective's question, if there is one
 	if screenshot_bubble:
-		var wait := Hotspot.BUBBLE_SECONDS * (1.5 if hotspot.ask != "" else 0.5)
-		await get_tree().create_timer(wait).timeout
+		await get_tree().create_timer(Hotspot.BUBBLE_SECONDS * 0.5).timeout
 		await _shot("bubble_" + hotspot_name)
 	await get_tree().create_timer(Hotspot.BUBBLE_SECONDS * 2.5).timeout
 	await _settle()

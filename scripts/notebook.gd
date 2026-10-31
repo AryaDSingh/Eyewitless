@@ -13,7 +13,7 @@ signal hold_requested(clue_id: String)
 
 enum Tab { CASES, CHARACTERS }
 
-const RESIDENT_WIDTH := 196.0
+const RESIDENT_WIDTH := 158.0
 const CLUE_WIDTH := 150.0
 const STAMP_SOLVED := preload("res://art/ui/stamp_solved.png")
 
@@ -68,6 +68,7 @@ func _ready() -> void:
 	for child in [_prev, _page_label, _next]:
 		_nav.add_child(child)
 	add_child(_nav)
+	move_child(_nav, _zoom.get_index())  # under the zoomed clue, not over it
 	_nav.hide()
 	_zoom.gui_input.connect(func(event: InputEvent):
 		if event is InputEventMouseButton and event.pressed:
@@ -187,15 +188,18 @@ func _paginate() -> void:
 	var gap := _detail.get_theme_constant("separation")
 	var used := 0.0
 	var page := 0
-	for child in _detail.get_children():
-		if child.is_queued_for_deletion():
-			continue
+	var children := _detail.get_children().filter(func(c): return not c.is_queued_for_deletion())
+	for i in children.size():
+		var child: Control = children[i]
 		var height: float = child.size.y
+		# Keep a heading together with what follows it.
+		if child.has_meta("heading") and i + 1 < children.size():
+			height += gap + children[i + 1].size.y
 		if used > 0 and used + height > limit:
 			page += 1
 			used = 0
 		child.set_meta("page", page)
-		used += height + gap
+		used += child.size.y + gap
 	_page_count = page + 1
 	_show_page(clampi(_page, 0, _page_count - 1))
 
@@ -253,8 +257,13 @@ func _build_case_page(case_id: String) -> void:
 	var client := GameState.get_character(case_data.get("client", ""))
 	if not client.is_empty():
 		_add_text("Client: %s" % client.get("name", ""))
-	_add_text(case_data.get("summary", ""))
-	_add_rich("[font_size=40]Clues[/font_size]")
+	# Key points from the client's letter, so players don't have to remember it.
+	var points: Array = case_data.get("letter_points", [])
+	if not points.is_empty():
+		_add_rich("[b]From %s:[/b]" % ("%s's letter" % client.name if not client.is_empty() else "the letter"), true)
+		for point: String in points:
+			_add_text("• " + point)
+	_add_rich("[font_size=40]Clues[/font_size]", true)
 	var grid := GridContainer.new()
 	grid.columns = 3
 	grid.add_theme_constant_override("h_separation", 18)
@@ -281,7 +290,7 @@ func _make_clue_card(clue_id: String) -> Control:
 
 func _build_character_list() -> void:
 	var grid := GridContainer.new()
-	grid.columns = 2
+	grid.columns = 3
 	grid.add_theme_constant_override("h_separation", 16)
 	grid.add_theme_constant_override("v_separation", 16)
 	_list.add_child(grid)
@@ -290,11 +299,14 @@ func _build_character_list() -> void:
 		if not character.get("in_notebook", true):
 			continue
 		var met: bool = character_id in GameState.met_characters
-		# Heard about (someone mentioned them) but not met yet: a silhouette.
-		var heard: bool = not met and not GameState.notes.get(character_id, []).is_empty()
+		# Heard about (someone mentioned them, or "silhouette": true in
+		# characters.json) but not met yet: a silhouette.
+		var heard: bool = not met and (character.get("silhouette", false) 				or not GameState.notes.get(character_id, []).is_empty())
 		if _selected == "" and met:
 			_selected = character_id
-		var polaroid := _make_polaroid(character.get("portrait", ""), character.get("name", character_id), RESIDENT_WIDTH, met or heard, heard)
+		# "silhouette_art": a stand-in shape while the real portrait isn't drawn yet.
+		var art: String = character.get("silhouette_art", character.get("portrait", "")) if heard else character.get("portrait", "")
+		var polaroid := _make_polaroid(art, character.get("name", character_id), RESIDENT_WIDTH, met or heard, heard)
 		polaroid.disabled = not met
 		polaroid.pressed.connect(func():
 			_selected = character_id
@@ -316,7 +328,7 @@ func _build_character_page(character_id: String) -> void:
 	_add_rich("[font_size=52]%s[/font_size]" % character.get("name", character_id))
 	_add_text(character.get("role", ""))
 	_add_text(character.get("description", ""))
-	_add_rich("[font_size=40]What they told you[/font_size]")
+	_add_rich("[font_size=40]What they told you[/font_size]", true)
 	var said: Array = GameState.notes.get(character_id, [])
 	if said.is_empty():
 		_add_text("Nothing yet.")
@@ -371,8 +383,10 @@ func _add_text(text: String) -> void:
 	_detail.add_child(label)
 
 
-func _add_rich(bbcode: String) -> void:
+func _add_rich(bbcode: String, heading := false) -> void:
 	var label := RichTextLabel.new()
+	if heading:
+		label.set_meta("heading", true)
 	label.bbcode_enabled = true
 	label.fit_content = true
 	label.text = bbcode

@@ -39,7 +39,8 @@ offset_bottom = 800.0
 script = ExtResource("3_hotspot")
 art_id = "townie_duck_1"
 placeholder_color = Color(0.95, 0.85, 0.4, 1)
-bubble = "Quack!"
+ask = "|Is there a pigeon in this pond?"
+bubble = "Quack!|Quack. (No.)"
 sfx = "sfx_duck_quack"
 
 [node name="Duck2" type="Control" parent="."]
@@ -51,7 +52,8 @@ offset_bottom = 740.0
 script = ExtResource("3_hotspot")
 art_id = "townie_duck_2"
 placeholder_color = Color(0.95, 0.85, 0.4, 1)
-bubble = "QUACK!"
+ask = "|Are you sure?"
+bubble = "QUACK!|QUACK. (Very sure.)"
 sfx = "sfx_duck_quack"
 
 [node name="Duck3" type="Control" parent="."]
@@ -63,7 +65,7 @@ offset_bottom = 830.0
 script = ExtResource("3_hotspot")
 art_id = "townie_duck_3"
 placeholder_color = Color(0.95, 0.85, 0.4, 1)
-bubble = "Quack?"
+bubble = "Quack?|*stares at you judgementally*"
 sfx = "sfx_duck_quack"
 
 [node name="Duck4" type="Control" parent="."]
@@ -75,5 +77,5 @@ offset_bottom = 860.0
 script = ExtResource("3_hotspot")
 art_id = "townie_duck_4"
 placeholder_color = Color(0.9, 0.85, 0.5, 1)
-bubble = "Quack."
+bubble = "Quack.|*paddles away from the question*"
 sfx = "sfx_duck_quack"

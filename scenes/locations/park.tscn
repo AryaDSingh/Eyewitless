@@ -52,19 +52,6 @@ art_id = "townie_marwan"
 placeholder_color = Color(0.75, 0.7, 0.85, 1)
 knot = "marwan_talk"
 
-[node name="Walker3" type="Control" parent="."]
-layout_mode = 0
-offset_left = 1560.0
-offset_top = 390.0
-offset_right = 1780.0
-offset_bottom = 910.0
-script = ExtResource("3_hotspot")
-art_id = "townie_dog_walker_3"
-placeholder_color = Color(0.75, 0.7, 0.85, 1)
-ask = "Are you Alex?"
-bubble = "WOOF! WOOF!"
-sfx = "sfx_dog_bark"
-
 [node name="Alex" type="Control" parent="."]
 layout_mode = 0
 offset_left = 1040.0
@@ -85,5 +72,6 @@ offset_bottom = 1020.0
 script = ExtResource("3_hotspot")
 art_id = "prop_alex_dogs"
 placeholder_color = Color(0.8, 0.65, 0.5, 1)
-bubble = "Woof!"
+ask = "|Who's a good witness?|Did you see a pigeon?|Sit!"
+bubble = "Woof!|WOOF!|*chases own tail*|*all five sit on Alex*"
 sfx = "sfx_dog_bark"

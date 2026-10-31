@@ -2,7 +2,11 @@
   "id": "case_01",
   "title": "The Scarf Incident",
   "client": "arya",
-  "summary": "A pigeon pooped on Arya's favourite scarf. Find that pigeon!",
+  "letter_points": [
+    "A pigeon pooped on Arya's favourite scarf, in broad daylight, in front of everyone.",
+    "Arya's photo of it is blurry.",
+    "Pigeons are hard to tell apart."
+  ],
   "clues": {
     "blurry_photo": {
       "text": "Arya's blurry photo of the incident.",

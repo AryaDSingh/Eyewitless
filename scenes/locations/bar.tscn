@@ -39,8 +39,8 @@ offset_bottom = 890.0
 script = ExtResource("3_hotspot")
 art_id = "townie_bartender"
 placeholder_color = Color(0.75, 0.7, 0.85, 1)
-ask = "Seen any pigeons?"
-bubble = "Only in my soup."
+ask = "Seen any pigeons?|…In your soup?|What's good here?|Is Felix always like this?"
+bubble = "Only in my soup.|Kidding. It's chicken. Probably.|The door.|Only when he's awake."
 
 [node name="Felix" type="Control" parent="."]
 layout_mode = 0
