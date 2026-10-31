@@ -1,0 +1,117 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/card_screen.gd" id="1_card"]
+[ext_resource type="Script" path="res://scripts/placeholder_art.gd" id="2_art"]
+[ext_resource type="Script" path="res://scripts/polaroid.gd" id="3_polaroid"]
+
+[node name="CardScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_card")
+
+[node name="Paper" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.96, 0.94, 0.88, 1)
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Column" type="VBoxContainer" parent="Center"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 36
+
+[node name="ArtClip" type="Control" parent="Center/Column"]
+unique_name_in_owner = true
+clip_contents = true
+custom_minimum_size = Vector2(1200, 620)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+
+[node name="Art" type="Control" parent="Center/Column/ArtClip"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("2_art")
+
+[node name="LetterText" type="RichTextLabel" parent="Center/Column/ArtClip/Art"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 110.0
+offset_top = 90.0
+offset_right = -110.0
+offset_bottom = -90.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_colors/default_color = Color(0.15, 0.13, 0.12, 1)
+bbcode_enabled = true
+text = "Letter text"
+scroll_active = false
+
+[node name="Pinned" type="Control" parent="Center/Column/ArtClip/Art"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -430.0
+offset_top = 100.0
+offset_right = -130.0
+offset_bottom = 450.0
+grow_horizontal = 0
+rotation = 0.05
+script = ExtResource("3_polaroid")
+
+[node name="PhotoCard" type="Control" parent="Center/Column/ArtClip"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_polaroid")
+
+[node name="Text" type="Label" parent="Center/Column"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(1400, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Card text"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Button" type="Button" parent="Center/Column"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 80)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 40
+text = "Next"

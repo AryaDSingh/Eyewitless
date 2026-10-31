@@ -1,0 +1,79 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/location.gd" id="1_location"]
+[ext_resource type="Script" path="res://scripts/placeholder_art.gd" id="2_art"]
+[ext_resource type="Script" path="res://scripts/hotspot.gd" id="3_hotspot"]
+
+[node name="Pond" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_location")
+location_id = "pond"
+display_name = "Pond"
+on_enter_knot = "pond_enter"
+
+[node name="Background" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("2_art")
+art_id = "bg_pond"
+placeholder_color = Color(0.6, 0.78, 0.85, 1)
+cover = true
+
+[node name="Duck1" type="Control" parent="."]
+layout_mode = 0
+offset_left = 520.0
+offset_top = 620.0
+offset_right = 720.0
+offset_bottom = 800.0
+script = ExtResource("3_hotspot")
+art_id = "townie_duck_1"
+placeholder_color = Color(0.95, 0.85, 0.4, 1)
+bubble = "Quack!"
+sfx = "sfx_duck_quack"
+
+[node name="Duck2" type="Control" parent="."]
+layout_mode = 0
+offset_left = 900.0
+offset_top = 560.0
+offset_right = 1100.0
+offset_bottom = 740.0
+script = ExtResource("3_hotspot")
+art_id = "townie_duck_2"
+placeholder_color = Color(0.95, 0.85, 0.4, 1)
+bubble = "QUACK!"
+sfx = "sfx_duck_quack"
+
+[node name="Duck3" type="Control" parent="."]
+layout_mode = 0
+offset_left = 1280.0
+offset_top = 650.0
+offset_right = 1480.0
+offset_bottom = 830.0
+script = ExtResource("3_hotspot")
+art_id = "townie_duck_3"
+placeholder_color = Color(0.95, 0.85, 0.4, 1)
+bubble = "Quack?"
+sfx = "sfx_duck_quack"
+
+[node name="Duck4" type="Control" parent="."]
+layout_mode = 0
+offset_left = 1560.0
+offset_top = 700.0
+offset_right = 1800.0
+offset_bottom = 860.0
+script = ExtResource("3_hotspot")
+art_id = "townie_duck_4"
+placeholder_color = Color(0.9, 0.85, 0.5, 1)
+bubble = "Quack."
+sfx = "sfx_duck_quack"

@@ -1,0 +1,54 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/location.gd" id="1_location"]
+[ext_resource type="Script" path="res://scripts/placeholder_art.gd" id="2_art"]
+[ext_resource type="Script" path="res://scripts/hotspot.gd" id="3_hotspot"]
+
+[node name="Bar" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_location")
+location_id = "bar"
+display_name = "Bar"
+ambience = "amb_bar"
+
+[node name="Background" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("2_art")
+art_id = "bg_bar"
+placeholder_color = Color(0.6, 0.5, 0.45, 1)
+cover = true
+
+[node name="Bartender" type="Control" parent="."]
+layout_mode = 0
+offset_left = 260.0
+offset_top = 330.0
+offset_right = 500.0
+offset_bottom = 890.0
+script = ExtResource("3_hotspot")
+art_id = "townie_bartender"
+placeholder_color = Color(0.75, 0.7, 0.85, 1)
+ask = "Seen any pigeons?"
+bubble = "Only in my soup."
+
+[node name="Felix" type="Control" parent="."]
+layout_mode = 0
+offset_left = 900.0
+offset_top = 300.0
+offset_right = 1280.0
+offset_bottom = 920.0
+script = ExtResource("3_hotspot")
+art_id = "townie_felix"
+placeholder_color = Color(0.86, 0.68, 0.72, 1)
+knot = "felix_talk"

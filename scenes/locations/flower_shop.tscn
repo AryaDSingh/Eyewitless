@@ -1,0 +1,54 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/location.gd" id="1_location"]
+[ext_resource type="Script" path="res://scripts/placeholder_art.gd" id="2_art"]
+[ext_resource type="Script" path="res://scripts/hotspot.gd" id="3_hotspot"]
+
+[node name="FlowerShop" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_location")
+location_id = "flower_shop"
+display_name = "Flower Shop"
+
+[node name="Background" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("2_art")
+art_id = "bg_flower_shop"
+placeholder_color = Color(0.86, 0.9, 0.78, 1)
+cover = true
+
+[node name="Arya" type="Control" parent="."]
+layout_mode = 0
+offset_left = 840.0
+offset_top = 330.0
+offset_right = 1120.0
+offset_bottom = 930.0
+script = ExtResource("3_hotspot")
+art_id = "townie_arya"
+placeholder_color = Color(0.86, 0.68, 0.72, 1)
+knot = "arya_talk"
+
+[node name="Pigeon" type="Control" parent="."]
+layout_mode = 0
+offset_left = 1150.0
+offset_top = 650.0
+offset_right = 1390.0
+offset_bottom = 930.0
+script = ExtResource("3_hotspot")
+art_id = "companion_pigeon"
+placeholder_color = Color(0.62, 0.68, 0.78, 1)
+show_if_flag = "pigeon_caught"
+bubble = "Coo, guv."
+sfx = "sfx_pigeon_coo"
