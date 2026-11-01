@@ -31,7 +31,6 @@
     "description": "Walks his pets at the park. Insists they're capybaras.",
     "portrait": "portrait_marwan",
     "full_body": "marwan_standing",
-    "silhouette": true,
     "silhouette_art": "marwan_silhouette",
     "location": "park"
   },
@@ -41,7 +40,6 @@
     "description": "Walks two cats on leads at the park. Is definitely not Alex.",
     "portrait": "portrait_sam",
     "full_body": "townie_dog_walker_1",
-    "silhouette": true,
     "location": "park"
   },
   "felix": {

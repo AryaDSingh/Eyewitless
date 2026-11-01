@@ -510,7 +510,8 @@ Bigger changes:
   `scripts/event_log.gd`: the Drive upload.
 
 Characters can now set `"silhouette": true` (shown as a silhouette from the
-start), `"silhouette_art"` (a stand-in shape) and `"location"` (for map stickers).
+start; nobody uses it now, so residents stay "?" until met or mentioned),
+`"silhouette_art"` (a stand-in shape) and `"location"` (for map stickers).
 Hotspot `ask` / `bubble` take several lines split by `|`.
 
 **Playtest logs:** `tools/playtest_upload.gs` (Google Apps Script) and
@@ -648,3 +649,7 @@ Not in `builds/eyewitless_web.zip` until the next build.
   title screen's Settings opens the same sheet.
 - **Notebook:** clicking a case quickly no longer flashes the clue photos from
   page 2.
+- **Map:** "you are here" is bigger and in the red pen colour, with a paper
+  halo, so it reads over the map lines.
+- **Residents:** Marwan and Sam no longer show as silhouettes from the start;
+  like everyone else they stay "?" until met (or mentioned).

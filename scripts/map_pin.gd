@@ -48,10 +48,10 @@ func _ready() -> void:
 	Tape.stick(self)
 	_here.text = "you are here"
 	_here.add_theme_font_override("font", NAME_FONT)
-	_here.add_theme_font_size_override("font_size", 28)
-	_here.add_theme_color_override("font_color", INK)
+	_here.add_theme_font_size_override("font_size", 36)
+	_here.add_theme_color_override("font_color", INK_RED)
 	_here.add_theme_color_override("font_outline_color", PAPER)
-	_here.add_theme_constant_override("outline_size", 8)
+	_here.add_theme_constant_override("outline_size", 14)
 	_here.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_here.hide()
 	add_child(_here)
