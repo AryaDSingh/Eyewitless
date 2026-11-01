@@ -54,6 +54,7 @@ the line and its choices.
 | `~ end_game` | Shows the end screens and saves the playtest log. |
 | `~ sfx sound_name` | Plays a sound from `audio/` (see docs/AUDIO_LIST.md). A new sound cuts off the last one. |
 | `~ voice voice_pigeon_deal` | Plays a recorded line; put it on the line before the dialogue it reads. Clicking on stops it. |
+| `~ viewfinder` | Looks through the camera until the player clicks (Arya's gift). |
 | `~ tool notebook` | Shows a HUD tool: `notebook`, `map`, `camera`, or `pigeon` (the companion). They start hidden. |
 
 ### Card options
@@ -66,7 +67,7 @@ Add words after the button text, separated by spaces:
 | `hand=town` / `hand=arya` | Whose handwriting the letter is in. Cursive bits go in the text: `[font=res://ui/fonts/DancingScript-Regular.ttf]…[/font]`. |
 | `seal` | A red town stamp near the bottom of the letter. |
 | `framed` / `grow` | The picture is a photo in a white frame / it grows in from small. |
-| `photo=clue_blurry_photo` | Pins a small photo on a letter. |
+| `photo=clue_torn_left` | Pins a small photo on a letter. |
 | `click` | No button: the player clicks the picture (leave the button text empty). |
 | `unroll` | The picture unrolls from the top. |
 | `pop` | The picture pops in. |

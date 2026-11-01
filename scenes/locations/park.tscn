@@ -38,7 +38,7 @@ offset_bottom = 734.0
 script = ExtResource("3_hotspot")
 art_id = "townie_dog_walker_1"
 placeholder_color = Color(0.75, 0.7, 0.85, 1)
-knot = "sam_talk"
+knot = "regina_talk"
 
 [node name="Marwan" type="Control" parent="."]
 layout_mode = 0

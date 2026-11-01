@@ -33,6 +33,7 @@ var location: Location
 @onready var title_screen: TitleScreen = %TitleScreen
 @onready var options_button: Button = %OptionsButton
 var options := OptionsPanel.new()
+var viewfinder := Viewfinder.new()
 
 
 func _ready() -> void:
@@ -64,6 +65,7 @@ func _ready() -> void:
 	options_button.pressed.connect(func():
 		if Audio.try_click(options_button):
 			options.open())
+	add_child(viewfinder)
 	add_child(options)  # last, so it's on top of everything
 	title_screen.settings_pressed.connect(options.open)
 	if autostart:
@@ -73,7 +75,7 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	var free := not Story.is_running and not notebook.visible and not map_screen.visible 			and not card_screen.visible and not title_screen.visible and not options.visible and location != null
+	var free := not Story.is_running and not notebook.visible and not map_screen.visible 			and not card_screen.visible and not title_screen.visible and not options.visible and not viewfinder.visible and location != null
 	if nudge_after <= 0 or not free:
 		return
 	_idle += delta
@@ -120,6 +122,13 @@ func _on_camera_pressed() -> void:
 	# shortcut: the camera does nothing yet; it gets its own system in Case 2.
 	EventLog.log_event("camera_pressed")
 	hud.wiggle("camera")
+
+
+## Looks through the camera until the player lowers it.
+func look_through_camera() -> void:
+	dialogue_box.hide()
+	viewfinder.open()
+	await viewfinder.closed
 
 
 func _on_story_started() -> void:

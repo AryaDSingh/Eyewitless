@@ -653,3 +653,27 @@ Not in `builds/eyewitless_web.zip` until the next build.
   halo, so it reads over the map lines.
 - **Residents:** Marwan and Sam no longer show as silhouettes from the start;
   like everyone else they stay "?" until met (or mentioned).
+- **Camera viewfinder** (`art/ui/camera_viewfinder.png`, `scripts/viewfinder.gd`):
+  when Arya gives the camera, the Detective looks through Samantha's
+  viewfinder over the flower shop (click or Esc to lower it; story command
+  `~ viewfinder`). The camera icon itself still only wiggles. The date reads '00 13 32, 25:61, a date that
+  can't exist. No photos yet (Case 2).
+- **Torn photo (script V02):** the blurry photo is now a photo torn in two.
+  Arya's letter has the left half pinned on (`clue_torn_left`, clue
+  `arya_half_photo`); Alex gives the right half with Felix circled
+  (`clue_torn_right`, clue `felix_in_photo`, caption "Alex's half of the
+  photo."). Torn photos show without the white frame. The old
+  `clue_blurry_photo` art is removed.
+- **Script V02 lines:** Arya's letter adds "I paid $5 for it at the flea
+  market!!!" and "Well, half a photo, to be precise. It got torn in the chaos.
+  Everything happened so fast…". Arya: "Find Alex; they took the photo." Alex:
+  "Yeah, this is the other half of the photo. Look, Felix is right there!" /
+  "Anyway, I don't know anything about the pigeon. You can ask Felix; he's got
+  a photo of the pigeon." (the script says "he has the rest of the photo", but
+  the two halves are the whole photo, and Felix's is of the pigeon). Detective
+  to Felix: "You have a photo of it; where is it?". Notes, clue texts, the
+  letter key points and Alex's description match.
+- **Sam is now Regina** (the cat walker, script V02): `regina` in
+  characters.json, `portrait_regina`, knot `regina_talk`.
+- **Tape on the torn halves:** each half has a strip of tape across the middle
+  of its top paper edge (found from the picture, `scripts/polaroid.gd`).

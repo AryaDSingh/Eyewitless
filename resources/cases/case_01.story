@@ -14,7 +14,7 @@
 ~ card envelope | | | click pop
 ~ sfx sfx_envelope_open
 ~ card welcome_letter | [font=res://ui/fonts/MrsSaintDelafield-Regular.ttf][font_size=58]Dear Detective,[/font_size][/font]\nWelcome to [b]Muddleford[/b], where everyone knows everyone… or thinks they do.\nWitnesses here have [b]questionable memories[/b]. Ask [b]questions[/b], collect [b]evidence[/b], and keep your [b]notebook[/b] handy.\nOne last thing: [b]keep an eye on the time[/b]. Muddleford gets strange [b]after dark[/b].\nGood luck. You'll need it.\n[font=res://ui/fonts/MrsSaintDelafield-Regular.ttf][font_size=64]The people of Muddleford[/font_size][/font] | NEXT | letter unroll hand=town seal
-~ card arya_letter | [font=res://ui/fonts/DancingScript-Regular.ttf][font_size=44]Dear Detective,[/font_size][/font]\nI need your help. Immediately. A pigeon pooped on my favourite scarf. MY FAVOURITE SCARF! Do you have any idea how hard it is to find a scarf that looks this good? And what do I get in return? A pigeon attack. In broad daylight. In front of everyone!\nThere is a photo of the incident, but it's a little blurry. Still, look at it! That bird is out there somewhere, probably ruining someone else's day. Find that pigeon! I refuse to let this feathered criminal get away with it.\nP.S. I've heard pigeons are surprisingly difficult to tell apart. I hope you can find the right one.\n\n[font=res://ui/fonts/DancingScript-Regular.ttf][font_size=56]Arya[/font_size][/font]\nthe owner of one now deeply unfortunate scarf | NEXT | letter unroll hand=arya photo=clue_blurry_photo
+~ card arya_letter | [font=res://ui/fonts/DancingScript-Regular.ttf][font_size=44]Dear Detective,[/font_size][/font]\nI need your help. Immediately. A pigeon pooped on my favourite scarf. MY FAVOURITE SCARF! Do you have any idea how hard it is to find a scarf that looks this good? I paid $5 for it at the flea market!!!\nAnd what do I get in return? A pigeon attack. In broad daylight. In front of everyone!\nThere is a photo of the incident. Well, half a photo, to be precise. It got torn in the chaos. Everything happened so fast… That bird is out there somewhere, probably ruining someone else's day. Find that pigeon! I refuse to let this feathered criminal get away with it.\nP.S. I've heard pigeons are surprisingly difficult to tell apart. I hope you can find the right one.\n\n[font=res://ui/fonts/DancingScript-Regular.ttf][font_size=56]Arya[/font_size][/font]\nthe owner of one now deeply unfortunate scarf | NEXT | letter unroll hand=arya photo=clue_torn_left
 -> first_case
 
 
@@ -26,7 +26,7 @@ Detective: [i]Really? Is this my first case? Anyway, I should keep the photo.[/i
 
 === notebook_intro
 ~ case_open case_01
-~ clue blurry_photo
+~ clue arya_half_photo
 ~ tool notebook
 ~ tool map
 ~ notebook case_01
@@ -61,18 +61,18 @@ Arya_mad: Help me find that pigeon!
 * How can I? I am new here, and your photo doesn't help at all. -> arya_alex
 
 === arya_alex
-Arya_mad: Find Alex; they took another photo. They were with Felix when everything happened. It was my favourite scarf. What am I gonna do now? Find that pigeon!
+Arya_mad: Find Alex; they took the photo. They were with Felix when everything happened. It was my favourite scarf. What am I gonna do now? Find that pigeon!
 * I don't know either of them. How can I find them? -> arya_park
 
 === arya_park
 ~ note felix | Arya says he was there when it happened.
-~ note arya | Says Alex took another photo, and was with Felix when it happened.
+~ note arya | Says Alex took the photo, and was with Felix when it happened.
 Arya_mad: Talk with Alex; I think they are walking their dogs at the park.
 * FIND ALEX -> arya_send_off
 
 === arya_send_off
 ~ note arya | Says Alex is walking their dogs at the park.
-~ note alex | Arya says they took another photo, and walk their dogs at the park.
+~ note alex | Arya says they took the photo, and walk their dogs at the park.
 ~ notebook arya
 ~ unlock park
 ~ set find_alex
@@ -86,18 +86,18 @@ Arya: Find that pigeon!
 
 
 # --- Scenes 6-9: the park, finding Alex --------------------------------------
-# Sam (the cat walker, "NO!"), Marwan and Alex are hotspots in
+# Regina (the cat walker, "NO!"), Marwan and Alex are hotspots in
 # scenes/locations/park.tscn.
 
-=== sam_talk
-~ meet sam
+=== regina_talk
+~ meet regina
 Detective: Are you Alex?
 ~ bubble Walker1 | NO!
-~ if sam_noted -> sam_done
-~ set sam_noted
-~ note sam | Not Alex. Very sure about that.
+~ if regina_noted -> regina_done
+~ set regina_noted
+~ note regina | Not Alex. Very sure about that.
 
-=== sam_done
+=== regina_done
 
 === marwan_talk
 ~ meet marwan
@@ -115,11 +115,12 @@ Alex: Who are you?
 Detective: I am helping Arya find the pigeon that pooped on his scarf.
 Alex: OK.
 Detective: He told me you took a photo of it.
-Alex: Yeah, but I don't know anything about the pigeons. You can ask Felix; he was there too. I gave him the photo.
-~ note alex | Doesn't know anything about the pigeons. Says Felix was there too, and they gave him the photo.
-~ card clue_blurry_photo_felix | Alex: "Felix!" | NEXT | framed grow
+Alex: Yeah, this is the other half of the photo. Look, Felix is right there!
+~ card clue_torn_right | Alex's half of the photo. | NEXT | framed grow
 ~ clue felix_in_photo
-~ note felix | He's in the blurry photo, right behind Arya.
+~ note felix | He's in Alex's half of the photo, pointing at Arya.
+Alex: Anyway, I don't know anything about the pigeon. You can ask Felix; he's got a photo of the pigeon.
+~ note alex | Gave you their half of the photo. Says Felix has a photo of the pigeon.
 Detective: Where is he?
 Alex: If it's 11 am, probably getting drunk at the bar!
 ~ note alex | Says Felix is probably at the bar at 11 am.
@@ -154,7 +155,7 @@ Felix: Hmmm, you need to eat healthy. Do you exercise? I exercise; pigeons fly.
 * Anyway, back to pigeons -> felix_pond
 
 === felix_pond
-Detective: Alex gave you a photo of it; where is it?
+Detective: You have a photo of it; where is it?
 Felix: The photo? *hic* I don't remember; the pigeon spying in the park… Mhh, no, it was in the pond!
 ~ note felix | Says the pigeon was at the pond.
 ~ set pond_lead
@@ -230,6 +231,7 @@ Arya: HA! That'll teach you to mess with my scarf, you feathered menace! Oh, Det
 ~ tool camera
 ~ card camera_intro | | NEXT | pop
 Arya: You can explore the town and take photos of the clues with it. (And if a pigeon looks suspicious, get its good side, for the wanted poster!)
+~ viewfinder
 Detective: Thanks! Now what do we do with the pigeon?
 Arya: Let's send the pigeon to pigeon prison.
 ~ card pigeon_prison | | NEXT | pop

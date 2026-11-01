@@ -60,7 +60,7 @@ func _play() -> void:
 	_expect(not Audio.is_muted(), "Sound: on unmutes it")
 	main.options.close()
 	_expect(GameState.current_location == "office", "stays in the office after the letters")
-	_expect("blurry_photo" in GameState.found_clues, "blurry photo added automatically")
+	_expect("arya_half_photo" in GameState.found_clues, "Arya's half of the photo is added automatically")
 	_expect(not GameState.is_location_unlocked("park"), "only the flower shop is open at first")
 	main.nudge_after = 0.5
 	await get_tree().create_timer(1.0).timeout
@@ -91,6 +91,8 @@ func _play() -> void:
 	main.notebook.open("case_01")
 	await _shot("notebook_case")
 	await _check_no_page_flash()
+	main.notebook._show_page(main.notebook._page_count - 1)
+	await _shot("notebook_case_clues")
 	main.notebook.view_clue("felix_in_photo")
 	await _shot("notebook_clue_zoom")
 	main.notebook.close()
@@ -98,8 +100,8 @@ func _play() -> void:
 	await _check_notebook_fits("Alex's page")
 	await _shot("notebook_residents")
 	main.notebook.close()
-	main.notebook.open("sam")
-	await _check_notebook_fits("Sam's page")
+	main.notebook.open("regina")
+	await _check_notebook_fits("Regina's page")
 	main.notebook.close()
 
 	await _travel("bar")
@@ -152,6 +154,7 @@ func _play() -> void:
 	await _click("ScarfPigeon")
 	_expect("case_01" in GameState.solved_cases, "the right pigeon solves the case")
 	_expect(main.hud.is_tool_shown("camera"), "Arya's gift unlocks the camera")
+	_expect(EventLog.has_event("camera_opened"), "Arya's gift shows the viewfinder")
 	_expect(main.hud.is_tool_shown("pigeon"), "the pigeon joins as a companion")
 	_expect(EventLog.has_event("game_end"), "the game reaches the end screen")
 
@@ -172,6 +175,12 @@ func _settle() -> void:
 			await _check_layout("card " + main.card_screen.get_node("%Art").art_id)
 			await _shot("card_" + main.card_screen.get_node("%Art").art_id)
 			main.card_screen.press()
+		elif main.viewfinder.visible:
+			await _check_layout("viewfinder")
+			if screenshot_dir != "":
+				await get_tree().create_timer(1.0).timeout  # let it fade in
+			await _shot("viewfinder")
+			main.viewfinder.close()
 		elif main.notebook.visible:
 			await _check_layout("notebook")
 			if screenshot_dir != "":

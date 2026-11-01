@@ -17,7 +17,7 @@ art, save a **PNG** with exactly that name into the `art/` folder (for example
 | Name | What it shows |
 |---|---|
 | `envelope` | Hand holding an envelope "To Detective" (the player clicks it) |
-| `clue_blurry_photo_felix` | Also used as a card: the blurry photo zooming in on Felix |
+| `clue_torn_right` | Also used as a card: Alex's half of the photo, Felix circled |
 | `clue_pigeon_photo` | Also used as a card: Felix's photo of the pigeon |
 | `pigeon_omg` | The pigeon caught: "O.M.G.!!" |
 | `pigeon_closeup` | Close-up of the pigeon, wide-eyed and sweating |
@@ -34,7 +34,7 @@ wording can change without redrawing.
 | Name | What it shows |
 |---|---|
 | `welcome_letter` | Welcome letter paper (it unrolls). Samantha's paper is portrait-shaped; the game writes the text inside whatever shape is drawn |
-| `arya_letter` | Arya's letter paper. The game pins the blurry photo (`clue_blurry_photo`) over the paper's right edge |
+| `arya_letter` | Arya's letter paper. The game pins Arya's half of the photo (`clue_torn_left`) over the paper's right edge |
 
 ## Title screen — 1920×1080
 `title_screen`: background behind the EYEWITLESS title and the START / Settings buttons.
@@ -58,7 +58,7 @@ wording can change without redrawing.
 |---|---|---|
 | `townie_arya` | 280×600 | Flower shop |
 | `townie_alex` | 800×575 | Park. Alex tangled in the leads of their **5** dogs (one picture; the dogs have their own invisible click spot) |
-| `townie_dog_walker_1` | 490×390 | Sam, the cat walker ("NO!") |
+| `townie_dog_walker_1` | 490×390 | Regina, the cat walker ("NO!") |
 | `townie_marwan` | 220×520 | Marwan with his 2 "capybaras" (Patagonian maras) |
 | `townie_felix` | 260×560 | Bar (drunk) |
 | `townie_felix_sober` | 260×560 | Bar, after the pond |
@@ -72,10 +72,10 @@ wording can change without redrawing.
 ## Portraits in the dialogue box and notebook — 300×300
 `portrait_arya`, `portrait_alex`, `portrait_marwan`, `portrait_felix`, `portrait_pigeon`
 
-Plus `portrait_arya_mad` (first talk) and `portrait_sam`.
+Plus `portrait_arya_mad` (first talk) and `portrait_regina`.
 
 Full-body drawings on the notebook pages (`full_body` in `resources/characters.json`):
-`townie_arya`, `alex_standing`, `marwan_standing`, `townie_felix`, `townie_dog_walker_1` (Sam), `companion_pigeon`.
+`townie_arya`, `alex_standing`, `marwan_standing`, `townie_felix`, `townie_dog_walker_1` (Regina), `companion_pigeon`.
 
 Silhouettes (black shapes in the notebook before you meet someone) come from the portrait;
 `marwan_silhouette` is filled in by hand because his portrait is outline-only.
@@ -83,8 +83,8 @@ Silhouettes (black shapes in the notebook before you meet someone) come from the
 ## Clue photos (notebook) — 4:3, e.g. 1100×825
 | Name | What it shows |
 |---|---|
-| `clue_blurry_photo` | Arya's blurry photo of the scarf moment |
-| `clue_blurry_photo_felix` | Same photo with Felix, small, behind Arya |
+| `clue_torn_left` | Arya's half of the torn photo (Samantha's `photo-left`) |
+| `clue_torn_right` | Alex's half (`photo-right`), Felix circled in red. `clue_torn_*` photos show without the white frame |
 | `clue_pigeon_photo` | Felix's photo of the culprit pigeon |
 
 ## UI art (Ruby, Option 2) — in `art/ui/`
@@ -101,6 +101,7 @@ These are already in the game. To change one, save over the file with the same n
 | `dialogue_arrow` | The "→" in the bottom right, cut out of the box art so it can nudge when a line is done. Leave it off new box pictures |
 | `bubble_speech_left`, `bubble_shout` | Bubbles over people for their replies; shout = all-caps lines like "NO!". (The Detective's questions use the dialogue box, so `bubble_speech_right` is not used.) |
 | `icon_notebook`, `icon_map`, `icon_camera` + `icon_bg`, `_new`, `_highlight` | HUD icons. `_new` until first clicked, `_highlight` when something new is inside |
+| `camera_viewfinder` | Looking through the camera (1920×1080, transparent middle). Date changed to an impossible one |
 | `pin_*` + `pin_box_*` (goto, unlocked, visited, locked) | Not used any more: the map now uses taped paper name labels drawn by the game |
 | `photo_frame`, `photo_frame_unknown` | Residents and clue photos in the notebook; "?" for people not met yet |
 | `stamp_solved` | SOLVED stamp on a solved case (also `art/case_solved.png`, the end card) |
@@ -115,12 +116,12 @@ Letters are handwritten: Kalam (the town's neat hand), Caveat (Arya's scribble),
 ## Character art in the game (Samantha)
 Cut out of the sheets in the team Drive, one figure per file:
 `townie_arya`, `portrait_arya`, `townie_felix`, `portrait_felix`, `townie_marwan`, `portrait_marwan`,
-`townie_dog_walker_1` (Sam the cat walker), `townie_duck_1` … `_4`, `plaza_pigeon_*` (the crowd as
+`townie_dog_walker_1` (Regina the cat walker), `townie_duck_1` … `_4`, `plaza_pigeon_*` (the crowd as
 separate pigeons), `townie_arya_mad`, `townie_alex`, `alex_standing`, `marwan_standing`,
-`townie_felix_sober`, `map_bg`, the letter paper, `portrait_alex`, `portrait_sam` and `portrait_arya_mad`
+`townie_felix_sober`, `map_bg`, the letter paper, `portrait_alex`, `portrait_regina` and `portrait_arya_mad`
 (cut from the figures), THE Pigeon as `townie_pigeon_7` (source of `pigeon_omg`), `clue_pigeon_photo`, `portrait_pigeon`, `companion_pigeon`, `pigeon_omg`,
 `pigeon_closeup`, `pigeon_cries`, plus `envelope`, `pigeon_prison`, `notebook_book` (notebook background,
-pages filled in white) and `clue_blurry_photo` / `_felix` (the incident drawing, blurred, Felix circled).
+pages filled in white) and `clue_torn_left` / `_right` (the torn photo halves, Felix circled).
 
 Not used any more: `plaza_pigeons` (the old one-picture crowd), `prop_alex_dogs`.
 Not used (yet): `photo-left` / `photo-right` (torn photo halves, dropped for this prototype).

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ds4kvq2eve1lh"
-path="res://.godot/imported/clue_blurry_photo_felix.png-9aa8f83ca78a233bebca36c50940db3b.ctex"
+uid="uid://lxivgyp2bxhr"
+path="res://.godot/imported/clue_torn_left.png-cc7ae57de05195dbdab6da680ccc1764.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/clue_blurry_photo_felix.png"
-dest_files=["res://.godot/imported/clue_blurry_photo_felix.png-9aa8f83ca78a233bebca36c50940db3b.ctex"]
+source_file="res://art/clue_torn_left.png"
+dest_files=["res://.godot/imported/clue_torn_left.png-cc7ae57de05195dbdab6da680ccc1764.ctex"]
 
 [params]
 

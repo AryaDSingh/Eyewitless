@@ -12,7 +12,7 @@ const STORY_FILES: Array[String] = ["res://resources/cases/case_01.story"]
 const COMMANDS: Array[String] = [
 	"card", "goto", "set", "unset", "if", "unlock", "map", "case_open", "case_solve",
 	"clue", "meet", "note", "hint", "blink", "hold_photo", "bubble", "notebook",
-	"log", "wait", "end_game", "sfx", "voice", "tool",
+	"log", "wait", "end_game", "sfx", "voice", "tool", "viewfinder",
 ]
 const SPEAKER_PATTERN := "^([A-Za-z][A-Za-z0-9_ ]{0,30}):\\s+(.+)$"
 
@@ -197,6 +197,8 @@ func _run_command(command: String, args: String) -> String:
 			ui.blink(args)
 		"hold_photo":
 			ui.hold_photo(args)
+		"viewfinder":
+			await ui.look_through_camera()
 		"bubble":
 			var parts := _split_args(args, 2)
 			await ui.show_bubble(parts[0], parts[1])

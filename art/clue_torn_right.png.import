@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cumo0o856dxs8"
-path="res://.godot/imported/portrait_sam.png-6a9d42135a0332e7ee2a384d75f5b58a.ctex"
+uid="uid://48udhr8o650b"
+path="res://.godot/imported/clue_torn_right.png-2dcb04f22de9c88bb46f6ce761089ddc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/portrait_sam.png"
-dest_files=["res://.godot/imported/portrait_sam.png-6a9d42135a0332e7ee2a384d75f5b58a.ctex"]
+source_file="res://art/clue_torn_right.png"
+dest_files=["res://.godot/imported/clue_torn_right.png-2dcb04f22de9c88bb46f6ce761089ddc.ctex"]
 
 [params]
 

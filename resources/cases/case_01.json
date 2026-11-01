@@ -3,18 +3,18 @@
   "title": "The Scarf Incident",
   "client": "arya",
   "letter_points": [
-    "A pigeon pooped on Arya's favourite scarf, in broad daylight, in front of everyone.",
-    "Arya's photo of it is blurry.",
+    "A pigeon pooped on Arya's favourite scarf ($5, flea market), in broad daylight, in front of everyone.",
+    "Arya only has half a photo of it; it got torn in the chaos.",
     "Pigeons are hard to tell apart."
   ],
   "clues": {
-    "blurry_photo": {
-      "text": "Arya's blurry photo of the incident.",
-      "image": "clue_blurry_photo"
+    "arya_half_photo": {
+      "text": "Arya's half of a torn photo of the incident.",
+      "image": "clue_torn_left"
     },
     "felix_in_photo": {
-      "text": "Alex spotted Felix in the photo, right behind Arya.",
-      "image": "clue_blurry_photo_felix"
+      "text": "Alex's half of the photo. Felix is right there, pointing at Arya.",
+      "image": "clue_torn_right"
     },
     "pigeon_photo": {
       "text": "Felix's photo of the pigeon. Find this pigeon at the plaza!",

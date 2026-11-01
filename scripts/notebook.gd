@@ -16,7 +16,7 @@ enum Tab { CASES, CHARACTERS }
 const RESIDENT_WIDTH := 158.0
 ## Height of the full-body drawing on a resident's page.
 const FIGURE_HEIGHT := 360.0
-## Wide drawings (Sam and the cats) are shrunk to this width, so the text beside them has room.
+## Wide drawings (Regina and the cats) are shrunk to this width, so the text beside them has room.
 const FIGURE_MAX_WIDTH := 240.0
 const CLUE_WIDTH := 150.0
 const STAMP_SOLVED := preload("res://art/ui/stamp_solved.png")

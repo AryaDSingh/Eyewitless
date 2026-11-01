@@ -20,7 +20,7 @@
   "alex": {
     "name": "Alex",
     "role": "Dog walker",
-    "description": "Walks five dogs at the park. Took another photo of the scarf incident and gave it to Felix.",
+    "description": "Walks five dogs at the park. Took the photo of the scarf incident, and kept one half when it tore.",
     "portrait": "portrait_alex",
     "full_body": "alex_standing",
     "location": "park"
@@ -34,11 +34,11 @@
     "silhouette_art": "marwan_silhouette",
     "location": "park"
   },
-  "sam": {
-    "name": "Sam",
+  "regina": {
+    "name": "Regina",
     "role": "Cat walker",
     "description": "Walks two cats on leads at the park. Is definitely not Alex.",
-    "portrait": "portrait_sam",
+    "portrait": "portrait_regina",
     "full_body": "townie_dog_walker_1",
     "location": "park"
   },

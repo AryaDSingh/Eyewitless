@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bbjatmyfwg0xy"
-path="res://.godot/imported/clue_blurry_photo.png-bc630fbbe35940f888e99b59b09fde3b.ctex"
+uid="uid://cumo0o856dxs8"
+path="res://.godot/imported/portrait_regina.png-ed0cdd6b26009f19a645db80e46ab70b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/clue_blurry_photo.png"
-dest_files=["res://.godot/imported/clue_blurry_photo.png-bc630fbbe35940f888e99b59b09fde3b.ctex"]
+source_file="res://art/portrait_regina.png"
+dest_files=["res://.godot/imported/portrait_regina.png-ed0cdd6b26009f19a645db80e46ab70b.ctex"]
 
 [params]
 
