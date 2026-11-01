@@ -9,7 +9,7 @@ signal _advanced(choice: int)
 
 const CHARACTERS_PER_SECOND := 60.0
 const BOX_WIDTH := 2000.0  # wider than the screen (the art has see-through margins), so nothing peeks out at the ends
-const BOTTOM_MARGIN := 20.0
+const BOTTOM_MARGIN := -8.0  # flush with the bottom (the art has see-through padding), so nothing shows below it
 const CHOICES_WIDTH := 560.0
 const CHOICES_GAP := 24.0
 ## A tick plays every this many letters while the text types (not on voiced lines).

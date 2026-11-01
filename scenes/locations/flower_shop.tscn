@@ -33,9 +33,9 @@ cover = true
 [node name="Arya" type="Control" parent="."]
 layout_mode = 0
 offset_left = 840.0
-offset_top = 330.0
+offset_top = 114.0
 offset_right = 1120.0
-offset_bottom = 930.0
+offset_bottom = 714.0
 script = ExtResource("3_hotspot")
 art_id = "townie_arya"
 placeholder_color = Color(0.86, 0.68, 0.72, 1)
@@ -45,9 +45,9 @@ show_if_flag = "find_alex"
 [node name="AryaMad" type="Control" parent="."]
 layout_mode = 0
 offset_left = 835.0
-offset_top = 330.0
+offset_top = 114.0
 offset_right = 1125.0
-offset_bottom = 930.0
+offset_bottom = 714.0
 script = ExtResource("3_hotspot")
 art_id = "townie_arya_mad"
 placeholder_color = Color(0.86, 0.68, 0.72, 1)
@@ -57,9 +57,9 @@ hide_if_flag = "find_alex"
 [node name="Pigeon" type="Control" parent="."]
 layout_mode = 0
 offset_left = 1140.0
-offset_top = 380.0
+offset_top = 164.0
 offset_right = 1420.0
-offset_bottom = 695.0
+offset_bottom = 479.0
 script = ExtResource("3_hotspot")
 art_id = "companion_pigeon"
 placeholder_color = Color(0.62, 0.68, 0.78, 1)

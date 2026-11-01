@@ -33,6 +33,7 @@ var _case_entries: Dictionary = {}  # case_id -> RichTextLabel in the list
 # The right page is split into pages that fit; < and > flip between them.
 var _page := 0
 var _page_count := 1
+var _paginating := 0  # which rebuild's page split is the latest (rapid clicks start several)
 var _paged_for := ""  # which entry the page number belongs to
 var _nav := HBoxContainer.new()
 var _prev := Button.new()
@@ -197,8 +198,14 @@ func _rebuild() -> void:
 ## Splits the right page's content into pages that fit, so nothing is cut off.
 func _paginate() -> void:
 	_nav.hide()
+	# Hidden (but still laid out) until split into pages, or later pages flash up.
+	_detail.modulate.a = 0.0
+	_paginating += 1
+	var this_split := _paginating
 	await get_tree().process_frame
 	await get_tree().process_frame  # wrapped text has its height now
+	if this_split != _paginating:
+		return  # a newer click rebuilt the page; that one will finish the job
 	var limit := _detail_scroll.size.y - _nav.get_combined_minimum_size().y - 12
 	var gap := _detail.get_theme_constant("separation")
 	var used := 0.0
@@ -217,6 +224,7 @@ func _paginate() -> void:
 		used += child.size.y + gap
 	_page_count = page + 1
 	_show_page(clampi(_page, 0, _page_count - 1))
+	_detail.modulate.a = 1.0
 
 
 func _flip(step: int) -> void:
@@ -274,7 +282,9 @@ func _build_case_page(case_id: String) -> void:
 		_stamp.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		title.clip_contents = false  # the stamp slams in at 2.5x; don't cut it off
 		title.add_child(_stamp)
-		var place := func(): _stamp.position = Vector2(title.size.x - _stamp.size.x, -_stamp.size.y * 0.1)
+		# Tilted around its middle and kept inside the page, which cuts off anything outside it.
+		_stamp.pivot_offset = _stamp.size / 2
+		var place := func(): _stamp.position = Vector2(title.size.x - _stamp.size.x - 14, 14)
 		title.resized.connect(place)
 		place.call()
 	var client := GameState.get_character(case_data.get("client", ""))

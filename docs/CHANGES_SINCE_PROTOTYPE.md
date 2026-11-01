@@ -49,7 +49,7 @@ Contents:
   ducks, the plaza pigeon crowd, Jason (several poses), the envelope, prison,
   notebook background and the clue photos.
 - **Sound.** Background loops, sound effects, the pigeon's voice, a typing
-  tick and a Mute button. Music files exist but are turned off.
+  tick, and an Options panel (sound on/off, volumes). Music files exist but are turned off.
 - **The game starts in the Detective's office.** The player finds the flower
   shop on the map themselves (new in the last build).
 - **Playtest logs upload to Google Drive** at the end of a playthrough.
@@ -390,7 +390,7 @@ plays muffled at the bar).
 
 Rules: only one sound effect plays at a time, so they never pile up. Voices
 and the typing tick have their own channels, so an effect doesn't cut them off.
-The **Mute** button sits top left on every screen.
+The **Options** gear sits top left on every screen (sound on/off, music and sound volume).
 
 ## 9. Art files
 
@@ -448,7 +448,7 @@ Hand (everything else).
   front of everything (HUD too) and stay on screen.
 
 **HUD** (top left):
-- Mute, Notebook, Map; later Camera and the pigeon companion.
+- Options (gear), Notebook, Map; later Camera and the pigeon companion.
 - New things show as a glow and a count badge on the icon, not as text pop-ups.
   Only the map glows when a place opens.
 - The camera does nothing yet (it wiggles); its system comes in Case 2.
@@ -638,3 +638,13 @@ Not in `builds/eyewitless_web.zip` until the next build.
   test (the cause of two flaky checks); Sam's notebook page is checked too.
 - Clicking someone right after a conversation no longer hits the 1 s spam
   cooldown: that only applies to repeat clicks on the same thing.
+- **People and animals stand 20% higher** in the park, bar, plaza and flower
+  shop (the pond's ducks already were), so the dialogue box doesn't hide them.
+  (A version where the scene slid up during dialogue was tried and dropped: it
+  was disorienting for one-line exchanges.) Backgrounds should put the ground
+  at this new height. Speech bubbles stay below the HUD icons.
+- **Options instead of Mute:** a drawn gear on a taped paper square (top left)
+  opens a taped sheet with Sound on/off and the Music and Sounds volumes. The
+  title screen's Settings opens the same sheet.
+- **Notebook:** clicking a case quickly no longer flashes the clue photos from
+  page 2.

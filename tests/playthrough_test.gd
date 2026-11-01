@@ -51,6 +51,14 @@ func _ready() -> void:
 
 func _play() -> void:
 	await _settle()
+	main.options_button.pressed.emit()
+	_expect(main.options.visible, "the gear button opens Options")
+	await _shot("options")
+	main.options._sound.button_pressed = false
+	_expect(Audio.is_muted(), "Sound: off mutes the game")
+	main.options._sound.button_pressed = true
+	_expect(not Audio.is_muted(), "Sound: on unmutes it")
+	main.options.close()
 	_expect(GameState.current_location == "office", "stays in the office after the letters")
 	_expect("blurry_photo" in GameState.found_clues, "blurry photo added automatically")
 	_expect(not GameState.is_location_unlocked("park"), "only the flower shop is open at first")
@@ -82,6 +90,7 @@ func _play() -> void:
 	await _shot("hud_badge")
 	main.notebook.open("case_01")
 	await _shot("notebook_case")
+	await _check_no_page_flash()
 	main.notebook.view_clue("felix_in_photo")
 	await _shot("notebook_clue_zoom")
 	main.notebook.close()
@@ -226,6 +235,30 @@ func _check_click_switch() -> void:
 	first.free()
 	other.free()
 	Audio.click_cooldown = 0.0
+
+
+## Clicking the case again and again rebuilds the page; nothing from page 2
+## (the clue photos) may show while it's being split into pages.
+func _check_no_page_flash() -> void:
+	var nb: Notebook = main.notebook
+	var area := nb._detail_scroll.get_global_rect()
+	var seen: Array[Control] = []  # what was on screen in the page area while rebuilding
+	for click in 3:
+		nb._rebuild()
+		for frame in 3:
+			await get_tree().process_frame
+			if nb._detail.modulate.a == 0.0:
+				continue
+			for child: Control in nb._detail.get_children():
+				if child.is_visible_in_tree() and area.intersects(child.get_global_rect()):
+					seen.append(child)
+	for frame in 3:
+		await get_tree().process_frame
+	_expect(nb._detail.modulate.a == 1.0, "the notebook page shows again after rebuilding")
+	for child in seen:
+		if is_instance_valid(child) and child.get_meta("page", nb._page) != nb._page:
+			_fail("rebuilding the notebook page flashes something from page %d" % (child.get_meta("page") + 1))
+			return
 
 
 ## A point on the hotspot's drawing (clicks on see-through parts don't count),

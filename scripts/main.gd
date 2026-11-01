@@ -31,7 +31,8 @@ var location: Location
 @onready var map_screen: MapScreen = %MapScreen
 @onready var card_screen: CardScreen = %CardScreen
 @onready var title_screen: TitleScreen = %TitleScreen
-@onready var mute_button: Button = %MuteButton
+@onready var options_button: Button = %OptionsButton
+var options := OptionsPanel.new()
 
 
 func _ready() -> void:
@@ -53,11 +54,18 @@ func _ready() -> void:
 	location_layer.add_sibling(_arrive_fade)
 	notebook.hold_requested.connect(func(clue_id: String): hold_photo(clue_id))
 	# Muting lasts until the game is closed, even through "Play again".
-	mute_button.set_pressed_no_signal(Audio.is_muted())
-	mute_button.text = "Unmute" if Audio.is_muted() else "Mute"
-	mute_button.toggled.connect(func(muted: bool):
-		Audio.set_muted(muted)
-		mute_button.text = "Unmute" if muted else "Mute")
+	# Options (sound, volumes): Ruby's taped paper square with a drawn gear, top left.
+	var paper := StyleBoxTexture.new()
+	paper.texture = preload("res://art/ui/icon_bg.png")
+	for state in ["normal", "hover", "pressed", "hover_pressed", "disabled"]:
+		options_button.add_theme_stylebox_override(state, paper)
+	options_button.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
+	options_button.icon = preload("res://art/ui/icon_options.png")
+	options_button.pressed.connect(func():
+		if Audio.try_click(options_button):
+			options.open())
+	add_child(options)  # last, so it's on top of everything
+	title_screen.settings_pressed.connect(options.open)
 	if autostart:
 		await title_screen.open()
 		go_to(START_LOCATION)
@@ -65,7 +73,7 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	var free := not Story.is_running and not notebook.visible and not map_screen.visible 			and not card_screen.visible and not title_screen.visible and location != null
+	var free := not Story.is_running and not notebook.visible and not map_screen.visible 			and not card_screen.visible and not title_screen.visible and not options.visible and location != null
 	if nudge_after <= 0 or not free:
 		return
 	_idle += delta

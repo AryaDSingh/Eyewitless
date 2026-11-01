@@ -94,7 +94,8 @@ These are already in the game. To change one, save over the file with the same n
 |---|---|
 | `title_logo` | EYEWITLESS logo on the title screen |
 | `btn_primary`, `_hover`, `_pressed`, `_disabled` | Dark buttons (START, choices, Next). They stretch to fit the text, so keep a plain middle |
-| `btn_tag`, `_hover`, `_pressed` | Light buttons (Settings, Mute, notebook tabs) |
+| `btn_tag`, `_hover`, `_pressed` | Light buttons (Settings, Sound on/off, notebook tabs) |
+| `icon_options` | The Options gear (top left), drawn for the game in the HUD icons' style, on `icon_bg` |
 | `btn_close` | Not used any more: Close is now a taped paper label drawn by the game |
 | `dialogue_box`, `_thought`, `_no_portrait` | Dialogue panel. The game puts the portrait, the name (on the tape) and the text on fixed spots, so **keep new versions the same size and layout**. Spots are listed in `BOXES` in `scripts/dialogue_box.gd` |
 | `dialogue_arrow` | The "→" in the bottom right, cut out of the box art so it can nudge when a line is done. Leave it off new box pictures |

@@ -10,8 +10,8 @@ A missing file is skipped, so the game still runs.
 - Voices: only the pigeon (Jason) is voiced, by Arya. In a `.story` file,
   `~ voice <name>` goes on the line before the line it reads; moving on to the
   next line stops it. Files are `voice_pigeon_*` in `audio/`.
-- Volumes are set by the player on the title screen (Settings). The Mute
-  button sits top left on every screen. Overall volume is halved
+- Volumes and sound on/off are in Options: the gear top left on every screen,
+  or Settings on the title screen. Overall volume is halved
   (`MASTER_VOLUME` in `scripts/audio.gd`).
 
 ## Music (loops)

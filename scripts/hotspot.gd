@@ -9,6 +9,8 @@ signal clicked(hotspot: Hotspot)
 
 const BUBBLE_SECONDS := 1.4
 const BUBBLE_MIN_WIDTH := 240.0
+## Bubbles stay below the row of HUD icons (options, notebook, map) at the top.
+const HUD_BOTTOM := 150.0
 const BUBBLE_LEFT := preload("res://art/ui/bubble_speech_left.png")
 const BUBBLE_RIGHT := preload("res://art/ui/bubble_speech_right.png")
 const BUBBLE_SHOUT := preload("res://art/ui/bubble_shout.png")
@@ -127,7 +129,8 @@ func say(text: String) -> void:
 	var screen := get_viewport_rect().size
 	# The tail lines up with the middle of the hotspot.
 	var top_left := global_position + Vector2(size.x / 2 - TAIL_INSET, -bubble_size.y - 4)
-	top_left = top_left.clamp(Vector2(8, 8), screen - bubble_size - Vector2(8, 8))
+	# On screen, and below the HUD icons along the top.
+	top_left = top_left.clamp(Vector2(8, HUD_BOTTOM), screen - bubble_size - Vector2(8, 8))
 	# Not scaled by the hotspot's hover/click bounce, which would push it off screen.
 	panel.top_level = true
 	panel.position = top_left
