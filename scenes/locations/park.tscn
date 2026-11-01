@@ -62,26 +62,126 @@ art_id = "townie_alex"
 placeholder_color = Color(0.86, 0.68, 0.72, 1)
 knot = "alex_talk"
 
-[node name="Dogs" type="Control" parent="."]
+[node name="Cat1" type="Control" parent="."]
 layout_mode = 0
-offset_left = 1000.0
-offset_top = 474.0
-offset_right = 1230.0
-offset_bottom = 719.0
+offset_left = 323.0
+offset_top = 602.6
+offset_right = 519.0
+offset_bottom = 730.4
 script = ExtResource("3_hotspot")
+art_id = "park_cat_1"
 show_placeholder = false
-ask = "|Who's a good witness?|Did you see a pigeon?|Sit!"
-bubble = "Woof!|WOOF!|*chases own tail*|*all five sit on Alex*"
-sfx = "sfx_dog_bark"
+ask = "|Did you see a pigeon?|Are you Alex?"
+bubble = "Mrrow.|*stares into your soul*|HISS!"
+sfx = "sfx_cat_meow"
 
-[node name="DogsRight" type="Control" parent="."]
+[node name="Cat2" type="Control" parent="."]
 layout_mode = 0
-offset_left = 1490.0
-offset_top = 474.0
-offset_right = 1800.0
-offset_bottom = 719.0
+offset_left = 270.3
+offset_top = 654.7
+offset_right = 423.6
+offset_bottom = 734.0
 script = ExtResource("3_hotspot")
+art_id = "park_cat_2"
 show_placeholder = false
-ask = "|Who's a good witness?|Did you see a pigeon?|Sit!"
-bubble = "Woof!|WOOF!|*chases own tail*|*all five sit on Alex*"
+ask = "|Who's a good kitty?"
+bubble = "Mew?|*purrs like a tiny engine*"
+sfx = "sfx_cat_mew"
+
+[node name="Mara1" type="Control" parent="."]
+layout_mode = 0
+offset_left = 560.7
+offset_top = 541.8
+offset_right = 720.8
+offset_bottom = 705.5
+script = ExtResource("3_hotspot")
+art_id = "park_mara_1"
+show_placeholder = false
+ask = "|Are you a rabbit?|A very big guinea pig, then?"
+bubble = "*squeak*|*squeaks, offended*|*nods slowly*"
+sfx = "sfx_mara_squeak"
+
+[node name="Mara2" type="Control" parent="."]
+layout_mode = 0
+offset_left = 767.0
+offset_top = 562.4
+offset_right = 899.3
+offset_bottom = 714.0
+script = ExtResource("3_hotspot")
+art_id = "park_mara_2"
+show_placeholder = false
+ask = "|What are you eating?"
+bubble = "Wheek!|*keeps chewing. You don't ask again.*"
+sfx = "sfx_mara_squeak"
+sfx_pitch = 1.25
+
+[node name="Dog1" type="Control" parent="."]
+layout_mode = 0
+offset_left = 1052.1
+offset_top = 497.2
+offset_right = 1330.4
+offset_bottom = 687.2
+script = ExtResource("3_hotspot")
+art_id = "park_dog_1"
+show_placeholder = false
+ask = "|Who's a good witness?"
+bubble = "Woof!|*sniffs your shoes for clues*"
 sfx = "sfx_dog_bark"
+sfx_pitch = 0.9
+
+[node name="Dog2" type="Control" parent="."]
+layout_mode = 0
+offset_left = 1000.5
+offset_top = 594.0
+offset_right = 1191.3
+offset_bottom = 688.6
+script = ExtResource("3_hotspot")
+art_id = "park_dog_2"
+show_placeholder = false
+ask = "|Slow down!"
+bubble = "Yip yip yip!|*runs three laps around you*"
+sfx = "sfx_dog_bark"
+sfx_pitch = 1.35
+
+[node name="Dog3" type="Control" parent="."]
+layout_mode = 0
+offset_left = 1352.3
+offset_top = 579.1
+offset_right = 1526.8
+offset_bottom = 708.4
+script = ExtResource("3_hotspot")
+art_id = "park_dog_3"
+show_placeholder = false
+ask = "|Find anything?"
+bubble = "*sniff sniff*|*found half a sandwich. Case closed.*"
+sfx = "sfx_dog_bark"
+sfx_pitch = 1.1
+
+[node name="Dog4" type="Control" parent="."]
+layout_mode = 0
+offset_left = 1423.7
+offset_top = 507.8
+offset_right = 1647.6
+offset_bottom = 673.1
+script = ExtResource("3_hotspot")
+art_id = "park_dog_4"
+show_placeholder = false
+ask = "|Sit!"
+bubble = "WOOF!|*sits. Waits for a treat.*"
+sfx = "sfx_dog_bark"
+sfx_pitch = 0.8
+
+[node name="Dog5" type="Control" parent="."]
+layout_mode = 0
+offset_left = 1562.8
+offset_top = 499.3
+offset_right = 1799.5
+offset_bottom = 718.3
+script = ExtResource("3_hotspot")
+art_id = "park_dog_5"
+show_placeholder = false
+ask = "|Did you see a pigeon?"
+bubble = "Arf!|*leaps at a pigeon that isn't there*"
+sfx = "sfx_dog_bark"
+sfx_pitch = 1.2
+

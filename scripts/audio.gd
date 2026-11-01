@@ -58,12 +58,14 @@ func try_click(target: Object = null) -> bool:
 	return true
 
 
-func play_sfx(id: String) -> void:
+## pitch: e.g. 1.3 for a small dog's bark, 0.8 for a big one.
+func play_sfx(id: String, pitch := 1.0) -> void:
 	var stream := find_stream(id)
 	if stream == null:
 		return
 	# Swapping the stream stops the effect that was playing.
 	_sfx.stream = stream
+	_sfx.pitch_scale = pitch
 	_sfx.play()
 
 

@@ -31,6 +31,8 @@ const TAIL_INSET := 100.0
 @export var hide_if_flag := ""
 ## Sound played with the reply bubble, or on click for a knot (audio/<id>.ogg).
 @export var sfx := ""
+## Plays `sfx` higher (above 1) or lower, so the same bark fits different dogs.
+@export var sfx_pitch := 1.0
 
 var _busy := false
 var _exchanges := 0  # how many times this hotspot has answered
@@ -100,7 +102,7 @@ func play_exchange(detective_says: Callable) -> void:
 	if question != "":
 		await detective_says.call(question)
 	if reply != "":
-		Audio.play_sfx(sfx)
+		Audio.play_sfx(sfx, sfx_pitch)
 		await say(reply)
 	_busy = false
 

@@ -80,6 +80,11 @@ func _play() -> void:
 	await _check_spam_click("Walker1")
 	await _check_click_switch()
 	await _click("Walker1", true)
+	_check_animals()
+	await _click("Cat1")
+	await _click("Mara2")
+	await _click("Dog2", true)
+	_expect(not GameState.has_flag("alex_done"), "the animals aren't Alex")
 	await _click("Marwan")
 	_expect(not GameState.has_flag("alex_done"), "Marwan isn't Alex")
 	await _click("Alex")
@@ -268,6 +273,21 @@ func _check_no_page_flash() -> void:
 		if is_instance_valid(child) and child.get_meta("page", nb._page) != nb._page:
 			_fail("rebuilding the notebook page flashes something from page %d" % (child.get_meta("page") + 1))
 			return
+
+
+## Each park animal is its own drawing: clicking it hits the animal, not its
+## owner (the animals were cut out of the owners' pictures).
+func _check_animals() -> void:
+	var owners := {"Cat": "Walker1", "Mara": "Marwan", "Dog": "Alex"}
+	for animal in ["Cat1", "Cat2", "Mara1", "Mara2", "Dog1", "Dog2", "Dog3", "Dog4", "Dog5"]:
+		var hotspot: Hotspot = main.location.get_hotspot(animal)
+		if hotspot == null:
+			_fail("the park has no %s" % animal)
+			continue
+		var point := _drawn_point(hotspot)
+		var owner: Hotspot = main.location.get_hotspot(owners[animal.left(-1)])
+		_expect(hotspot.is_drawn_at(point - hotspot.global_position), "%s can be clicked" % animal)
+		_expect(not owner.is_drawn_at(point - owner.global_position), "clicking %s doesn't hit %s" % [animal, owner.name])
 
 
 ## A point on the hotspot's drawing (clicks on see-through parts don't count),

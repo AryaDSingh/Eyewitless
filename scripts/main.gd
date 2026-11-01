@@ -95,7 +95,7 @@ func _on_hotspot_clicked(hotspot: Hotspot) -> void:
 		return
 	EventLog.log_event("hotspot_clicked", {"location": GameState.current_location, "hotspot": String(hotspot.name)})
 	if hotspot.knot != "":
-		Audio.play_sfx(hotspot.sfx)
+		Audio.play_sfx(hotspot.sfx, hotspot.sfx_pitch)
 		Story.run(hotspot.knot)
 	else:
 		hotspot.play_exchange(_detective_says)

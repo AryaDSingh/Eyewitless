@@ -45,7 +45,10 @@ A missing file is skipped, so the game still runs.
 | `sfx_pigeon_wings` | Arriving at the plaza, catching the pigeon | BigSoundBank #0840 "Flight of a pigeon", CC0 |
 | `sfx_duck_quack` | Arriving at the pond, clicking a duck | BigSoundBank #0276 "Ducks", CC0, trimmed |
 | `sfx_stamp` | SOLVED stamp in the notebook | BigSoundBank #1410 "Closed book", CC0, trimmed to the thud |
-| `sfx_dog_bark` | Alex's dogs | BigSoundBank #2954 "Barking dog #2", CC0, trimmed |
+| `sfx_dog_bark` | Alex's dogs (each dog at its own pitch) | BigSoundBank #2954 "Barking dog #2", CC0, trimmed |
+| `sfx_cat_meow` | Regina's big cat | BigSoundBank #1889 "Meow Cat #1", CC0, trimmed |
+| `sfx_cat_mew` | Regina's small cat | BigSoundBank #0494 "Little meow of a cat #1", CC0 |
+| `sfx_mara_squeak` | Marwan's maras (the second one higher) | BigSoundBank #1073 "Garden dormouse", CC0, trimmed |
 | `sfx_text_tick` | Soft tick while dialogue types (not on voiced lines) | Made in code for this game |
 
 CC0 means no credit is required, but it's listed here so the team knows where

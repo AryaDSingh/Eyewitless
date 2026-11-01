@@ -57,9 +57,10 @@ wording can change without redrawing.
 | Name | Size on screen | Notes |
 |---|---|---|
 | `townie_arya` | 280×600 | Flower shop |
-| `townie_alex` | 800×575 | Park. Alex tangled in the leads of their **5** dogs (one picture; the dogs have their own invisible click spot) |
-| `townie_dog_walker_1` | 490×390 | Regina, the cat walker ("NO!") |
-| `townie_marwan` | 220×520 | Marwan with his 2 "capybaras" (Patagonian maras) |
+| `townie_alex` | 800×575 | Park. Alex tangled in the leads of their 5 dogs. The dogs are cut out into `park_dog_1` … `_5`, so this picture has holes where they stand |
+| `townie_dog_walker_1` | 490×390 | Regina, the cat walker ("NO!"). Her cats are cut out into `park_cat_1` (big) and `park_cat_2` (small) |
+| `townie_marwan` | 220×520 | Marwan. His 2 "capybaras" (Patagonian maras) are cut out into `park_mara_1` and `_2` |
+| `park_cat_*`, `park_mara_*`, `park_dog_*` | — | The park animals, each clickable on its own. Cut from Samantha's owner drawings (leads cut at the collar). To redraw one, keep it in the same spot on the owner's canvas |
 | `townie_felix` | 260×560 | Bar (drunk) |
 | `townie_felix_sober` | 260×560 | Bar, after the pond |
 | `townie_arya_mad` | 290×600 | Flower shop, first talk: Arya holding the ruined scarf |
@@ -83,7 +84,7 @@ Silhouettes (black shapes in the notebook before you meet someone) come from the
 ## Clue photos (notebook) — 4:3, e.g. 1100×825
 | Name | What it shows |
 |---|---|
-| `clue_torn_left` | Arya's half of the torn photo (Samantha's `photo-left`) |
+| `clue_torn_left` | Arya's half of the torn photo (Samantha's `photo-left`). Tape is drawn by the game on top |
 | `clue_torn_right` | Alex's half (`photo-right`), Felix circled in red. `clue_torn_*` photos show without the white frame |
 | `clue_pigeon_photo` | Felix's photo of the culprit pigeon |
 
@@ -124,7 +125,6 @@ separate pigeons), `townie_arya_mad`, `townie_alex`, `alex_standing`, `marwan_st
 pages filled in white) and `clue_torn_left` / `_right` (the torn photo halves, Felix circled).
 
 Not used any more: `plaza_pigeons` (the old one-picture crowd), `prop_alex_dogs`.
-Not used (yet): `photo-left` / `photo-right` (torn photo halves, dropped for this prototype).
 
 Still grey boxes: the bartender, the plaza people, all location backgrounds, the title screen,
 and the cards `pigeon_hat`, `camera_intro`.

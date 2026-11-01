@@ -2,9 +2,9 @@
 
 **From:** the first playable prototype, commit `4b15516` (22 Oct 2026), before
 Ruby's UI art and Samantha's character art.
-**To:** the latest web build (`builds/eyewitless_web.zip`, 31 Oct 2026). This is
-commit `6002ed0` plus the office start and the higher ducks, which are not
-committed yet.
+**To:** the latest web build (`builds/eyewitless_web.zip`, 1 Nov 2026), commit
+`7a53a92`. Sections 1-14 describe the game as it is now; section 15 lists, in
+order, what changed after the 31 Oct build.
 
 Use this to update the team documents (TDD, script, art list, audio list). All
 dialogue below is copied from `resources/cases/case_01.story` and the scene
@@ -25,7 +25,7 @@ Contents:
 12. [Code, tools and docs](#12-code-tools-and-docs)
 13. [Removed or replaced](#13-removed-or-replaced)
 14. [Still missing / known gaps](#14-still-missing--known-gaps)
-15. [Added after that web build](#15-added-after-that-web-build)
+15. [Change log since the 31 Oct build](#15-change-log-since-the-31-oct-build)
 
 ---
 
@@ -69,15 +69,16 @@ dark…" THE END card.
 2. **Envelope.** The player clicks the envelope itself (no button) → envelope
    sound.
 3. **Welcome letter** unrolls (NEXT).
-4. **Arya's letter** unrolls, with the blurry photo pinned on it (NEXT).
+4. **Arya's letter** unrolls, with Arya's half of a torn photo taped on it (NEXT).
 5. The Detective's first thought → choice **ADD TO NOTEBOOK** → the notebook
    opens on Case 1.
 6. **The player is in the office.** Only the flower shop is on the map, and the
    map icon glows.
 7. **Flower shop.** Walking in the first time starts Arya's scene ("HEY YOU!").
    The park unlocks.
-8. **Park.** Ask the cat walker ("NO!"), Marwan (not Alex), and Alex. Alex
-   shows the blurry photo with Felix circled. The bar unlocks.
+8. **Park.** Ask Regina the cat walker ("NO!"), Marwan (not Alex), and Alex.
+   Alex hands over the other half of the photo, with Felix circled. The bar
+   unlocks.
 9. **Bar.** Felix. Picking "… 75 kg…?" is a detour that leads back. The pond
    unlocks.
 10. **Pond.** The Detective sees only ducks ("Damn it, Felix!!"). The map icon
@@ -87,7 +88,8 @@ dark…" THE END card.
 12. **Plaza.** A crowd of pigeons. The player opens Felix's photo in the notebook
     and presses **HOLD IT UP** to compare. Clicking the right pigeon (the bald
     one in the crowd) → O.M.G.!! card → close-up → Jason speaks → GO SEE ARYA.
-13. **Flower shop.** Arya's gift (TAKE THE CAMERA) → camera card → pigeon prison
+13. **Flower shop.** Arya's gift (TAKE THE CAMERA) → camera card → the Detective
+    looks through the camera (viewfinder, click to lower) → pigeon prison
     and crying cards → Jason begs (voiced) → 1000 hours of social service →
     hat card → "We oughta get home" → "what's your name?" → "Jason. Jason Lee
     Elliott."
@@ -126,14 +128,15 @@ Format: **Speaker:** line. *Italics* = the Detective thinking.
 > Good luck. You'll need it.
 > *The people of Muddleford* (signature) + stamp "MUDDLEFORD · EST. ????"
 
-**Arya's letter** (button NEXT, blurry photo pinned; Arya's scribbly handwriting, cursive greeting and signature):
+**Arya's letter** (button NEXT, Arya's half of the torn photo taped on; Arya's scribbly handwriting, cursive greeting and signature):
 > *Dear Detective,*
 > I need your help. Immediately. A pigeon pooped on my favourite scarf. MY
 > FAVOURITE SCARF! Do you have any idea how hard it is to find a scarf that
-> looks this good? And what do I get in return? A pigeon attack. In broad
-> daylight. In front of everyone!
-> There is a photo of the incident, but it's a little blurry. Still, look at it!
-> That bird is out there somewhere, probably ruining someone else's day. Find
+> looks this good? I paid $5 for it at the flea market!!!
+> And what do I get in return? A pigeon attack. In broad daylight. In front of
+> everyone!
+> There is a photo of the incident. Well, half a photo, to be precise. It got
+> torn in the chaos. Everything happened so fast… That bird is out there somewhere, probably ruining someone else's day. Find
 > that pigeon! I refuse to let this feathered criminal get away with it.
 > P.S. I've heard pigeons are surprisingly difficult to tell apart. I hope you
 > can find the right one.
@@ -151,7 +154,7 @@ Arya is angry and holding the ruined scarf for this whole talk.
 - [CHOICE] You are the guy in the photo!
 - **Arya:** Help me find that pigeon!
 - [CHOICE] How can I? I am new here, and your photo doesn't help at all.
-- **Arya:** Find Alex; they took another photo. They were with Felix when everything
+- **Arya:** Find Alex; they took the photo. They were with Felix when everything
   happened. It was my favourite scarf. What am I gonna do now? Find that pigeon!
 - [CHOICE] I don't know either of them. How can I find them?
 - **Arya:** Talk with Alex; I think they are walking their dogs at the park.
@@ -162,7 +165,7 @@ Clicking Arya later:
 - After Alex: **Arya:** Find that pigeon!
 
 ### Park
-**Sam (the cat walker):**
+**Regina (the cat walker):**
 - **Detective:** Are you Alex?
 - (shout bubble) NO!
 
@@ -178,9 +181,11 @@ Clicking Arya later:
 - **Detective:** I am helping Arya find the pigeon that pooped on his scarf.
 - **Alex:** OK.
 - **Detective:** He told me you took a photo of it.
-- **Alex:** Yeah, but I don't know anything about the pigeons. You can ask Felix;
-  he was there too. I gave him the photo.
-- (card: `clue_blurry_photo_felix`, text *Alex: "Felix!"*, grows in) → new clue.
+- **Alex:** Yeah, this is the other half of the photo. Look, Felix is right there!
+- (card: `clue_torn_right`, Felix circled, text *Alex's half of the photo.*,
+  grows in) → new clue.
+- **Alex:** Anyway, I don't know anything about the pigeon. You can ask Felix;
+  he's got a photo of the pigeon.
 - **Detective:** Where is he?
 - **Alex:** If it's 11 am, probably getting drunk at the bar!
 - The bar unlocks. Clicking Alex again repeats their last line.
@@ -197,7 +202,7 @@ If "… 75 kg…?" (a detour, not a fail):
 - [CHOICE] Anyway, back to pigeons
 
 Then:
-- **Detective:** Alex gave you a photo of it; where is it?
+- **Detective:** You have a photo of it; where is it?
 - **Felix:** The photo? \*hic\* I don't remember; the pigeon spying in the park..
   Mhh, no, it was in the pond!
 - The pond unlocks. Clicking Felix again: **Felix:** The pond! It was in the pond!
@@ -226,6 +231,7 @@ Then:
 - (card: `camera_intro`)
 - **Arya:** You can explore the town and take photos of the clues with it. (And if
   a pigeon looks suspicious, get its good side, for the wanted poster!)
+- (the camera viewfinder over the flower shop; click or Esc to lower it)
 - **Detective:** Thanks! Now what do we do with the pigeon?
 - **Arya:** Let's send the pigeon to pigeon prison.
 - (card: `pigeon_prison`) (card: `pigeon_cries`)
@@ -259,7 +265,15 @@ by `/` play one per click, and the last one repeats.
 
 | Where | Who | Detective asks | Reply |
 |---|---|---|---|
-| Park | Alex's dogs | — / Who's a good witness? / Did you see a pigeon? / Sit! | Woof! / WOOF! / \*chases own tail\* / \*all five sit on Alex\* |
+| Park | Cat 1 (big) | — / Did you see a pigeon? / Are you Alex? | Mrrow. / \*stares into your soul\* / HISS! |
+| Park | Cat 2 (small) | — / Who's a good kitty? | Mew? / \*purrs like a tiny engine\* |
+| Park | Mara 1 | — / Are you a rabbit? / A very big guinea pig, then? | \*squeak\* / \*squeaks, offended\* / \*nods slowly\* |
+| Park | Mara 2 | — / What are you eating? | Wheek! / \*keeps chewing. You don't ask again.\* |
+| Park | Dog 1 (left, big) | — / Who's a good witness? | Woof! / \*sniffs your shoes for clues\* |
+| Park | Dog 2 (small, running) | — / Slow down! | Yip yip yip! / \*runs three laps around you\* |
+| Park | Dog 3 (at Alex's feet) | — / Find anything? | \*sniff sniff\* / \*found half a sandwich. Case closed.\* |
+| Park | Dog 4 (right) | — / Sit! | WOOF! / \*sits. Waits for a treat.\* |
+| Park | Dog 5 (leaping) | — / Did you see a pigeon? | Arf! / \*leaps at a pigeon that isn't there\* |
 | Bar | Bartender | Seen any pigeons? / …In your soup? / What's good here? / Is Felix always like this? | Only in my soup. / Kidding. It's chicken. Probably. / The door. / Only when he's awake. |
 | Pond | Duck 1 | — / Is there a pigeon in this pond? | Quack! / Quack. (No.) |
 | Pond | Duck 2 | — / Are you sure? | QUACK! / QUACK. (Very sure.) |
@@ -270,7 +284,7 @@ by `/` play one per click, and the last one repeats.
 | Plaza | Pigeons 1–8, 10, 11 | — | Who? Me! · Marwan · Not me! · Coo. · Brrr-roo? · Coo coo. · \*flap flap\* · It's MY scarf! (the one wearing a scarf) · Brrr. · \*pecks the ground\* |
 | Flower shop | Jason (after the case) | — | Coo, guv. |
 
-Sounds with the replies: dogs bark, ducks quack, plaza pigeons coo; Jason's
+Sounds with the replies: dogs bark (each at its own pitch), cats meow, maras squeak, ducks quack, plaza pigeons coo; Jason's
 reply plays his recorded "Coo, guv".
 
 ## 5. Detective hints when stuck (nudges)
@@ -325,34 +339,36 @@ From `resources/characters.json`:
 | Character | Role | Description | Notebook | Where on map |
 |---|---|---|---|---|
 | Arya | Florist · Client | Runs the flower shop. Loves his scarf more than most people. | Yes | Flower shop |
-| Alex (was Debbie) | Dog walker | Walks five dogs at the park. Took another photo of the scarf incident and gave it to Felix. | Silhouette until met (stand-in shape) | Park |
-| Marwan (**new**) | Walker with "capybaras" | Walks his pets at the park. Insists they're capybaras. | Silhouette from the start | Park |
+| Alex (was Debbie) | Dog walker | Walks five dogs at the park. Took the photo of the scarf incident, and kept one half when it tore. | "?" until met | Park |
+| Marwan (**new**) | Walker with "capybaras" | Walks his pets at the park. Insists they're capybaras. | "?" until met | Park |
+| Regina (**new**) | Cat walker | Walks two cats on leads at the park. Is definitely not Alex. | "?" until met | Park |
 | Felix | Aquarium seller | Spends his mornings at the bar. Thinks pigeons are spies. Not reliable. | Silhouette until met (Arya mentions him) | Bar |
 | Jason ("The Pigeon" until he says his name) | Culprit · Your new partner | Pooped on Arya's scarf. Very sorry about it. Mostly. | "?" until caught | Flower shop |
 | Detective | You | — | Not shown (no portrait, so any player fits) | — |
 
 Notes the game writes into the notebook as you play:
-- **Arya:** Says Alex took another photo, and was with Felix when it happened. /
+- **Arya:** Says Alex took the photo, and was with Felix when it happened. /
   Says Alex is walking their dogs at the park.
-- **Alex:** Arya says they took another photo, and walk their dogs at the park. /
-  Doesn't know anything about the pigeons. Says Felix was there too, and they
-  gave him the photo. / Says Felix is probably at the bar at 11 am.
+- **Alex:** Arya says they took the photo, and walk their dogs at the park. /
+  Gave you their half of the photo. Says Felix has a photo of the pigeon. /
+  Says Felix is probably at the bar at 11 am.
 - **Marwan:** Not Alex. Says his pets are capybaras (they're Patagonian maras).
-- **Felix:** Arya says he was there when it happened. / He's in the blurry photo,
-  right behind Arya. / Says the pigeon was at the pond. / The pond only had
+- **Regina:** Not Alex. Very sure about that.
+- **Felix:** Arya says he was there when it happened. / He's in Alex's half of
+  the photo, pointing at Arya. / Says the pigeon was at the pond. / The pond only had
   ducks. Felix was wrong. / Says the real pigeons are in the plaza. Gave you a
   photo of the pigeon.
 - **Pigeon:** Doing 1000 hours of social service: helping you solve cases.
 
 Case 1, "The Scarf Incident" (`resources/cases/case_01.json`):
 - The one-line summary was replaced by **"From Arya's letter:"** with three
-  points: *A pigeon pooped on Arya's favourite scarf, in broad daylight, in front
-  of everyone.* / *Arya's photo of it is blurry.* / *Pigeons are hard to tell
-  apart.*
+  points: *A pigeon pooped on Arya's favourite scarf ($5, flea market), in broad
+  daylight, in front of everyone.* / *Arya only has half a photo of it; it got
+  torn in the chaos.* / *Pigeons are hard to tell apart.*
 - Clues:
-  - `blurry_photo`: "Arya's blurry photo of the incident." (was "Debbie's blurry
-    photo…")
-  - `felix_in_photo`: "Alex spotted Felix in the photo, right behind Arya."
+  - `arya_half_photo`: "Arya's half of a torn photo of the incident." (was
+    `blurry_photo`, "Debbie's blurry photo…")
+  - `felix_in_photo`: "Alex's half of the photo. Felix is right there, pointing at Arya."
   - `pigeon_photo`: "Felix's photo of the pigeon. Find this pigeon at the plaza!"
     (unchanged)
 
@@ -384,6 +400,9 @@ plays muffled at the bar).
 | `sfx_pigeon_wings.ogg` | Arriving at the plaza, catching Jason | BigSoundBank #0840 |
 | `sfx_duck_quack.ogg` | Pond arrival, ducks | BigSoundBank #0276 |
 | `sfx_dog_bark.ogg` | Alex's dogs | BigSoundBank #2954 |
+| `sfx_cat_meow.ogg` | Regina's big cat | BigSoundBank #1889 |
+| `sfx_cat_mew.ogg` | Regina's small cat | BigSoundBank #0494 |
+| `sfx_mara_squeak.ogg` | Marwan's maras | BigSoundBank #1073 |
 | `sfx_text_tick.ogg` | Soft tick every 3 letters while dialogue types | Made in code (no licence needed) |
 
 **Voices:** the 10 `voice_pigeon_*` files in section 6.
@@ -398,13 +417,14 @@ All in `art/` (UI in `art/ui/`). The full list with sizes is in `docs/ART_LIST.m
 
 **Samantha, characters and cards (in the game):**
 `townie_arya`, `portrait_arya`, `townie_felix`, `portrait_felix`,
-`townie_marwan`, `portrait_marwan`, `townie_dog_walker_1` (cat walker),
+`townie_marwan`, `portrait_marwan`, `townie_dog_walker_1` (Regina the cat walker),
 `townie_duck_1`–`_4`, `plaza_pigeon_*` (the crowd as separate pigeons, see section 15), `townie_pigeon_7` (Jason),
 `portrait_pigeon`, `companion_pigeon`, `pigeon_omg` (transparent, from
 `townie_pigeon_7`), `pigeon_closeup`, `pigeon_cries`, `pigeon_prison`,
 `envelope`, `envelope_back` / `envelope_letter` / `envelope_front` (layers,
 ready but not used yet), `notebook_book` (outside made see-through),
-`clue_blurry_photo`, `clue_blurry_photo_felix` (Felix circled in red),
+`clue_torn_left`, `clue_torn_right` (the torn photo halves, Felix circled in
+red; shown without the white frame, with tape on top),
 `clue_pigeon_photo` (the flapping pigeon), `case_solved`.
 
 **Ruby, UI (Option 2):** `title_logo`, `btn_primary*`, `btn_tag*`, `btn_close`,
@@ -451,7 +471,8 @@ Hand (everything else).
 - Options (gear), Notebook, Map; later Camera and the pigeon companion.
 - New things show as a glow and a count badge on the icon, not as text pop-ups.
   Only the map glows when a place opens.
-- The camera does nothing yet (it wiggles); its system comes in Case 2.
+- The camera icon does nothing yet (it wiggles); its system comes in Case 2.
+  Arya's gift shows the viewfinder once (`camera_viewfinder`).
 
 **Map:**
 - Samantha's town map with taped paper name labels beside each building (see
@@ -480,8 +501,9 @@ Hand (everything else).
 - **Office:** where the game starts. It has nothing to click yet (background missing).
 - **Flower shop:** Arya; Jason appears beside Arya after the case. Arya's scene
   plays on the first visit.
-- **Park:** down to **3 people**: the cat walker ("NO!"), Marwan, and Alex with
-  their 5 dogs. Walker2 and Walker3 were removed.
+- **Park:** down to **3 people**: Regina the cat walker ("NO!"), Marwan, and Alex with
+  their 5 dogs. Each animal (2 cats, 2 maras, 5 dogs) is its own drawing you can
+  click. Walker2 and Walker3 were removed.
 - **Bar:** bartender and Felix. The room-chatter loop plays.
 - **Pond:** 4 ducks (was 3), moved **20% higher** so the dialogue box doesn't
   cover them.
@@ -492,13 +514,17 @@ Hand (everything else).
 ## 12. Code, tools and docs
 
 New story commands (in `.story` files): `voice`, `tool` (show a HUD icon),
-`sfx`, `wait`, `end_game`, plus card options (`letter`, `photo=`, `framed`,
+`sfx`, `wait`, `end_game`, `viewfinder`, plus card options (`letter`, `photo=`, `framed`,
 `grow`, `pop`, `stamp`, `click`, `pull=`).
 
 New scripts:
 - `scripts/audio.gd`: sounds, volumes, mute and the click cooldown.
-- `scripts/polaroid.gd`: framed photos.
+- `scripts/polaroid.gd`: framed photos; torn photos (`clue_torn_*`) without
+  the frame, taped on top.
 - `scripts/title_screen.gd`.
+- `scripts/options_panel.gd`: the Options sheet (sound on/off, volumes).
+- `scripts/tape.gd`: the grey tape strip on labels and sheets.
+- `scripts/viewfinder.gd`: looking through the camera.
 
 Bigger changes:
 - `scripts/main.gd`: nudges, the arrival fade, Detective questions in the dialogue box.
@@ -544,7 +570,10 @@ Docs:
   detective! In MY bar!", and the 100 hours of community service.
 - Auto-travel to the flower shop at the start (now the player goes there).
 - The old plaza crowd sound (`amb_plaza.ogg`, BigSoundBank #0526) and bar chatter (`amb_bar.ogg`, BigSoundBank #0480).
-- The torn-photo-halves idea (dropped for this prototype).
+- The blurry photo (`clue_blurry_photo`, `clue_blurry_photo_felix`) → the torn
+  photo halves (`clue_torn_left`, `clue_torn_right`).
+- Sam the cat walker → Regina (`portrait_sam` → `portrait_regina`).
+- The Mute button → the Options gear.
 
 ## 14. Still missing / known gaps
 
@@ -556,13 +585,12 @@ Docs:
 - **Envelope layers** are in `art/` but not switched on (the "letter slides out" version).
 - **Italics** for thoughts don't show, because the font has no italic style.
 - **Music** is off everywhere; the park and pond loops are off.
-- **The camera** does nothing yet (Case 2).
-- **Not committed yet:** the office start and the higher ducks are in the
-  latest web build but not in a git commit.
+- **The camera** can't take photos yet (Case 2).
 
-## 15. Added after that web build
+## 15. Change log since the 31 Oct build
 
-Not in `builds/eyewitless_web.zip` until the next build.
+In order. All of it is in the 1 Nov build and already reflected in sections 1-14
+(older entries may mention things that later changed, e.g. Sam became Regina).
 
 **Story and characters**
 - **Alex uses they/them.** Every line and note about Alex was changed, e.g.
@@ -677,3 +705,9 @@ Not in `builds/eyewitless_web.zip` until the next build.
   characters.json, `portrait_regina`, knot `regina_talk`.
 - **Tape on the torn halves:** each half has a strip of tape across the middle
   of its top paper edge (found from the picture, `scripts/polaroid.gd`).
+- **Park animals:** Regina's 2 cats, Marwan's 2 maras and Alex's 5 dogs are
+  cut out of the owners' drawings into their own pictures (`park_cat_*`,
+  `park_mara_*`, `park_dog_*`). Each lifts on hover, squashes on click, and has
+  its own lines (section 4) and sound: new `sfx_cat_meow`, `sfx_cat_mew`,
+  `sfx_mara_squeak`; the dogs share the bark at different pitches (hotspot
+  `sfx_pitch`). The two invisible "Dogs" click spots are gone.
