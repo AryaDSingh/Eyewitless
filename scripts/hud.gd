@@ -40,15 +40,15 @@ func _ready() -> void:
 		_set_look(button, "default")
 		_badges[target] = _make_badge(button)
 	_notebook_button.pressed.connect(func():
-		if Audio.try_click():
+		if Audio.try_click(_notebook_button):
 			stop_blink("notebook")
 			notebook_pressed.emit())
 	_map_button.pressed.connect(func():
-		if Audio.try_click():
+		if Audio.try_click(_map_button):
 			stop_blink("map")
 			map_pressed.emit())
 	_camera_button.pressed.connect(func():
-		if Audio.try_click():
+		if Audio.try_click(_camera_button):
 			_set_look(_camera_button, "default")
 			camera_pressed.emit())
 	_objective.hide()

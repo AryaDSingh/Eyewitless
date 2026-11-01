@@ -52,3 +52,16 @@ script = ExtResource("3_hotspot")
 art_id = "townie_felix"
 placeholder_color = Color(0.86, 0.68, 0.72, 1)
 knot = "felix_talk"
+hide_if_flag = "saw_ducks"
+
+[node name="FelixSober" type="Control" parent="."]
+layout_mode = 0
+offset_left = 900.0
+offset_top = 300.0
+offset_right = 1280.0
+offset_bottom = 920.0
+script = ExtResource("3_hotspot")
+art_id = "townie_felix_sober"
+placeholder_color = Color(0.86, 0.68, 0.72, 1)
+knot = "felix_talk"
+show_if_flag = "saw_ducks"

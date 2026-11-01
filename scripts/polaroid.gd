@@ -43,6 +43,8 @@ func setup(art_id: String, caption := "", known := true, silhouette := false) ->
 	_frame.texture = FRAME if known else FRAME_UNKNOWN
 	_clip.visible = known
 	_photo.art_id = art_id
+	# People's photos keep their heads (and a little space above); clue photos fill the frame.
+	_photo.cover_from_top = art_id.begins_with("portrait_") or art_id.ends_with("_silhouette")
 	_photo.modulate = Color.BLACK if silhouette else Color.WHITE
 	# No drawing yet: a black box looks broken, and the grey box's label would give the name away.
 	_photo.show_placeholder = not silhouette

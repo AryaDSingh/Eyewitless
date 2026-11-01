@@ -8,6 +8,7 @@ extends PlaceholderArt
 signal clicked(hotspot: Hotspot)
 
 const BUBBLE_SECONDS := 1.4
+const BUBBLE_MIN_WIDTH := 240.0
 const BUBBLE_LEFT := preload("res://art/ui/bubble_speech_left.png")
 const BUBBLE_RIGHT := preload("res://art/ui/bubble_speech_right.png")
 const BUBBLE_SHOUT := preload("res://art/ui/bubble_shout.png")
@@ -44,10 +45,16 @@ func _ready() -> void:
 	mouse_exited.connect(_bounce.bind(Vector2.ONE, 0.15))
 
 
+## Hover and clicks only count on the drawing, not its see-through corners, so
+## overlapping pigeons each get their own clicks.
+func _has_point(point: Vector2) -> bool:
+	return is_drawn_at(point)
+
+
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		accept_event()
-		if Audio.try_click():
+		if Audio.try_click(self):
 			_squash()
 			clicked.emit(self)
 
@@ -108,6 +115,11 @@ func say(text: String) -> void:
 	label.text = text
 	label.add_theme_font_size_override("font_size", 36)
 	panel.add_child(label)
+	# The bubble art's ends (tail 150 + far side 40) don't shrink, so short replies
+	# like "Coo." need a minimum width or the far end gets cut off.
+	if not shout:
+		panel.custom_minimum_size.x = BUBBLE_MIN_WIDTH
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	add_child(panel)
 	var bubble_size := panel.get_combined_minimum_size()
 	# Speech goes in front of everything (HUD icons, other people), and stays on screen.
@@ -135,10 +147,10 @@ static func _bubble_style(kind: String) -> StyleBoxTexture:
 			# Keep the tail corner unstretched.
 			style.texture_margin_left = 150.0 if kind == "left" else 40.0
 			style.texture_margin_right = 40.0 if kind == "left" else 150.0
-			style.texture_margin_top = 50.0
+			style.texture_margin_top = 66.0  # the tape stays in the unstretched top strip
 			style.texture_margin_bottom = 80.0
-			style.content_margin_left = 44.0
-			style.content_margin_right = 44.0
-			style.content_margin_top = 40.0
+			style.content_margin_left = 52.0
+			style.content_margin_right = 52.0
+			style.content_margin_top = 66.0  # below the tape
 			style.content_margin_bottom = 84.0
 	return style

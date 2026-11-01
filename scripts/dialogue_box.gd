@@ -8,7 +8,7 @@ extends Control
 signal _advanced(choice: int)
 
 const CHARACTERS_PER_SECOND := 60.0
-const BOX_WIDTH := 1840.0
+const BOX_WIDTH := 2000.0  # wider than the screen (the art has see-through margins), so nothing peeks out at the ends
 const BOTTOM_MARGIN := 20.0
 const CHOICES_WIDTH := 560.0
 const CHOICES_GAP := 24.0
@@ -173,7 +173,7 @@ func _on_typing_finished() -> void:
 
 
 func _on_choice_pressed(index: int) -> void:
-	if Audio.try_click():
+	if Audio.try_click(self):
 		choose(index)
 
 
@@ -181,7 +181,7 @@ func _on_choice_pressed(index: int) -> void:
 func _on_player_advance() -> void:
 	if _typing and _typing.is_running():
 		advance()
-	elif _ready_to_advance and _choice_texts.is_empty() and Audio.try_click():
+	elif _ready_to_advance and _choice_texts.is_empty() and Audio.try_click(self):
 		advance()
 
 

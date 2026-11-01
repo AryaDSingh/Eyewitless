@@ -5,8 +5,9 @@ extends Node
 ## one off, so sounds never pile up. The list of sounds is in docs/AUDIO_LIST.md.
 ##
 ## Also owns the click cooldown: hotspots, buttons and dialogue ignore clicks
-## that come less than CLICK_COOLDOWN seconds after the last one, so players
-## can't spam them.
+## on the same thing that come less than CLICK_COOLDOWN seconds after the last
+## one, so players can't spam them. Clicking something different only waits
+## SWITCH_COOLDOWN (e.g. the last dialogue line, then the person again).
 
 const AUDIO_DIR := "res://audio/"
 const EXTENSIONS: Array[String] = ["ogg", "wav", "mp3"]
@@ -16,10 +17,14 @@ const CLICK_COOLDOWN := 1.0
 ## Overall volume (1.0 = the files as they are).
 const MASTER_VOLUME := 0.5
 
+## Clicking a different thing than last time only waits this long.
+const SWITCH_COOLDOWN := 0.25
+
 ## Tests set this to 0 so they can click as fast as they like.
 var click_cooldown := CLICK_COOLDOWN
 
 var _last_click_msec := -100000
+var _last_click_target: Object = null
 var _missing: Dictionary = {}
 var _fades: Dictionary = {}  # player -> Tween
 var _music: AudioStreamPlayer
@@ -41,12 +46,15 @@ func _ready() -> void:
 	_tick.volume_db = -14.0
 
 
-## True if enough time has passed since the last click that counted.
-func try_click() -> bool:
+## True if enough time has passed since the last click that counted. `target`
+## is what was clicked (a hotspot, the dialogue box, a screen...).
+func try_click(target: Object = null) -> bool:
 	var now := Time.get_ticks_msec()
-	if now - _last_click_msec < click_cooldown * 1000.0:
+	var wait := click_cooldown if target == _last_click_target else minf(click_cooldown, SWITCH_COOLDOWN)
+	if now - _last_click_msec < wait * 1000.0:
 		return false
 	_last_click_msec = now
+	_last_click_target = target
 	return true
 
 

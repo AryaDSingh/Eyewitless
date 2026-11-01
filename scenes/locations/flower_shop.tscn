@@ -14,6 +14,7 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_location")
 location_id = "flower_shop"
+on_enter_knot = "flower_shop_enter"
 display_name = "Flower Shop"
 
 [node name="Background" type="Control" parent="."]
@@ -39,6 +40,19 @@ script = ExtResource("3_hotspot")
 art_id = "townie_arya"
 placeholder_color = Color(0.86, 0.68, 0.72, 1)
 knot = "arya_talk"
+show_if_flag = "find_alex"
+
+[node name="AryaMad" type="Control" parent="."]
+layout_mode = 0
+offset_left = 835.0
+offset_top = 330.0
+offset_right = 1125.0
+offset_bottom = 930.0
+script = ExtResource("3_hotspot")
+art_id = "townie_arya_mad"
+placeholder_color = Color(0.86, 0.68, 0.72, 1)
+knot = "arya_talk"
+hide_if_flag = "find_alex"
 
 [node name="Pigeon" type="Control" parent="."]
 layout_mode = 0

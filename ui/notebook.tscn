@@ -29,7 +29,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-color = Color(0, 0, 0, 0.6)
+color = Color(0.07, 0.07, 0.07, 0.82)
 
 [node name="Book" type="PanelContainer" parent="."]
 layout_mode = 1
@@ -116,6 +116,8 @@ offset_right = 946.0
 offset_bottom = -452.0
 grow_horizontal = 0
 theme_type_variation = &"CloseButton"
+text = "Close ×"
+rotation = 0.03
 
 [node name="Zoom" type="Control" parent="."]
 unique_name_in_owner = true
@@ -173,7 +175,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 76)
 layout_mode = 2
 size_flags_horizontal = 4
-text = "Hold it up"
+text = "HOLD IT UP"
 
 [node name="ZoomHint" type="Label" parent="Zoom/ZoomCenter/ZoomColumn"]
 layout_mode = 2

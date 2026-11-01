@@ -1,8 +1,8 @@
 class_name MapScreen
 extends Control
-## The town map. Every place has a pin; locked ones show ???. Click an
-## unlocked place to travel there. New places use the highlighted "goto" pin
-## until the player has been there.
+## The town map (Samantha's drawing). Every place has a taped name label next
+## to its building; locked ones show ???. Click an unlocked place (label or
+## building) to travel there. New places get a red pen circle until visited.
 
 signal travel_requested(location_id: String)
 
@@ -10,10 +10,21 @@ var _opened_at := 0.0
 
 @onready var _pins: Control = %Pins
 @onready var _close_button: Button = %CloseButton
+@onready var _title: Label = %Title
 
 
 func _ready() -> void:
 	hide()
+	# The town's name on a strip of paper, taped over the map's top edge.
+	var strip := StyleBoxFlat.new()
+	strip.bg_color = MapPin.PAPER
+	strip.border_color = MapPin.INK
+	strip.set_border_width_all(4)
+	_title.add_theme_stylebox_override("normal", strip)
+	_title.add_theme_font_override("font", MapPin.NAME_FONT)
+	_title.add_theme_color_override("font_color", MapPin.INK)
+	Tape.stick(_title, 96, 40)
+	Tape.stick(_close_button)
 	_close_button.pressed.connect(close)
 	for pin in get_pins():
 		pin.pressed.connect(_on_pin_pressed.bind(pin))
@@ -73,7 +84,7 @@ func _residents_at(location_id: String) -> Array:
 
 
 func _on_pin_pressed(pin: MapPin) -> void:
-	if not Audio.try_click():
+	if not Audio.try_click(self):
 		return
 	close()
 	travel_requested.emit(pin.location_id)

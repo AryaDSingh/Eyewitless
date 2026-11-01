@@ -17,7 +17,7 @@ func _ready() -> void:
 	hide()
 	_settings.hide()
 	_start_button.pressed.connect(func():
-		if Audio.try_click():
+		if Audio.try_click(self):
 			start())
 	# The menu hides while Settings is open, so nothing shows around the panel.
 	_settings_button.pressed.connect(func():

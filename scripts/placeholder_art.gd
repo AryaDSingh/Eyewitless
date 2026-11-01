@@ -7,6 +7,8 @@ extends Control
 
 const ART_DIR := "res://art/"
 const EXTENSIONS: Array[String] = ["png", "jpg", "jpeg", "webp"]
+## Empty space above the picture with `cover_from_top` (fraction of the height).
+const HEADROOM := 0.08
 
 @export var art_id := "":
 	set(value):
@@ -22,6 +24,12 @@ const EXTENSIONS: Array[String] = ["png", "jpg", "jpeg", "webp"]
 	set(value):
 		cover = value
 		queue_redraw()
+## With `cover`: crop only from the bottom, never the top, and leave a little
+## empty space above (keeps heads in portraits). Off = crop evenly.
+@export var cover_from_top := false:
+	set(value):
+		cover_from_top = value
+		queue_redraw()
 ## Off = draw nothing when there's no picture (e.g. a clickable spot on top of
 ## a bigger picture, like one pigeon in the plaza crowd).
 @export var show_placeholder := true:
@@ -30,6 +38,9 @@ const EXTENSIONS: Array[String] = ["png", "jpg", "jpeg", "webp"]
 		queue_redraw()
 
 var _texture: Texture2D
+## Pictures' pixels for is_drawn_at, shared by every hotspot using the same
+## picture and loaded once (reading a texture back is slow, especially on web).
+static var _images: Dictionary = {}  # Texture2D -> Image
 
 
 static func find_texture(id: String) -> Texture2D:
@@ -51,6 +62,27 @@ func get_drawn_rect() -> Rect2:
 	var scale := minf(size.x / texture_size.x, size.y / texture_size.y)
 	var drawn := texture_size * scale
 	return Rect2((size - drawn) / 2, drawn)
+
+
+## True if the picture has ink (or white fill) at this point, not a see-through
+## part. Without a picture, the whole box counts.
+func is_drawn_at(point: Vector2) -> bool:
+	if _texture == null or cover:
+		return Rect2(Vector2.ZERO, size).has_point(point)
+	var drawn := get_drawn_rect()
+	if not drawn.has_point(point):
+		return false
+	if not _images.has(_texture):
+		var image := _texture.get_image()
+		if image and image.is_compressed():
+			image.decompress()
+		_images[_texture] = image
+	var pixels: Image = _images[_texture]
+	if pixels == null:
+		return true
+	var pixel := Vector2i((point - drawn.position) / drawn.size * Vector2(pixels.get_size()))
+	pixel = pixel.clamp(Vector2i.ZERO, pixels.get_size() - Vector2i.ONE)
+	return pixels.get_pixelv(pixel).a > 0.1
 
 
 func has_texture() -> bool:
@@ -83,9 +115,13 @@ func _draw() -> void:
 func _draw_texture(rect: Rect2) -> void:
 	var texture_size := _texture.get_size()
 	if cover:
+		if cover_from_top and texture_size.x / texture_size.y < rect.size.x / rect.size.y:
+			rect = Rect2(rect.position + Vector2(0, rect.size.y * HEADROOM), rect.size * Vector2(1, 1 - HEADROOM))
 		var scale := maxf(rect.size.x / texture_size.x, rect.size.y / texture_size.y)
 		var source_size := rect.size / scale
 		var source := Rect2((texture_size - source_size) / 2, source_size)
+		if cover_from_top:
+			source.position.y = 0.0
 		draw_texture_rect_region(_texture, rect, source)
 	else:
 		var scale := minf(rect.size.x / texture_size.x, rect.size.y / texture_size.y)

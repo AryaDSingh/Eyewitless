@@ -9,7 +9,6 @@
 [ext_resource type="Texture2D" path="res://art/ui/btn_tag.png" id="btn_tag"]
 [ext_resource type="Texture2D" path="res://art/ui/btn_tag_hover.png" id="btn_tag_hover"]
 [ext_resource type="Texture2D" path="res://art/ui/btn_tag_pressed.png" id="btn_tag_pressed"]
-[ext_resource type="Texture2D" path="res://art/ui/btn_close.png" id="btn_close"]
 
 [sub_resource type="StyleBoxFlat" id="panel"]
 content_margin_left = 24.0
@@ -107,8 +106,35 @@ texture_margin_top = 12.0
 texture_margin_right = 14.0
 texture_margin_bottom = 12.0
 
-[sub_resource type="StyleBoxTexture" id="close"]
-texture = ExtResource("btn_close")
+[sub_resource type="StyleBoxFlat" id="close"]
+content_margin_left = 22.0
+content_margin_top = 6.0
+content_margin_right = 22.0
+content_margin_bottom = 8.0
+bg_color = Color(0.965, 0.957, 0.925, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.12, 0.11, 0.1, 1)
+shadow_color = Color(0, 0, 0, 0.12)
+shadow_size = 2
+shadow_offset = Vector2(3, 4)
+
+[sub_resource type="StyleBoxFlat" id="close_hover"]
+content_margin_left = 22.0
+content_margin_top = 6.0
+content_margin_right = 22.0
+content_margin_bottom = 8.0
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.12, 0.11, 0.1, 1)
+shadow_color = Color(0, 0, 0, 0.12)
+shadow_size = 2
+shadow_offset = Vector2(3, 4)
 
 [sub_resource type="StyleBoxTexture" id="tag_small"]
 content_margin_left = 10.0
@@ -160,9 +186,15 @@ Button/styles/hover_pressed = SubResource("primary_pressed")
 Button/styles/normal = SubResource("primary")
 Button/styles/pressed = SubResource("primary_pressed")
 CloseButton/base_type = &"Button"
+CloseButton/colors/font_color = Color(0.12, 0.11, 0.1, 1)
+CloseButton/colors/font_hover_color = Color(0.12, 0.11, 0.1, 1)
+CloseButton/colors/font_pressed_color = Color(0.12, 0.11, 0.1, 1)
+CloseButton/colors/font_hover_pressed_color = Color(0.12, 0.11, 0.1, 1)
+CloseButton/colors/font_focus_color = Color(0.12, 0.11, 0.1, 1)
+CloseButton/font_sizes/font_size = 36
 CloseButton/styles/disabled = SubResource("close")
-CloseButton/styles/hover = SubResource("close")
-CloseButton/styles/hover_pressed = SubResource("close")
+CloseButton/styles/hover = SubResource("close_hover")
+CloseButton/styles/hover_pressed = SubResource("close_hover")
 CloseButton/styles/normal = SubResource("close")
 CloseButton/styles/pressed = SubResource("close")
 Label/colors/font_color = Color(0.17, 0.17, 0.17, 1)

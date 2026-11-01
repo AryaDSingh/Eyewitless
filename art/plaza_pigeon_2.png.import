@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cxxv17cv4jtsm"
-path="res://.godot/imported/alex_silhouette.png-84683818befc190aed64d7f04de79f84.ctex"
+uid="uid://m64g2vg8gxph"
+path="res://.godot/imported/plaza_pigeon_2.png-cb21ab132da448f37af65d10001858d6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/alex_silhouette.png"
-dest_files=["res://.godot/imported/alex_silhouette.png-84683818befc190aed64d7f04de79f84.ctex"]
+source_file="res://art/plaza_pigeon_2.png"
+dest_files=["res://.godot/imported/plaza_pigeon_2.png-cb21ab132da448f37af65d10001858d6.ctex"]
 
 [params]
 

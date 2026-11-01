@@ -2,7 +2,6 @@
   "detective": {
     "name": "Detective",
     "role": "You",
-    "portrait": "portrait_detective",
     "in_notebook": false
   },
   "arya": {
@@ -10,14 +9,20 @@
     "role": "Florist · Client",
     "description": "Runs the flower shop. Loves his scarf more than most people.",
     "portrait": "portrait_arya",
+    "full_body": "townie_arya",
     "location": "flower_shop"
+  },
+  "arya_mad": {
+    "name": "Arya",
+    "portrait": "portrait_arya_mad",
+    "in_notebook": false
   },
   "alex": {
     "name": "Alex",
     "role": "Dog walker",
     "description": "Walks five dogs at the park. Took another photo of the scarf incident and gave it to Felix.",
     "portrait": "portrait_alex",
-    "silhouette_art": "alex_silhouette",
+    "full_body": "alex_standing",
     "location": "park"
   },
   "marwan": {
@@ -25,8 +30,18 @@
     "role": "Walker with \"capybaras\"",
     "description": "Walks his pets at the park. Insists they're capybaras.",
     "portrait": "portrait_marwan",
+    "full_body": "marwan_standing",
     "silhouette": true,
     "silhouette_art": "marwan_silhouette",
+    "location": "park"
+  },
+  "sam": {
+    "name": "Sam",
+    "role": "Cat walker",
+    "description": "Walks two cats on leads at the park. Is definitely not Alex.",
+    "portrait": "portrait_sam",
+    "full_body": "townie_dog_walker_1",
+    "silhouette": true,
     "location": "park"
   },
   "felix": {
@@ -34,13 +49,20 @@
     "role": "Aquarium seller",
     "description": "Spends his mornings at the bar. Thinks pigeons are spies. Not reliable.",
     "portrait": "portrait_felix",
+    "full_body": "townie_felix",
     "location": "bar"
   },
-  "pigeon": {
+  "pigeon_unnamed": {
     "name": "The Pigeon",
+    "portrait": "portrait_pigeon",
+    "in_notebook": false
+  },
+  "pigeon": {
+    "name": "Jason",
     "role": "Culprit · Your new partner",
     "description": "Pooped on Arya's scarf. Very sorry about it. Mostly.",
     "portrait": "portrait_pigeon",
+    "full_body": "companion_pigeon",
     "location": "flower_shop"
   }
 }

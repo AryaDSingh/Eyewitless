@@ -23,6 +23,11 @@ func _ready() -> void:
 		if arg.begins_with("--screenshots="):
 			screenshot_dir = arg.trim_prefix("--screenshots=")
 	Engine.time_scale = 1.0 if screenshot_dir != "" else 8.0
+	# Real mouse clicks/hover on the window must not reach the game: the test
+	# clicks for itself (push_input still works), and a stray click on someone
+	# would change the story mid-test.
+	DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_MOUSE_PASSTHROUGH, true)
+	DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_NO_FOCUS, true)
 	Audio.click_cooldown = 0.0
 	EventLog.upload_url = ""  # don't send test runs to the team's Drive folder
 	for problem in Story.validate():
@@ -46,8 +51,16 @@ func _ready() -> void:
 
 func _play() -> void:
 	await _settle()
-	_expect(GameState.current_location == "flower_shop", "starts at the flower shop after the notebook")
+	_expect(GameState.current_location == "office", "stays in the office after the letters")
 	_expect("blurry_photo" in GameState.found_clues, "blurry photo added automatically")
+	_expect(not GameState.is_location_unlocked("park"), "only the flower shop is open at first")
+	main.nudge_after = 0.5
+	await get_tree().create_timer(1.0).timeout
+	await _settle()
+	main.nudge_after = 0.0
+	_expect(GameState.has_flag("nudged_shop"), "the Detective nudges towards the flower shop")
+	await _travel("flower_shop")
+	_expect("arya" in GameState.met_characters, "walking into the shop starts Arya's scene")
 	_expect(GameState.is_location_unlocked("park"), "Arya unlocks the park")
 	_expect(main.hud.is_tool_shown("notebook") and main.hud.is_tool_shown("map"), "notebook and map are unlocked")
 	_expect(not main.hud.is_tool_shown("camera"), "camera stays hidden until Arya's gift")
@@ -57,6 +70,7 @@ func _play() -> void:
 	await _travel("park")
 	await _shot("park")
 	await _check_spam_click("Walker1")
+	await _check_click_switch()
 	await _click("Walker1", true)
 	await _click("Marwan")
 	_expect(not GameState.has_flag("alex_done"), "Marwan isn't Alex")
@@ -74,6 +88,9 @@ func _play() -> void:
 	main.notebook.open("alex")
 	await _check_notebook_fits("Alex's page")
 	await _shot("notebook_residents")
+	main.notebook.close()
+	main.notebook.open("sam")
+	await _check_notebook_fits("Sam's page")
 	main.notebook.close()
 
 	await _travel("bar")
@@ -93,14 +110,15 @@ func _play() -> void:
 	main.nudge_after = 0.0
 	_expect(GameState.has_flag("nudged_ducks"), "standing still at the pond makes the Detective mutter about Felix")
 	await _travel("bar")
-	await _click("Felix")
+	_expect(not main.location.get_hotspot("Felix").visible, "Felix has sobered up after the pond")
+	await _click("FelixSober")
 	_expect("pigeon_photo" in GameState.found_clues, "Felix gives the pigeon photo")
 	_expect(GameState.is_location_unlocked("plaza"), "Felix unlocks the plaza")
-	await _click("Felix")
+	await _click("FelixSober")
 	_expect(EventLog.has_event_with("knot", "felix_after"), "Felix has a line after giving the photo")
 	await _travel("park")
 	await _click("Alex")
-	_expect(EventLog.has_event_with("knot", "alex_after"), "Alex has a line after her scene")
+	_expect(EventLog.has_event_with("knot", "alex_after"), "Alex has a line after their scene")
 	await _travel("flower_shop")
 	await _click("Arya")
 	_expect(EventLog.has_event_with("knot", "arya_felix"), "Arya has a line mid-case")
@@ -120,6 +138,7 @@ func _play() -> void:
 	await _check_layout("plaza holding the photo")
 	await _shot("plaza")
 	await _click("Pigeon2", true)
+	await _click("Pigeon4", true)  # a very short reply ("Coo.") still gets a whole bubble
 	_expect("case_01" not in GameState.solved_cases, "a wrong pigeon doesn't solve the case")
 	await _click("ScarfPigeon")
 	_expect("case_01" in GameState.solved_cases, "the right pigeon solves the case")
@@ -173,7 +192,7 @@ func _check_spam_click(hotspot_name: String) -> void:
 	# The cooldown counts from the last click (the map pin), so wait it out first. Real time.
 	await get_tree().create_timer(Audio.CLICK_COOLDOWN + 0.1, true, false, true).timeout
 	var before := EventLog.count_events("hotspot_clicked")
-	var target := hotspot.get_global_rect().get_center()
+	var target := _drawn_point(hotspot)
 	var motion := InputEventMouseMotion.new()
 	motion.position = target
 	motion.global_position = target
@@ -191,6 +210,38 @@ func _check_spam_click(hotspot_name: String) -> void:
 	_expect(counted == 1, "spam clicks on %s count once (counted %d)" % [hotspot_name, counted])
 	Audio.click_cooldown = 0.0
 	await get_tree().create_timer(Hotspot.BUBBLE_SECONDS * 3).timeout
+
+
+## Clicking the same thing again within 1 s is ignored, but clicking something
+## else right away (the last dialogue line, then the person) isn't. Real time.
+func _check_click_switch() -> void:
+	Audio.click_cooldown = Audio.CLICK_COOLDOWN
+	await get_tree().create_timer(Audio.CLICK_COOLDOWN + 0.1, true, false, true).timeout
+	var first := Node.new()
+	var other := Node.new()
+	_expect(Audio.try_click(first), "a first click counts")
+	_expect(not Audio.try_click(first), "the same thing clicked again right away doesn't")
+	await get_tree().create_timer(Audio.SWITCH_COOLDOWN + 0.05, true, false, true).timeout
+	_expect(Audio.try_click(other), "something else clicked straight after does count")
+	first.free()
+	other.free()
+	Audio.click_cooldown = 0.0
+
+
+## A point on the hotspot's drawing (clicks on see-through parts don't count),
+## as close to its middle as possible.
+func _drawn_point(hotspot: Hotspot) -> Vector2:
+	var rect := hotspot.get_global_rect()
+	var best := rect.get_center()
+	var best_distance := INF
+	for x in range(0, int(rect.size.x), 10):
+		for y in range(0, int(rect.size.y), 10):
+			var local := Vector2(x, y)
+			var distance := local.distance_to(rect.size / 2)
+			if distance < best_distance and hotspot.is_drawn_at(local):
+				best = rect.position + local
+				best_distance = distance
+	return best
 
 
 ## Every page of the notebook's right side fits (nothing cut off), and you can

@@ -220,7 +220,7 @@ func open_notebook(page: String, close_label: String) -> void:
 func end_game() -> void:
 	EventLog.log_event("game_end", {"seconds": snappedf(EventLog.elapsed_seconds(), 0.1)})
 	if await EventLog.upload():
-		await card_screen.show_card("none", "Thanks for playing!\nYour playtest log was sent to the team.", "Next")
+		await card_screen.show_card("none", "Thanks for playing!\nYour playtest log was sent to the team.", "NEXT")
 	else:
 		var on_web := OS.has_feature("web")
 		await card_screen.show_card("none", "Thanks for playing!\nPlease tell the team what you thought.",

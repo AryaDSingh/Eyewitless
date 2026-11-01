@@ -2,7 +2,7 @@ class_name Notebook
 extends Control
 ## The detective's notebook, with two tabs:
 ## - Cases: each case and its clues (added automatically). Click a clue to see
-##   it big; from there "Hold it up" keeps it on screen to compare.
+##   it big; from there "HOLD IT UP" keeps it on screen to compare.
 ## - Residents: a polaroid for each townie, a "?" frame until met. Clicking
 ##   one shows who they are and everything they've said.
 ## The first time a solved case is opened, the SOLVED stamp slams down and the
@@ -14,8 +14,14 @@ signal hold_requested(clue_id: String)
 enum Tab { CASES, CHARACTERS }
 
 const RESIDENT_WIDTH := 158.0
+## Height of the full-body drawing on a resident's page.
+const FIGURE_HEIGHT := 360.0
+## Wide drawings (Sam and the cats) are shrunk to this width, so the text beside them has room.
+const FIGURE_MAX_WIDTH := 240.0
 const CLUE_WIDTH := 150.0
 const STAMP_SOLVED := preload("res://art/ui/stamp_solved.png")
+## The grey stamp art (100/255) multiplied up to the red ink used for circles (~211, 65, 61).
+const STAMP_RED := Color(2.11, 0.65, 0.61)
 
 var _tab := Tab.CASES
 var _selected := ""
@@ -51,8 +57,17 @@ func _ready() -> void:
 	_cases_tab.pressed.connect(_switch_tab.bind(Tab.CASES))
 	_characters_tab.pressed.connect(_switch_tab.bind(Tab.CHARACTERS))
 	_close_button.pressed.connect(close)
+	Tape.stick(_close_button)
+	# The open tab is the raised one (Ruby's normal tag), the other lies flat and faded.
+	for tab: Button in [_cases_tab, _characters_tab]:
+		var raised := tab.get_theme_stylebox("normal", "TagButton")
+		var flat := tab.get_theme_stylebox("pressed", "TagButton")
+		for state in ["pressed", "hover_pressed"]:
+			tab.add_theme_stylebox_override(state, raised)
+		tab.add_theme_stylebox_override("normal", flat)
+		tab.add_theme_color_override("font_color", Color(0.45, 0.45, 0.45))
 	_hold_button.pressed.connect(func():
-		if Audio.try_click():
+		if Audio.try_click(self):
 			hold_clue(_zoomed_clue))
 	for button: Button in [_prev, _next]:
 		button.theme_type_variation = &"SmallTagButton"
@@ -205,7 +220,7 @@ func _paginate() -> void:
 
 
 func _flip(step: int) -> void:
-	if not Audio.try_click():
+	if not Audio.try_click(self):
 		return
 	Audio.play_sfx("sfx_page_turn")
 	_show_page(clampi(_page + step, 0, _page_count - 1))
@@ -247,20 +262,28 @@ func _build_case_page(case_id: String) -> void:
 	var case_data: Dictionary = GameState.cases[case_id]
 	_add_rich("[font_size=52]%s[/font_size]" % case_data.get("title", case_id))
 	if case_id in GameState.solved_cases:
+		# Stamped over the end of the title in red ink, so it doesn't push the page down.
+		var title: Control = _detail.get_child(-1)
 		_stamp = TextureRect.new()
 		_stamp.texture = STAMP_SOLVED
 		_stamp.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		_stamp.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT
-		_stamp.custom_minimum_size = STAMP_SOLVED.get_size() * 0.6
-		_stamp.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
-		_detail.add_child(_stamp)
+		_stamp.size = STAMP_SOLVED.get_size() * 0.45
+		_stamp.modulate = STAMP_RED
+		_stamp.rotation_degrees = -10.0
+		_stamp.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		title.clip_contents = false  # the stamp slams in at 2.5x; don't cut it off
+		title.add_child(_stamp)
+		var place := func(): _stamp.position = Vector2(title.size.x - _stamp.size.x, -_stamp.size.y * 0.1)
+		title.resized.connect(place)
+		place.call()
 	var client := GameState.get_character(case_data.get("client", ""))
 	if not client.is_empty():
 		_add_text("Client: %s" % client.get("name", ""))
 	# Key points from the client's letter, so players don't have to remember it.
 	var points: Array = case_data.get("letter_points", [])
 	if not points.is_empty():
-		_add_rich("[b]From %s:[/b]" % ("%s's letter" % client.name if not client.is_empty() else "the letter"), true)
+		_add_rich("[font_size=40]From %s[/font_size]" % ("%s's letter" % client.name if not client.is_empty() else "the letter"), true)
 		for point: String in points:
 			_add_text("• " + point)
 	_add_rich("[font_size=40]Clues[/font_size]", true)
@@ -321,13 +344,40 @@ func _build_character_list() -> void:
 
 func _build_character_page(character_id: String) -> void:
 	var character: Dictionary = GameState.characters[character_id]
-	var portrait := Polaroid.new().setup(character.get("portrait", ""))
-	portrait.custom_minimum_size = Vector2(220, 220 / Polaroid.ASPECT)
-	portrait.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
-	_detail.add_child(portrait)
+	# The whole figure ("full_body" in characters.json), so nothing is cropped.
+	# Until that drawing exists, the portrait polaroid.
+	var body := PlaceholderArt.find_texture(character.get("full_body", ""))
+	var column: VBoxContainer
+	if body:
+		# Figure on the left, name and description beside it, so it fits one page.
+		var row := HBoxContainer.new()
+		row.add_theme_constant_override("separation", 28)
+		var figure := TextureRect.new()
+		figure.texture = body
+		figure.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		figure.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT
+		var aspect := float(body.get_width()) / body.get_height()
+		var width := minf(FIGURE_HEIGHT * aspect, FIGURE_MAX_WIDTH)
+		figure.custom_minimum_size = Vector2(width, width / aspect)
+		row.add_child(figure)
+		column = VBoxContainer.new()
+		column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		column.alignment = BoxContainer.ALIGNMENT_CENTER
+		row.add_child(column)
+		_detail.add_child(row)
+	else:
+		var portrait := Polaroid.new().setup(character.get("portrait", ""))
+		portrait.custom_minimum_size = Vector2(220, 220 / Polaroid.ASPECT)
+		portrait.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+		_detail.add_child(portrait)
+	var before := _detail.get_child_count()
 	_add_rich("[font_size=52]%s[/font_size]" % character.get("name", character_id))
-	_add_text(character.get("role", ""))
+	if character.get("role", "") != "":
+		_add_rich("[color=#6b6b6b]%s[/color]" % character.role)
 	_add_text(character.get("description", ""))
+	if column:
+		for child in _detail.get_children().slice(before):
+			child.reparent(column)
 	_add_rich("[font_size=40]What they told you[/font_size]", true)
 	var said: Array = GameState.notes.get(character_id, [])
 	if said.is_empty():
