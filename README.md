@@ -51,7 +51,7 @@ godot --headless --path . res://tests/playthrough_test.tscn
 |---|---|
 | `scenes/` | Scenes (`.tscn`) |
 | `scripts/` | Shared GDScript (`.gd`) |
-| `resources/cases/` | Case data resources (`.tres`) |
+| `resources/cases/` | Case scripts (`.story`) and case data (`.json`) |
 | `art/` | Sprites, backgrounds, UI art (stored via LFS) |
 | `audio/` | Music and SFX (stored via LFS) |
 | `ui/` | UI scenes and themes |

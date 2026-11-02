@@ -17,7 +17,7 @@ art, save a **PNG** with exactly that name into the `art/` folder (for example
 | Name | What it shows |
 |---|---|
 | `envelope` | Hand holding an envelope "To Detective" (the player clicks it) |
-| `clue_blurry_photo_felix` | Also used as a card: the blurry photo zooming in on Felix |
+| `clue_torn_right` | Also used as a card: Alex's half of the photo, Felix circled |
 | `clue_pigeon_photo` | Also used as a card: Felix's photo of the pigeon |
 | `pigeon_omg` | The pigeon caught: "O.M.G.!!" |
 | `pigeon_closeup` | Close-up of the pigeon, wide-eyed and sweating |
@@ -33,8 +33,8 @@ wording can change without redrawing.
 
 | Name | What it shows |
 |---|---|
-| `welcome_letter` | Welcome letter paper (it unrolls) |
-| `arya_letter` | Arya's letter paper. The blurry photo is pinned top right by the game (`clue_blurry_photo`), so leave room for it |
+| `welcome_letter` | Welcome letter paper (it unrolls). Samantha's paper is portrait-shaped; the game writes the text inside whatever shape is drawn |
+| `arya_letter` | Arya's letter paper. The game pins Arya's half of the photo (`clue_torn_left`) over the paper's right edge |
 
 ## Title screen — 1920×1080
 `title_screen`: background behind the EYEWITLESS title and the START / Settings buttons.
@@ -43,40 +43,59 @@ wording can change without redrawing.
 `companion_pigeon` (160×200, transparent): the pigeon in its hat, shown bottom left once it joins you.
 
 ## Backgrounds — 1920×1080
+
+Lx's flower shop is the model for the rest:
+- **2:1 (2048×1024) is fine.** The game shows it 2160 px wide, so about 40 px on
+  the left and 200 px on the right are off screen. Keep important things away
+  from the edges.
+- **Separate layers** (back, middle, front, each a transparent PNG except the
+  back) drift with the mouse at different speeds (parallax). Things in front of
+  the characters, like the pots, go in their own layer.
+- **The ground:** characters stand on the pavement near the bottom, as in Lx's
+  reference. The dialogue box covers their legs while they talk.
 | Name | Location |
 |---|---|
 | `bg_office` | Detective office |
-| `bg_flower_shop` | Arya's flower shop |
-| `bg_park` | Park |
-| `bg_bar` | Bar |
+| `bg_flower_shop` + `_front`, `_pots` | Arya's flower shop (Lx). Three layers for parallax: street (back), shop front, flower pots (in front of Arya) |
+| `bg_park` + `_hills`, `_field`, `_lake`, `_bushes`, `_tree` | Park (Lx). Back to front: dark sky, hills and trees, lighter field, lake, small bushes, then the big tree, path, bench and front bushes. Everyone stands on the path in front of all of it |
+| `bg_bar` + `_mirror`, `_counter`, `_stools` | Bar (Lx). `bg_bar` is plain white; then the mirror and drinks shelf, the counter with taps and lamps (the bartender stands behind it), and the stools (in front of Felix) |
 | `bg_pond` | Pond in the park |
 | `bg_plaza` | Plaza |
-| `map_bg` | Town map of Muddleford |
+| `map_bg` | Town map of Muddleford. Each place's taped name label sits next to its building, and the building itself is clickable (`building` on each pin in `ui/map_screen.tscn`), so update those if the map changes |
 
 ## Characters standing in scenes (transparent PNG)
 | Name | Size on screen | Notes |
 |---|---|---|
 | `townie_arya` | 280×600 | Flower shop |
-| `townie_alex` | 260×560 | Park. Alex, the walker with **5** dogs |
-| `prop_alex_dogs` | 460×160 | Alex's 5 dogs |
-| `townie_dog_walker_1` | 220×520 | Walker with 1 dog ("NO!") |
-| `townie_marwan` | 220×520 | Marwan with his 2 "capybaras" (Patagonian maras) |
-| `townie_dog_walker_3` | 220×520 | Walker with a big pack of dogs (they bark) |
-| `townie_felix` | 260×560 | Bar |
+| `townie_alex` | 800×575 | Park. Alex tangled in the leads of their 5 dogs. The dogs are cut out into `park_dog_1` … `_5`, so this picture has holes where they stand |
+| `townie_dog_walker_1` | 490×390 | Regina, the cat walker ("NO!"). Her cats are cut out into `park_cat_1` (big) and `park_cat_2` (small) |
+| `townie_marwan` | 220×520 | Marwan. His 2 "capybaras" (Patagonian maras) are cut out into `park_mara_1` and `_2` |
+| `park_cat_*`, `park_mara_*`, `park_dog_*` | — | The park animals, each clickable on its own. Cut from Samantha's owner drawings (leads cut at the collar). To redraw one, keep it in the same spot on the owner's canvas |
+| `townie_felix` | 260×560 | Bar (drunk) |
+| `townie_felix_sober` | 260×560 | Bar, after the pond |
+| `townie_arya_mad` | 290×600 | Flower shop, first talk: Arya holding the ruined scarf |
 | `townie_bartender` | 240×560 | Bar |
-| `townie_duck` | 200×180 | Pond (used 3 times) |
+| `townie_duck_1` … `_4` | 200×180 | Pond, four ducks |
 | `townie_plaza_1`, `townie_plaza_2` | 200×480 | Plaza people |
-| `townie_pigeon_1` … `_6` | 150×190 | Plaza pigeons (wrong answers) |
-| `townie_pigeon_7` | 150×190 | **The culprit.** Must match `clue_pigeon_photo`, but look close enough to the others that it's a puzzle |
+| `plaza_pigeon_1` … `_12` (no 10) | as drawn | Plaza pigeons, each its own click spot, placed where they were in the crowd picture. `plaza_pigeon_9` wears a scarf (a wrong suspect) |
+| `plaza_pigeon_11` | as drawn | **The culprit** (`ScarfPigeon` in `plaza.tscn`). Must match `clue_pigeon_photo` |
 
 ## Portraits in the dialogue box and notebook — 300×300
-`portrait_detective`, `portrait_arya`, `portrait_alex`, `portrait_marwan`, `portrait_felix`, `portrait_pigeon`
+`portrait_arya`, `portrait_alex`, `portrait_marwan`, `portrait_felix`, `portrait_pigeon`
+
+Plus `portrait_arya_mad` (first talk) and `portrait_regina`.
+
+Full-body drawings on the notebook pages (`full_body` in `resources/characters.json`):
+`townie_arya`, `alex_standing`, `marwan_standing`, `townie_felix`, `townie_dog_walker_1` (Regina), `companion_pigeon`.
+
+Silhouettes (black shapes in the notebook before you meet someone) come from the portrait;
+`marwan_silhouette` is filled in by hand because his portrait is outline-only.
 
 ## Clue photos (notebook) — 4:3, e.g. 1100×825
 | Name | What it shows |
 |---|---|
-| `clue_blurry_photo` | Arya's blurry photo of the scarf moment |
-| `clue_blurry_photo_felix` | Same photo with Felix, small, behind Arya |
+| `clue_torn_left` | Arya's half of the torn photo (Samantha's `photo-left`). Tape is drawn by the game on top |
+| `clue_torn_right` | Alex's half (`photo-right`), Felix circled in red. `clue_torn_*` photos show without the white frame |
 | `clue_pigeon_photo` | Felix's photo of the culprit pigeon |
 
 ## UI art (Ruby, Option 2) — in `art/ui/`
@@ -86,28 +105,36 @@ These are already in the game. To change one, save over the file with the same n
 |---|---|
 | `title_logo` | EYEWITLESS logo on the title screen |
 | `btn_primary`, `_hover`, `_pressed`, `_disabled` | Dark buttons (START, choices, Next). They stretch to fit the text, so keep a plain middle |
-| `btn_tag`, `_hover`, `_pressed` | Light buttons (Settings, Mute, notebook tabs) |
-| `btn_close` | Close on the map and notebook ("Close ✕" is drawn in) |
+| `btn_tag`, `_hover`, `_pressed` | Light buttons (Settings, Sound on/off, notebook tabs) |
+| `icon_options` | The Options gear (top left), drawn for the game in the HUD icons' style, on `icon_bg` |
+| `btn_close` | Not used any more: Close is now a taped paper label drawn by the game |
 | `dialogue_box`, `_thought`, `_no_portrait` | Dialogue panel. The game puts the portrait, the name (on the tape) and the text on fixed spots, so **keep new versions the same size and layout**. Spots are listed in `BOXES` in `scripts/dialogue_box.gd` |
-| `bubble_speech_left`, `_right`, `bubble_shout` | Bubbles over people. Left = their reply, right = the Detective asking, shout = all-caps lines like "NO!" |
+| `dialogue_arrow` | The "→" in the bottom right, cut out of the box art so it can nudge when a line is done. Leave it off new box pictures |
+| `bubble_speech_left`, `bubble_shout` | Bubbles over people for their replies; shout = all-caps lines like "NO!". (The Detective's questions use the dialogue box, so `bubble_speech_right` is not used.) |
 | `icon_notebook`, `icon_map`, `icon_camera` + `icon_bg`, `_new`, `_highlight` | HUD icons. `_new` until first clicked, `_highlight` when something new is inside |
-| `pin_*` + `pin_box_*` (goto, unlocked, visited, locked) | Map pins. The game split each pin from its label box so the box can stretch to the place name |
+| `camera_viewfinder` | Looking through the camera (1920×1080, transparent middle). Date changed to an impossible one |
+| `pin_*` + `pin_box_*` (goto, unlocked, visited, locked) | Not used any more: the map now uses taped paper name labels drawn by the game |
 | `photo_frame`, `photo_frame_unknown` | Residents and clue photos in the notebook; "?" for people not met yet |
 | `stamp_solved` | SOLVED stamp on a solved case (also `art/case_solved.png`, the end card) |
 
-Not used yet: `bubble_thought`, `icon_bg_locked`, `btn_primary_small_icon`, `btn_tag_small_icon`.
+Not used yet: `bubble_speech_right`, `bubble_thought`, `dialogue_box_thought`, `icon_bg_locked`, `btn_primary_small_icon`, `btn_tag_small_icon`.
 
-**Fonts** (`ui/fonts/`, free, OFL licence): Caveat Brush for buttons, pins and photo captions; Patrick Hand for everything else.
+**Fonts** (`ui/fonts/`, free, OFL licence): Caveat Brush for buttons, labels and photo captions; Patrick Hand for everything else.
+Letters are handwritten: Kalam (the town's neat hand), Caveat (Arya's scribble), and cursive for the
+"Dear Detective," and signatures: Mrs Saint Delafield (the town), Dancing Script (Arya). The red
+"MUDDLEFORD · EST. ????" stamp on the welcome letter is drawn by the game.
 
 ## Character art in the game (Samantha)
 Cut out of the sheets in the team Drive, one figure per file:
 `townie_arya`, `portrait_arya`, `townie_felix`, `portrait_felix`, `townie_marwan`, `portrait_marwan`,
-`townie_dog_walker_1` (the cat walker), `townie_duck_1` … `_4`, `plaza_pigeons` (the whole crowd: each
-pigeon is an invisible click spot on top, see `scenes/locations/plaza.tscn`), THE Pigeon as
-`townie_pigeon_7`, `clue_pigeon_photo`, `portrait_pigeon`, `companion_pigeon`, `pigeon_omg`,
+`townie_dog_walker_1` (Regina the cat walker), `townie_duck_1` … `_4`, `plaza_pigeon_*` (the crowd as
+separate pigeons), `townie_arya_mad`, `townie_alex`, `alex_standing`, `marwan_standing`,
+`townie_felix_sober`, `map_bg`, the letter paper, `portrait_alex`, `portrait_regina` and `portrait_arya_mad`
+(cut from the figures), THE Pigeon as `townie_pigeon_7` (source of `pigeon_omg`), `clue_pigeon_photo`, `portrait_pigeon`, `companion_pigeon`, `pigeon_omg`,
 `pigeon_closeup`, `pigeon_cries`, plus `envelope`, `pigeon_prison`, `notebook_book` (notebook background,
-pages filled in white) and `clue_blurry_photo` / `_felix` (the incident drawing, blurred, Felix circled).
+pages filled in white) and `clue_torn_left` / `_right` (the torn photo halves, Felix circled).
 
-Still grey boxes: Alex and her 5 dogs, the Detective's portrait, walker 3 (big pack), the bartender,
-the plaza people, all backgrounds and the map, the letters' paper, and the cards `pigeon_hat`,
-`camera_intro`.
+Not used any more: `plaza_pigeons` (the old one-picture crowd), `prop_alex_dogs`.
+
+Still grey boxes: the bartender, the plaza people, all location backgrounds, the title screen,
+and the cards `pigeon_hat`, `camera_intro`.

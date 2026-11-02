@@ -15,6 +15,12 @@ const START_KNOT := "start"
 
 ## Turn off to load the scene without starting the story (used by tests).
 @export var autostart := true
+## Seconds with nothing new happening (while the player is free to act) before
+## the Detective mutters a nudge (the `nudge` knot). 0 = never.
+@export var nudge_after := 25.0
+
+var _idle := 0.0
+var _arrive_fade := ColorRect.new()
 
 var location: Location
 
@@ -25,7 +31,9 @@ var location: Location
 @onready var map_screen: MapScreen = %MapScreen
 @onready var card_screen: CardScreen = %CardScreen
 @onready var title_screen: TitleScreen = %TitleScreen
-@onready var mute_button: Button = %MuteButton
+@onready var options_button: Button = %OptionsButton
+var options := OptionsPanel.new()
+var viewfinder := Viewfinder.new()
 
 
 func _ready() -> void:
@@ -39,17 +47,42 @@ func _ready() -> void:
 	hud.map_pressed.connect(_on_map_pressed)
 	hud.camera_pressed.connect(_on_camera_pressed)
 	map_screen.travel_requested.connect(travel_to)
+	GameState.changed.connect(func(): _idle = 0.0)
+	# A quick fade from paper colour when arriving somewhere (under the HUD).
+	_arrive_fade.color = Color(0.96, 0.94, 0.88, 0)
+	_arrive_fade.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_arrive_fade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	location_layer.add_sibling(_arrive_fade)
 	notebook.hold_requested.connect(func(clue_id: String): hold_photo(clue_id))
 	# Muting lasts until the game is closed, even through "Play again".
-	mute_button.set_pressed_no_signal(Audio.is_muted())
-	mute_button.text = "Unmute" if Audio.is_muted() else "Mute"
-	mute_button.toggled.connect(func(muted: bool):
-		Audio.set_muted(muted)
-		mute_button.text = "Unmute" if muted else "Mute")
+	# Options (sound, volumes): Ruby's taped paper square with a drawn gear, top left.
+	var paper := StyleBoxTexture.new()
+	paper.texture = preload("res://art/ui/icon_bg.png")
+	for state in ["normal", "hover", "pressed", "hover_pressed", "disabled"]:
+		options_button.add_theme_stylebox_override(state, paper)
+	options_button.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
+	options_button.icon = preload("res://art/ui/icon_options.png")
+	options_button.pressed.connect(func():
+		if Audio.try_click(options_button):
+			options.open())
+	add_child(viewfinder)
+	add_child(options)  # last, so it's on top of everything
+	title_screen.settings_pressed.connect(options.open)
 	if autostart:
 		await title_screen.open()
 		go_to(START_LOCATION)
 		Story.run(START_KNOT)
+
+
+func _process(delta: float) -> void:
+	var free := not Story.is_running and not notebook.visible and not map_screen.visible 			and not card_screen.visible and not title_screen.visible and not options.visible and not viewfinder.visible and location != null
+	if nudge_after <= 0 or not free:
+		return
+	_idle += delta
+	if _idle >= nudge_after:
+		_idle = 0.0
+		EventLog.log_event("nudge", {"location": GameState.current_location})
+		Story.run("nudge")
 
 
 func travel_to(location_id: String) -> void:
@@ -62,10 +95,17 @@ func _on_hotspot_clicked(hotspot: Hotspot) -> void:
 		return
 	EventLog.log_event("hotspot_clicked", {"location": GameState.current_location, "hotspot": String(hotspot.name)})
 	if hotspot.knot != "":
-		Audio.play_sfx(hotspot.sfx)
+		Audio.play_sfx(hotspot.sfx, hotspot.sfx_pitch)
 		Story.run(hotspot.knot)
 	else:
-		hotspot.play_exchange()
+		hotspot.play_exchange(_detective_says)
+
+
+## The Detective's side of a quick hotspot exchange: the dialogue box, like
+## any other Detective line, so it's clear who's talking.
+func _detective_says(text: String) -> void:
+	await dialogue_box.show_line("Detective", text, [])
+	dialogue_box.hide()
 
 
 func _on_notebook_pressed() -> void:
@@ -82,6 +122,13 @@ func _on_camera_pressed() -> void:
 	# shortcut: the camera does nothing yet; it gets its own system in Case 2.
 	EventLog.log_event("camera_pressed")
 	hud.wiggle("camera")
+
+
+## Looks through the camera until the player lowers it.
+func look_through_camera() -> void:
+	dialogue_box.hide()
+	viewfinder.open()
+	await viewfinder.closed
 
 
 func _on_story_started() -> void:
@@ -141,6 +188,8 @@ func go_to(location_id: String) -> void:
 		location.queue_free()
 	location = load(path).instantiate()
 	location_layer.add_child(location)
+	_arrive_fade.color.a = 1.0
+	create_tween().tween_property(_arrive_fade, "color:a", 0.0, 0.35).set_trans(Tween.TRANS_SINE)
 	location.hotspot_clicked.connect(_on_hotspot_clicked)
 	Audio.play_music(location.music)
 	Audio.play_ambience(location.ambience)
@@ -188,7 +237,7 @@ func open_notebook(page: String, close_label: String) -> void:
 func end_game() -> void:
 	EventLog.log_event("game_end", {"seconds": snappedf(EventLog.elapsed_seconds(), 0.1)})
 	if await EventLog.upload():
-		await card_screen.show_card("none", "Thanks for playing!\nYour playtest log was sent to the team.", "Next")
+		await card_screen.show_card("none", "Thanks for playing!\nYour playtest log was sent to the team.", "NEXT")
 	else:
 		var on_web := OS.has_feature("web")
 		await card_screen.show_card("none", "Thanks for playing!\nPlease tell the team what you thought.",

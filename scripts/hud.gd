@@ -40,15 +40,15 @@ func _ready() -> void:
 		_set_look(button, "default")
 		_badges[target] = _make_badge(button)
 	_notebook_button.pressed.connect(func():
-		if Audio.try_click():
+		if Audio.try_click(_notebook_button):
 			stop_blink("notebook")
 			notebook_pressed.emit())
 	_map_button.pressed.connect(func():
-		if Audio.try_click():
+		if Audio.try_click(_map_button):
 			stop_blink("map")
 			map_pressed.emit())
 	_camera_button.pressed.connect(func():
-		if Audio.try_click():
+		if Audio.try_click(_camera_button):
 			_set_look(_camera_button, "default")
 			camera_pressed.emit())
 	_objective.hide()
@@ -115,10 +115,13 @@ func blink(target: String) -> void:
 
 ## Something new arrived (a clue, a note, a place): glow the icon and count it.
 ## Both clear when the player opens it.
+## Only one icon glows at a time (the map, for new places); new notebook
+## entries just add to the notebook's count, so players aren't torn between two.
 func notify(target: String) -> void:
 	var badge: Label = _badges[target]
 	var count := int(badge.text) + 1 if badge.visible else 1
-	blink(target)  # (this clears the badge, so set it after)
+	if target == "map":
+		blink(target)  # (this clears the badge, so set it after)
 	badge.text = str(count)
 	badge.show()
 

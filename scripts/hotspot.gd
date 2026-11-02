@@ -2,12 +2,15 @@
 class_name Hotspot
 extends PlaceholderArt
 ## Something the player can click in a location: a townie, a pigeon, a duck.
-## When clicked it either plays a story knot, or a quick bubble exchange
-## (the detective asks, the hotspot answers with a short line).
+## When clicked it either plays a story knot, or a quick exchange: the
+## Detective asks in the dialogue box, the hotspot answers in a bubble.
 
 signal clicked(hotspot: Hotspot)
 
 const BUBBLE_SECONDS := 1.4
+const BUBBLE_MIN_WIDTH := 240.0
+## Bubbles stay below the row of HUD icons (options, notebook, map) at the top.
+const HUD_BOTTOM := 150.0
 const BUBBLE_LEFT := preload("res://art/ui/bubble_speech_left.png")
 const BUBBLE_RIGHT := preload("res://art/ui/bubble_speech_right.png")
 const BUBBLE_SHOUT := preload("res://art/ui/bubble_shout.png")
@@ -19,6 +22,8 @@ const TAIL_INSET := 100.0
 ## Without a knot: what the detective asks first (optional)...
 @export var ask := ""
 ## ...and the short reply shown above this hotspot, e.g. "NO!".
+## Both can hold several lines split by "|": each click plays the next pair,
+## and the last pair repeats. An empty part = no question that time.
 @export var bubble := ""
 ## Only show this hotspot once this flag is set (empty = always shown).
 @export var show_if_flag := ""
@@ -26,23 +31,53 @@ const TAIL_INSET := 100.0
 @export var hide_if_flag := ""
 ## Sound played with the reply bubble, or on click for a knot (audio/<id>.ogg).
 @export var sfx := ""
+## Plays `sfx` higher (above 1) or lower, so the same bark fits different dogs.
+@export var sfx_pitch := 1.0
 
 var _busy := false
+var _exchanges := 0  # how many times this hotspot has answered
+var _feel: Tween
 
 
 func _ready() -> void:
 	if Engine.is_editor_hint():
 		return
 	mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
-	mouse_entered.connect(func(): modulate = Color(1.2, 1.2, 1.2))
-	mouse_exited.connect(func(): modulate = Color.WHITE)
+	# Hover: lift a little (from the feet). Click: a quick squash. Reads on line art
+	# without outlines or tints.
+	mouse_entered.connect(_bounce.bind(Vector2(1.05, 1.05), 0.15))
+	mouse_exited.connect(_bounce.bind(Vector2.ONE, 0.15))
+
+
+## Hover and clicks only count on the drawing, not its see-through corners, so
+## overlapping pigeons each get their own clicks.
+func _has_point(point: Vector2) -> bool:
+	return is_drawn_at(point)
 
 
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		accept_event()
-		if Audio.try_click():
+		if Audio.try_click(self):
+			_squash()
 			clicked.emit(self)
+
+
+func _bounce(to: Vector2, seconds: float) -> void:
+	if _feel:
+		_feel.kill()
+	pivot_offset = Vector2(size.x / 2, size.y)
+	_feel = create_tween()
+	_feel.tween_property(self, "scale", to, seconds).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+
+
+func _squash() -> void:
+	if _feel:
+		_feel.kill()
+	pivot_offset = Vector2(size.x / 2, size.y)
+	_feel = create_tween()
+	_feel.tween_property(self, "scale", Vector2(1.12, 0.92), 0.07)
+	_feel.tween_property(self, "scale", Vector2(1.05, 1.05), 0.18).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
 
 func refresh_visibility() -> void:
@@ -52,43 +87,55 @@ func refresh_visibility() -> void:
 	visible = shown
 
 
-## Plays the ask / bubble exchange.
-func play_exchange() -> void:
+## Plays the ask / bubble exchange. detective_says(text) shows the question
+## in the dialogue box and returns once the player clicks on.
+func play_exchange(detective_says: Callable) -> void:
 	if _busy:
 		return
 	_busy = true
-	if ask != "":
-		await say(ask, true)
-	if bubble != "":
-		Audio.play_sfx(sfx)
-		await say(bubble)
+	var asks := ask.split("|")
+	var replies := bubble.split("|")
+	var turn := mini(_exchanges, maxi(asks.size(), replies.size()) - 1)
+	_exchanges += 1
+	var question := asks[turn] if turn < asks.size() else ""
+	var reply := replies[turn] if turn < replies.size() else ""
+	if question != "":
+		await detective_says.call(question)
+	if reply != "":
+		Audio.play_sfx(sfx, sfx_pitch)
+		await say(reply)
 	_busy = false
 
 
-## Shows a speech bubble above this hotspot for a moment. The Detective's
-## bubble sits to the left with its tail on the right; the hotspot's own
-## reply has its tail on the left. All-caps lines ("NO!") get the shout bubble.
-func say(text: String, from_detective := false) -> void:
+## Shows a speech bubble above this hotspot for a moment, its tail on the
+## left. All-caps lines ("NO!") get the shout bubble.
+func say(text: String) -> void:
 	var panel := PanelContainer.new()
 	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var shout := text == text.to_upper() and text.ends_with("!") and text.to_lower() != text
 	panel.add_theme_stylebox_override("panel", _bubble_style(
-			"shout" if shout else ("right" if from_detective else "left")))
+			"shout" if shout else "left"))
 	var label := Label.new()
 	label.text = text
 	label.add_theme_font_size_override("font_size", 36)
 	panel.add_child(label)
+	# The bubble art's ends (tail 150 + far side 40) don't shrink, so short replies
+	# like "Coo." need a minimum width or the far end gets cut off.
+	if not shout:
+		panel.custom_minimum_size.x = BUBBLE_MIN_WIDTH
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	add_child(panel)
 	var bubble_size := panel.get_combined_minimum_size()
-	# Line the tail up with the middle of the hotspot.
-	var x := size.x / 2 - (bubble_size.x - TAIL_INSET if from_detective else TAIL_INSET)
-	panel.position = Vector2(x, -bubble_size.y - 4)
 	# Speech goes in front of everything (HUD icons, other people), and stays on screen.
 	panel.z_index = 50
 	var screen := get_viewport_rect().size
-	var top_left := global_position + panel.position
-	top_left = top_left.clamp(Vector2(8, 8), screen - bubble_size - Vector2(8, 8))
-	panel.position = top_left - global_position
+	# The tail lines up with the middle of the hotspot.
+	var top_left := global_position + Vector2(size.x / 2 - TAIL_INSET, -bubble_size.y - 4)
+	# On screen, and below the HUD icons along the top.
+	top_left = top_left.clamp(Vector2(8, HUD_BOTTOM), screen - bubble_size - Vector2(8, 8))
+	# Not scaled by the hotspot's hover/click bounce, which would push it off screen.
+	panel.top_level = true
+	panel.position = top_left
 	await get_tree().create_timer(BUBBLE_SECONDS).timeout
 	panel.queue_free()
 
@@ -105,10 +152,10 @@ static func _bubble_style(kind: String) -> StyleBoxTexture:
 			# Keep the tail corner unstretched.
 			style.texture_margin_left = 150.0 if kind == "left" else 40.0
 			style.texture_margin_right = 40.0 if kind == "left" else 150.0
-			style.texture_margin_top = 50.0
+			style.texture_margin_top = 66.0  # the tape stays in the unstretched top strip
 			style.texture_margin_bottom = 80.0
-			style.content_margin_left = 44.0
-			style.content_margin_right = 44.0
-			style.content_margin_top = 40.0
+			style.content_margin_left = 52.0
+			style.content_margin_right = 52.0
+			style.content_margin_top = 66.0  # below the tape
 			style.content_margin_bottom = 84.0
 	return style

@@ -33,47 +33,49 @@ cover = true
 [node name="Duck1" type="Control" parent="."]
 layout_mode = 0
 offset_left = 520.0
-offset_top = 620.0
+offset_top = 404.0
 offset_right = 720.0
-offset_bottom = 800.0
+offset_bottom = 584.0
 script = ExtResource("3_hotspot")
 art_id = "townie_duck_1"
 placeholder_color = Color(0.95, 0.85, 0.4, 1)
-bubble = "Quack!"
+ask = "|Is there a pigeon in this pond?"
+bubble = "Quack!|Quack. (No.)"
 sfx = "sfx_duck_quack"
 
 [node name="Duck2" type="Control" parent="."]
 layout_mode = 0
 offset_left = 900.0
-offset_top = 560.0
+offset_top = 344.0
 offset_right = 1100.0
-offset_bottom = 740.0
+offset_bottom = 524.0
 script = ExtResource("3_hotspot")
 art_id = "townie_duck_2"
 placeholder_color = Color(0.95, 0.85, 0.4, 1)
-bubble = "QUACK!"
+ask = "|Are you sure?"
+bubble = "QUACK!|QUACK. (Very sure.)"
 sfx = "sfx_duck_quack"
 
 [node name="Duck3" type="Control" parent="."]
 layout_mode = 0
 offset_left = 1280.0
-offset_top = 650.0
+offset_top = 434.0
 offset_right = 1480.0
-offset_bottom = 830.0
+offset_bottom = 614.0
 script = ExtResource("3_hotspot")
 art_id = "townie_duck_3"
 placeholder_color = Color(0.95, 0.85, 0.4, 1)
-bubble = "Quack?"
+bubble = "Quack?|*stares at you judgementally*"
 sfx = "sfx_duck_quack"
 
 [node name="Duck4" type="Control" parent="."]
 layout_mode = 0
 offset_left = 1560.0
-offset_top = 700.0
+offset_top = 484.0
 offset_right = 1800.0
-offset_bottom = 860.0
+offset_bottom = 644.0
 script = ExtResource("3_hotspot")
 art_id = "townie_duck_4"
 placeholder_color = Color(0.9, 0.85, 0.5, 1)
-bubble = "Quack."
+bubble = "Quack.|*paddles away from the question*"
 sfx = "sfx_duck_quack"

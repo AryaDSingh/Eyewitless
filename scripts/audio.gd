@@ -5,8 +5,9 @@ extends Node
 ## one off, so sounds never pile up. The list of sounds is in docs/AUDIO_LIST.md.
 ##
 ## Also owns the click cooldown: hotspots, buttons and dialogue ignore clicks
-## that come less than CLICK_COOLDOWN seconds after the last one, so players
-## can't spam them.
+## on the same thing that come less than CLICK_COOLDOWN seconds after the last
+## one, so players can't spam them. Clicking something different only waits
+## SWITCH_COOLDOWN (e.g. the last dialogue line, then the person again).
 
 const AUDIO_DIR := "res://audio/"
 const EXTENSIONS: Array[String] = ["ogg", "wav", "mp3"]
@@ -16,15 +17,21 @@ const CLICK_COOLDOWN := 1.0
 ## Overall volume (1.0 = the files as they are).
 const MASTER_VOLUME := 0.5
 
+## Clicking a different thing than last time only waits this long.
+const SWITCH_COOLDOWN := 0.25
+
 ## Tests set this to 0 so they can click as fast as they like.
 var click_cooldown := CLICK_COOLDOWN
 
 var _last_click_msec := -100000
+var _last_click_target: Object = null
 var _missing: Dictionary = {}
 var _fades: Dictionary = {}  # player -> Tween
 var _music: AudioStreamPlayer
 var _ambience: AudioStreamPlayer
 var _sfx: AudioStreamPlayer
+var _voice: AudioStreamPlayer
+var _tick: AudioStreamPlayer
 
 
 func _ready() -> void:
@@ -34,24 +41,58 @@ func _ready() -> void:
 	_music = _add_player("Music")
 	_ambience = _add_player("Sounds")
 	_sfx = _add_player("Sounds")
+	_voice = _add_player("Sounds")
+	_tick = _add_player("Sounds")
+	_tick.volume_db = -14.0
 
 
-## True if enough time has passed since the last click that counted.
-func try_click() -> bool:
+## True if enough time has passed since the last click that counted. `target`
+## is what was clicked (a hotspot, the dialogue box, a screen...).
+func try_click(target: Object = null) -> bool:
 	var now := Time.get_ticks_msec()
-	if now - _last_click_msec < click_cooldown * 1000.0:
+	var wait := click_cooldown if target == _last_click_target else minf(click_cooldown, SWITCH_COOLDOWN)
+	if now - _last_click_msec < wait * 1000.0:
 		return false
 	_last_click_msec = now
+	_last_click_target = target
 	return true
 
 
-func play_sfx(id: String) -> void:
+## pitch: e.g. 1.3 for a small dog's bark, 0.8 for a big one.
+func play_sfx(id: String, pitch := 1.0) -> void:
 	var stream := find_stream(id)
 	if stream == null:
 		return
 	# Swapping the stream stops the effect that was playing.
 	_sfx.stream = stream
+	_sfx.pitch_scale = pitch
 	_sfx.play()
+
+
+## Plays a recorded line (`~ voice` in a story, before the line it goes with).
+## Its own player, so a sound effect doesn't cut the voice off.
+func play_voice(id: String) -> void:
+	_voice.stream = find_stream(id)
+	if _voice.stream:
+		_voice.play()
+
+
+func is_voice_playing() -> bool:
+	return _voice.playing
+
+
+## The quiet tick while dialogue types out. Its own player, so it never cuts
+## off a sound effect; the pitch wobbles a little so it doesn't drone.
+func play_tick() -> void:
+	if _tick.stream == null:
+		_tick.stream = find_stream("sfx_text_tick")
+	_tick.pitch_scale = randf_range(0.9, 1.15)
+	_tick.play()
+
+
+## Called when the player moves on, so a line's voice never talks over the next.
+func stop_voice() -> void:
+	_voice.stop()
 
 
 ## Fades to a new music track. An empty id keeps the current music.
