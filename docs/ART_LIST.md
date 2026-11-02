@@ -57,7 +57,7 @@ Lx's flower shop is the model for the rest:
 |---|---|
 | `bg_office` | Detective office |
 | `bg_flower_shop` + `_front`, `_pots` | Arya's flower shop (Lx). Three layers for parallax: street (back), shop front, flower pots (in front of Arya) |
-| `bg_park` | Park |
+| `bg_park` + `_hills`, `_field`, `_lake`, `_bushes`, `_tree` | Park (Lx). Back to front: dark sky, hills and trees, lighter field, lake, small bushes, then the big tree, path, bench and front bushes. Everyone stands on the path in front of all of it |
 | `bg_bar` + `_mirror`, `_counter`, `_stools` | Bar (Lx). `bg_bar` is plain white; then the mirror and drinks shelf, the counter with taps and lamps (the bartender stands behind it), and the stools (in front of Felix) |
 | `bg_pond` | Pond in the park |
 | `bg_plaza` | Plaza |

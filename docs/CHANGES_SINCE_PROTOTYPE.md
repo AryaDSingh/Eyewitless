@@ -93,7 +93,7 @@ dark…" THE END card.
     and crying cards → Jason begs (voiced) → 1000 hours of social service →
     hat card → "We oughta get home" → "what's your name?" → "Jason. Jason Lee
     Elliott."
-14. The pigeon joins the HUD as a companion → **case solved**: the notebook opens,
+14. Jason stays by Arya (the HUD companion waits for Case 2) → **case solved**: the notebook opens,
     the SOLVED stamp slams down with a sound and the case is crossed out.
 15. End of game (the playtest log uploads).
 
@@ -251,7 +251,7 @@ Then:
 - **Detective:** By the way, what's your name?
 - **Pigeon:** My name is Jason. Jason Lee Elliott. (voice: `voice_pigeon_jason`)
 - His name tag says "The Pigeon" until this line, then "Jason".
-- The pigeon joins the HUD. Case solved: the notebook opens with the SOLVED stamp.
+- Case solved: the notebook opens with the SOLVED stamp.
 
 Clicking the pigeon in the flower shop afterwards: bubble *Coo, guv.*
 (voice: `voice_pigeon_coo_guv`).
@@ -468,7 +468,7 @@ Hand (everything else).
   front of everything (HUD too) and stay on screen.
 
 **HUD** (top left):
-- Options (gear), Notebook, Map; later Camera and the pigeon companion.
+- Options (gear), Notebook, Map; later Camera (the pigeon companion icon is ready for Case 2, not shown in Case 1).
 - New things show as a glow and a count badge on the icon, not as text pop-ups.
   Only the map glows when a place opens.
 - The camera icon does nothing yet (it wiggles); its system comes in Case 2.
@@ -733,3 +733,13 @@ In order. All of it is in the 1 Nov build and already reflected in sections 1-14
   duty." / "…Mostly on duty."). Felix stands in front of the stools, right of
   the taps. The bartender asks "Is he always like this?" (was "Is Felix…", but
   the player may not have met Felix yet).
+- **Fixes:** Marwan's portrait is filled white like the others (it was see-through,
+  so it looked grey). Felix's pigeon photo has white margins at the sides, so
+  Jason's head isn't cut off at the top of the photo frame. The extra pigeon in
+  the bottom-left corner of the last scene (the HUD companion) is gone: Jason
+  already stands next to Arya; the companion comes back in Case 2.
+- **Park background (Lx):** six layers (`bg_park` sky 0 px, `_hills` 8,
+  `_field` 14, `_lake` 14, `_bushes` 24, `_tree` 40). Regina, Marwan, Alex and
+  all their animals stand on the path in front, right of the big tree, at 80% of
+  their old size (feet at y 940), and move with the path (40), so nobody slides
+  into the tree, the bench or off the screen edge.

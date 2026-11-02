@@ -160,7 +160,7 @@ func _play() -> void:
 	_expect("case_01" in GameState.solved_cases, "the right pigeon solves the case")
 	_expect(main.hud.is_tool_shown("camera"), "Arya's gift unlocks the camera")
 	_expect(EventLog.has_event("camera_opened"), "Arya's gift shows the viewfinder")
-	_expect(main.hud.is_tool_shown("pigeon"), "the pigeon joins as a companion")
+	_expect(not main.hud.is_tool_shown("pigeon"), "only one Jason in the last scene (no HUD companion yet)")
 	_expect(EventLog.has_event("game_end"), "the game reaches the end screen")
 
 

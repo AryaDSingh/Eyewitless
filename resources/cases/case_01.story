@@ -257,7 +257,7 @@ Detective: By the way, what's your name?
 ~ voice voice_pigeon_jason
 Pigeon: My name is Jason. Jason Lee Elliott.
 ~ meet pigeon
-~ tool pigeon
+# Jason stands next to Arya here; the HUD companion (~ tool pigeon) waits for Case 2.
 ~ note pigeon | Doing 1000 hours of social service: helping you solve cases.
 ~ case_solve case_01
 # Opening the solved case plays the stamp and crossing-out (scripts/notebook.gd).

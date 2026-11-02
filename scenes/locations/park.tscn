@@ -17,96 +17,160 @@ location_id = "park"
 display_name = "Park"
 
 [node name="Background" type="Control" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 0
+offset_left = -40.0
+offset_right = 2120.0
+offset_bottom = 1080.0
 mouse_filter = 2
 script = ExtResource("2_art")
 art_id = "bg_park"
 placeholder_color = Color(0.7, 0.85, 0.65, 1)
 cover = true
+metadata/parallax = 0.0
 
+[node name="Hills" type="Control" parent="."]
+layout_mode = 0
+offset_left = -40.0
+offset_right = 2120.0
+offset_bottom = 1080.0
+mouse_filter = 2
+script = ExtResource("2_art")
+art_id = "bg_park_hills"
+show_placeholder = false
+cover = true
+metadata/parallax = 8.0
+
+[node name="Field" type="Control" parent="."]
+layout_mode = 0
+offset_left = -40.0
+offset_right = 2120.0
+offset_bottom = 1080.0
+mouse_filter = 2
+script = ExtResource("2_art")
+art_id = "bg_park_field"
+show_placeholder = false
+cover = true
+metadata/parallax = 14.0
+
+[node name="Lake" type="Control" parent="."]
+layout_mode = 0
+offset_left = -40.0
+offset_right = 2120.0
+offset_bottom = 1080.0
+mouse_filter = 2
+script = ExtResource("2_art")
+art_id = "bg_park_lake"
+show_placeholder = false
+cover = true
+metadata/parallax = 14.0
+
+[node name="Bushes" type="Control" parent="."]
+layout_mode = 0
+offset_left = -40.0
+offset_right = 2120.0
+offset_bottom = 1080.0
+mouse_filter = 2
+script = ExtResource("2_art")
+art_id = "bg_park_bushes"
+show_placeholder = false
+cover = true
+metadata/parallax = 24.0
+
+[node name="Tree" type="Control" parent="."]
+layout_mode = 0
+offset_left = -40.0
+offset_right = 2120.0
+offset_bottom = 1080.0
+mouse_filter = 2
+script = ExtResource("2_art")
+art_id = "bg_park_tree"
+show_placeholder = false
+cover = true
+metadata/parallax = 40.0
 [node name="Walker1" type="Control" parent="."]
 layout_mode = 0
-offset_left = 30.0
-offset_top = 344.0
-offset_right = 520.0
-offset_bottom = 734.0
+offset_left = 545.0
+offset_top = 628.0
+offset_right = 937.0
+offset_bottom = 940.0
 script = ExtResource("3_hotspot")
 art_id = "townie_dog_walker_1"
 placeholder_color = Color(0.75, 0.7, 0.85, 1)
 knot = "regina_talk"
+metadata/parallax = 40.0
 
 [node name="Marwan" type="Control" parent="."]
 layout_mode = 0
-offset_left = 560.0
-offset_top = 164.0
-offset_right = 900.0
-offset_bottom = 714.0
+offset_left = 945.0
+offset_top = 500.0
+offset_right = 1217.0
+offset_bottom = 940.0
 script = ExtResource("3_hotspot")
 art_id = "townie_marwan"
 placeholder_color = Color(0.75, 0.7, 0.85, 1)
 knot = "marwan_talk"
+metadata/parallax = 40.0
 
 [node name="Alex" type="Control" parent="."]
 layout_mode = 0
-offset_left = 1000.0
-offset_top = 144.0
-offset_right = 1800.0
-offset_bottom = 719.0
+offset_left = 1225.0
+offset_top = 480.0
+offset_right = 1865.0
+offset_bottom = 940.0
 script = ExtResource("3_hotspot")
 art_id = "townie_alex"
 placeholder_color = Color(0.86, 0.68, 0.72, 1)
 knot = "alex_talk"
+metadata/parallax = 40.0
 
 [node name="Cat1" type="Control" parent="."]
 layout_mode = 0
-offset_left = 323.0
-offset_top = 602.6
-offset_right = 519.0
-offset_bottom = 730.4
+offset_left = 779.4
+offset_top = 834.9
+offset_right = 936.2
+offset_bottom = 937.2
 script = ExtResource("3_hotspot")
 art_id = "park_cat_1"
 show_placeholder = false
 ask = "|Did you see a pigeon?|Are you Alex?"
 bubble = "Mrrow.|*stares into your soul*|HISS!"
 sfx = "sfx_cat_meow"
+metadata/parallax = 40.0
 
 [node name="Cat2" type="Control" parent="."]
 layout_mode = 0
-offset_left = 270.3
-offset_top = 654.7
-offset_right = 423.6
-offset_bottom = 734.0
+offset_left = 737.3
+offset_top = 876.6
+offset_right = 859.8
+offset_bottom = 940.0
 script = ExtResource("3_hotspot")
 art_id = "park_cat_2"
 show_placeholder = false
 ask = "|Who's a good kitty?"
 bubble = "Mew?|*purrs like a tiny engine*"
 sfx = "sfx_cat_mew"
+metadata/parallax = 40.0
 
 [node name="Mara1" type="Control" parent="."]
 layout_mode = 0
-offset_left = 560.7
-offset_top = 541.8
-offset_right = 720.8
-offset_bottom = 705.5
+offset_left = 945.6
+offset_top = 802.2
+offset_right = 1073.7
+offset_bottom = 933.1
 script = ExtResource("3_hotspot")
 art_id = "park_mara_1"
 show_placeholder = false
 ask = "|Are you a rabbit?|A very big guinea pig, then?"
 bubble = "*squeak*|*squeaks, offended*|*nods slowly*"
 sfx = "sfx_mara_squeak"
+metadata/parallax = 40.0
 
 [node name="Mara2" type="Control" parent="."]
 layout_mode = 0
-offset_left = 767.0
-offset_top = 562.4
-offset_right = 899.3
-offset_bottom = 714.0
+offset_left = 1110.6
+offset_top = 818.8
+offset_right = 1216.4
+offset_bottom = 940.0
 script = ExtResource("3_hotspot")
 art_id = "park_mara_2"
 show_placeholder = false
@@ -114,13 +178,14 @@ ask = "|What are you eating?"
 bubble = "Wheek!|*keeps chewing. You don't ask again.*"
 sfx = "sfx_mara_squeak"
 sfx_pitch = 1.25
+metadata/parallax = 40.0
 
 [node name="Dog1" type="Control" parent="."]
 layout_mode = 0
-offset_left = 1052.1
-offset_top = 497.2
-offset_right = 1330.4
-offset_bottom = 687.2
+offset_left = 1266.7
+offset_top = 762.6
+offset_right = 1489.4
+offset_bottom = 914.6
 script = ExtResource("3_hotspot")
 art_id = "park_dog_1"
 show_placeholder = false
@@ -128,13 +193,14 @@ ask = "|Who's a good witness?"
 bubble = "Woof!|*sniffs your shoes for clues*"
 sfx = "sfx_dog_bark"
 sfx_pitch = 0.9
+metadata/parallax = 40.0
 
 [node name="Dog2" type="Control" parent="."]
 layout_mode = 0
-offset_left = 1000.5
-offset_top = 594.0
-offset_right = 1191.3
-offset_bottom = 688.6
+offset_left = 1225.5
+offset_top = 840.0
+offset_right = 1378.0
+offset_bottom = 915.6
 script = ExtResource("3_hotspot")
 art_id = "park_dog_2"
 show_placeholder = false
@@ -142,13 +208,14 @@ ask = "|Slow down!"
 bubble = "Yip yip yip!|*runs three laps around you*"
 sfx = "sfx_dog_bark"
 sfx_pitch = 1.35
+metadata/parallax = 40.0
 
 [node name="Dog3" type="Control" parent="."]
 layout_mode = 0
-offset_left = 1352.3
-offset_top = 579.1
-offset_right = 1526.8
-offset_bottom = 708.4
+offset_left = 1506.9
+offset_top = 828.1
+offset_right = 1646.5
+offset_bottom = 931.5
 script = ExtResource("3_hotspot")
 art_id = "park_dog_3"
 show_placeholder = false
@@ -156,13 +223,14 @@ ask = "|Find anything?"
 bubble = "*sniff sniff*|*found half a sandwich. Case closed.*"
 sfx = "sfx_dog_bark"
 sfx_pitch = 1.1
+metadata/parallax = 40.0
 
 [node name="Dog4" type="Control" parent="."]
 layout_mode = 0
-offset_left = 1423.7
-offset_top = 507.8
-offset_right = 1647.6
-offset_bottom = 673.1
+offset_left = 1563.9
+offset_top = 771.1
+offset_right = 1743.0
+offset_bottom = 903.3
 script = ExtResource("3_hotspot")
 art_id = "park_dog_4"
 show_placeholder = false
@@ -170,13 +238,14 @@ ask = "|Sit!"
 bubble = "WOOF!|*sits. Waits for a treat.*"
 sfx = "sfx_dog_bark"
 sfx_pitch = 0.8
+metadata/parallax = 40.0
 
 [node name="Dog5" type="Control" parent="."]
 layout_mode = 0
-offset_left = 1562.8
-offset_top = 499.3
-offset_right = 1799.5
-offset_bottom = 718.3
+offset_left = 1675.3
+offset_top = 764.3
+offset_right = 1864.6
+offset_bottom = 939.4
 script = ExtResource("3_hotspot")
 art_id = "park_dog_5"
 show_placeholder = false
@@ -184,4 +253,4 @@ ask = "|Did you see a pigeon?"
 bubble = "Arf!|*leaps at a pigeon that isn't there*"
 sfx = "sfx_dog_bark"
 sfx_pitch = 1.2
-
+metadata/parallax = 40.0
