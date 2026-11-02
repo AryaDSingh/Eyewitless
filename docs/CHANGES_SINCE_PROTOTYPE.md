@@ -274,7 +274,7 @@ by `/` play one per click, and the last one repeats.
 | Park | Dog 3 (at Alex's feet) | — / Find anything? | \*sniff sniff\* / \*found half a sandwich. Case closed.\* |
 | Park | Dog 4 (right) | — / Sit! | WOOF! / \*sits. Waits for a treat.\* |
 | Park | Dog 5 (leaping) | — / Did you see a pigeon? | Arf! / \*leaps at a pigeon that isn't there\* |
-| Bar | Bartender | Seen any pigeons? / …In your soup? / What's good here? / Is Felix always like this? | Only in my soup. / Kidding. It's chicken. Probably. / The door. / Only when he's awake. |
+| Bar | Bartender | Seen any pigeons? / …In your soup? / What's good here? / Is he always like this? | Only in my soup. / Kidding. It's chicken. Probably. / The door. / Only when he's awake. |
 | Pond | Duck 1 | — / Is there a pigeon in this pond? | Quack! / Quack. (No.) |
 | Pond | Duck 2 | — / Are you sure? | QUACK! / QUACK. (Very sure.) |
 | Pond | Duck 3 | — | Quack? / \*stares at you judgementally\* |
@@ -722,3 +722,14 @@ In order. All of it is in the 1 Nov build and already reflected in sections 1-14
 - **Flower shop tweaks (team feedback):** the flower pots are 20% smaller and
   stand on the pavement against the shop wall (the table's back legs on the
   wall line); Jason is smaller (pigeon-sized, not goose-sized).
+- **Bar background (Lx):** layers `bg_bar` (white wall), `_mirror` (14 px
+  parallax), `_counter` (32), `_stools` (60, in front of Felix). The bartender
+  (still a grey box) stands behind the counter (24); Felix stands on the floor
+  in front of the taps (50), at the same size as Arya.
+- **Bar spots** (Detective thoughts): the mirror ("Looking sharp, Detective." /
+  "…Focus."), the shelf bottles ("Top shelf. Someone here has probably tried
+  them all." / "Twice."), the pint ("Someone's half-finished pint." / "Or
+  half-started. Depends on the someone."), the taps ("Three taps. I'm on
+  duty." / "…Mostly on duty."). Felix stands in front of the stools, right of
+  the taps. The bartender asks "Is he always like this?" (was "Is Felix…", but
+  the player may not have met Felix yet).

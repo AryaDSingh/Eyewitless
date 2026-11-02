@@ -58,7 +58,7 @@ Lx's flower shop is the model for the rest:
 | `bg_office` | Detective office |
 | `bg_flower_shop` + `_front`, `_pots` | Arya's flower shop (Lx). Three layers for parallax: street (back), shop front, flower pots (in front of Arya) |
 | `bg_park` | Park |
-| `bg_bar` | Bar |
+| `bg_bar` + `_mirror`, `_counter`, `_stools` | Bar (Lx). `bg_bar` is plain white; then the mirror and drinks shelf, the counter with taps and lamps (the bartender stands behind it), and the stools (in front of Felix) |
 | `bg_pond` | Pond in the park |
 | `bg_plaza` | Plaza |
 | `map_bg` | Town map of Muddleford. Each place's taped name label sits next to its building, and the building itself is clickable (`building` on each pin in `ui/map_screen.tscn`), so update those if the map changes |

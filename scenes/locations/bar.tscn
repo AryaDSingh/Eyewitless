@@ -18,50 +18,133 @@ display_name = "Bar"
 ambience = "amb_bar"
 
 [node name="Background" type="Control" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 0
+offset_left = -40.0
+offset_right = 2120.0
+offset_bottom = 1080.0
 mouse_filter = 2
 script = ExtResource("2_art")
 art_id = "bg_bar"
 placeholder_color = Color(0.6, 0.5, 0.45, 1)
 cover = true
+metadata/parallax = 0.0
+
+[node name="Mirror" type="Control" parent="."]
+layout_mode = 0
+offset_left = -40.0
+offset_right = 2120.0
+offset_bottom = 1080.0
+mouse_filter = 2
+script = ExtResource("2_art")
+art_id = "bg_bar_mirror"
+show_placeholder = false
+cover = true
+metadata/parallax = 14.0
+
+[node name="MirrorSpot" type="Control" parent="."]
+layout_mode = 0
+offset_left = 495.0
+offset_top = 45.0
+offset_right = 1665.0
+offset_bottom = 420.0
+script = ExtResource("3_hotspot")
+show_placeholder = false
+ask = "[i]Looking sharp, Detective.[/i]|[i]…Focus.[/i]"
+metadata/parallax = 14.0
+
+[node name="Bottles" type="Control" parent="."]
+layout_mode = 0
+offset_left = 1702.0
+offset_top = 142.0
+offset_right = 1920.0
+offset_bottom = 420.0
+script = ExtResource("3_hotspot")
+show_placeholder = false
+ask = "[i]Top shelf. Someone here has probably tried them all.[/i]|[i]Twice.[/i]"
+metadata/parallax = 14.0
 
 [node name="Bartender" type="Control" parent="."]
 layout_mode = 0
-offset_left = 260.0
-offset_top = 114.0
-offset_right = 500.0
-offset_bottom = 674.0
+offset_left = 480.0
+offset_top = 250.0
+offset_right = 720.0
+offset_bottom = 810.0
 script = ExtResource("3_hotspot")
 art_id = "townie_bartender"
 placeholder_color = Color(0.75, 0.7, 0.85, 1)
-ask = "Seen any pigeons?|…In your soup?|What's good here?|Is Felix always like this?"
+ask = "Seen any pigeons?|…In your soup?|What's good here?|Is he always like this?"
 bubble = "Only in my soup.|Kidding. It's chicken. Probably.|The door.|Only when he's awake."
+metadata/parallax = 24.0
+
+[node name="Counter" type="Control" parent="."]
+layout_mode = 0
+offset_left = -40.0
+offset_right = 2120.0
+offset_bottom = 1080.0
+mouse_filter = 2
+script = ExtResource("2_art")
+art_id = "bg_bar_counter"
+show_placeholder = false
+cover = true
+metadata/parallax = 32.0
+
+
+[node name="Pint" type="Control" parent="."]
+layout_mode = 0
+offset_left = 630.0
+offset_top = 487.0
+offset_right = 698.0
+offset_bottom = 615.0
+script = ExtResource("3_hotspot")
+show_placeholder = false
+ask = "[i]Someone's half-finished pint.[/i]|[i]Or half-started. Depends on the someone.[/i]"
+metadata/parallax = 32.0
+
+[node name="Taps" type="Control" parent="."]
+layout_mode = 0
+offset_left = 900.0
+offset_top = 315.0
+offset_right = 1230.0
+offset_bottom = 592.0
+script = ExtResource("3_hotspot")
+show_placeholder = false
+ask = "[i]Three taps. I'm on duty.[/i]|[i]…Mostly on duty.[/i]"
+metadata/parallax = 32.0
+
+[node name="Stools" type="Control" parent="."]
+layout_mode = 0
+offset_left = -40.0
+offset_right = 2120.0
+offset_bottom = 1080.0
+mouse_filter = 2
+script = ExtResource("2_art")
+art_id = "bg_bar_stools"
+show_placeholder = false
+cover = true
+metadata/parallax = 60.0
 
 [node name="Felix" type="Control" parent="."]
 layout_mode = 0
-offset_left = 900.0
-offset_top = 84.0
-offset_right = 1280.0
-offset_bottom = 704.0
+offset_left = 1173.0
+offset_top = 382.0
+offset_right = 1587.0
+offset_bottom = 1060.0
 script = ExtResource("3_hotspot")
 art_id = "townie_felix"
 placeholder_color = Color(0.86, 0.68, 0.72, 1)
 knot = "felix_talk"
 hide_if_flag = "saw_ducks"
+metadata/parallax = 70.0
 
 [node name="FelixSober" type="Control" parent="."]
 layout_mode = 0
-offset_left = 900.0
-offset_top = 84.0
-offset_right = 1280.0
-offset_bottom = 704.0
+offset_left = 1173.0
+offset_top = 382.0
+offset_right = 1587.0
+offset_bottom = 1060.0
 script = ExtResource("3_hotspot")
 art_id = "townie_felix_sober"
 placeholder_color = Color(0.86, 0.68, 0.72, 1)
 knot = "felix_talk"
 show_if_flag = "saw_ducks"
+metadata/parallax = 70.0
