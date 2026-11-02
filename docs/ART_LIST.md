@@ -43,10 +43,20 @@ wording can change without redrawing.
 `companion_pigeon` (160×200, transparent): the pigeon in its hat, shown bottom left once it joins you.
 
 ## Backgrounds — 1920×1080
+
+Lx's flower shop is the model for the rest:
+- **2:1 (2048×1024) is fine.** The game shows it 2160 px wide, so about 40 px on
+  the left and 200 px on the right are off screen. Keep important things away
+  from the edges.
+- **Separate layers** (back, middle, front, each a transparent PNG except the
+  back) drift with the mouse at different speeds (parallax). Things in front of
+  the characters, like the pots, go in their own layer.
+- **The ground:** characters stand on the pavement near the bottom, as in Lx's
+  reference. The dialogue box covers their legs while they talk.
 | Name | Location |
 |---|---|
 | `bg_office` | Detective office |
-| `bg_flower_shop` | Arya's flower shop |
+| `bg_flower_shop` + `_front`, `_pots` | Arya's flower shop (Lx). Three layers for parallax: street (back), shop front, flower pots (in front of Arya) |
 | `bg_park` | Park |
 | `bg_bar` | Bar |
 | `bg_pond` | Pond in the park |

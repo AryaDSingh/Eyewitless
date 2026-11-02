@@ -18,51 +18,99 @@ on_enter_knot = "flower_shop_enter"
 display_name = "Flower Shop"
 
 [node name="Background" type="Control" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 0
+offset_left = -40.0
+offset_right = 2120.0
+offset_bottom = 1080.0
 mouse_filter = 2
 script = ExtResource("2_art")
 art_id = "bg_flower_shop"
 placeholder_color = Color(0.86, 0.9, 0.78, 1)
 cover = true
+metadata/parallax = 14.0
+
+[node name="Front" type="Control" parent="."]
+layout_mode = 0
+offset_left = -40.0
+offset_right = 2120.0
+offset_bottom = 1080.0
+mouse_filter = 2
+script = ExtResource("2_art")
+art_id = "bg_flower_shop_front"
+show_placeholder = false
+cover = true
+metadata/parallax = 32.0
+
+[node name="Cafe" type="Control" parent="."]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 80.0
+offset_right = 200.0
+offset_bottom = 590.0
+script = ExtResource("3_hotspot")
+show_placeholder = false
+ask = "[i]A café. Open. Tempting.[/i]|[i]No. Pigeon first, coffee later.[/i]"
+metadata/parallax = 14.0
+
+[node name="Poster" type="Control" parent="."]
+layout_mode = 0
+offset_left = 1005.0
+offset_top = 430.0
+offset_right = 1140.0
+offset_bottom = 570.0
+script = ExtResource("3_hotspot")
+show_placeholder = false
+ask = "[i]WANTED. Arya didn't waste any time.[/i]|[i]That drawing could be any pigeon. That's the problem.[/i]"
+metadata/parallax = 32.0
 
 [node name="Arya" type="Control" parent="."]
 layout_mode = 0
-offset_left = 840.0
-offset_top = 114.0
-offset_right = 1120.0
-offset_bottom = 714.0
+offset_left = 308.0
+offset_top = 337.0
+offset_right = 606.0
+offset_bottom = 1015.0
 script = ExtResource("3_hotspot")
 art_id = "townie_arya"
 placeholder_color = Color(0.86, 0.68, 0.72, 1)
 knot = "arya_talk"
 show_if_flag = "find_alex"
+metadata/parallax = 50.0
 
 [node name="AryaMad" type="Control" parent="."]
 layout_mode = 0
-offset_left = 835.0
-offset_top = 114.0
-offset_right = 1125.0
-offset_bottom = 714.0
+offset_left = 300.0
+offset_top = 337.0
+offset_right = 627.0
+offset_bottom = 1015.0
 script = ExtResource("3_hotspot")
 art_id = "townie_arya_mad"
 placeholder_color = Color(0.86, 0.68, 0.72, 1)
 knot = "arya_talk"
 hide_if_flag = "find_alex"
+metadata/parallax = 50.0
 
 [node name="Pigeon" type="Control" parent="."]
 layout_mode = 0
-offset_left = 1140.0
-offset_top = 164.0
-offset_right = 1420.0
-offset_bottom = 479.0
+offset_left = 640.0
+offset_top = 800.0
+offset_right = 831.0
+offset_bottom = 1015.0
 script = ExtResource("3_hotspot")
 art_id = "companion_pigeon"
 placeholder_color = Color(0.62, 0.68, 0.78, 1)
 show_if_flag = "pigeon_caught"
 bubble = "Coo, guv."
 sfx = "voice_pigeon_coo_guv"
+metadata/parallax = 50.0
+
+[node name="Pots" type="Control" parent="."]
+layout_mode = 0
+offset_left = -40.0
+offset_right = 2120.0
+offset_bottom = 1080.0
+mouse_filter = 2
+script = ExtResource("2_art")
+art_id = "bg_flower_shop_pots"
+show_placeholder = false
+cover = true
+metadata/parallax = 60.0

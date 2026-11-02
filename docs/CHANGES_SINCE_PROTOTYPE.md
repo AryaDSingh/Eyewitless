@@ -711,3 +711,14 @@ In order. All of it is in the 1 Nov build and already reflected in sections 1-14
   its own lines (section 4) and sound: new `sfx_cat_meow`, `sfx_cat_mew`,
   `sfx_mara_squeak`; the dogs share the bark at different pitches (hotspot
   `sfx_pitch`). The two invisible "Dogs" click spots are gone.
+- **Flower shop background (Lx):** three layers (`bg_flower_shop`,
+  `_front`, `_pots`) with mouse parallax (street 14 px, shop front 32, Arya and
+  Jason 50, pots 60; metadata `parallax` on a location's child,
+  `scripts/location.gd`). Arya and Jason now stand on the pavement by the door,
+  as in Lx's reference (other places keep the 20% raise for now). New clickable
+  spots: the WANTED poster ("WANTED. Arya didn't waste any time." / "That
+  drawing could be any pigeon. That's the problem.") and the café ("A café.
+  Open. Tempting." / "No. Pigeon first, coffee later."), as Detective thoughts.
+- **Flower shop tweaks (team feedback):** the flower pots are 20% smaller and
+  stand on the pavement against the shop wall (the table's back legs on the
+  wall line); Jason is smaller (pigeon-sized, not goose-sized).
